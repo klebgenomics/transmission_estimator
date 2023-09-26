@@ -1,0 +1,25 @@
+:root {
+  --bg_blue: #2a77be;
+  --white: #ffffff;
+}
+
+.main-header .logo {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.nav-tabs {
+  font-weight: bold;
+  color: var(--bg_blue);
+}
+
+.filter-button {
+    cursor: pointer;
+    color: var(--white);
+    box-shadow: none;
+    background: var(--bg_blue);
+    border: none;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}

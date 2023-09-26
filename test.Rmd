@@ -1,0 +1,118 @@
+---
+title: "Kleb cluster detection"
+output: 
+    prettydoc::html_pretty:
+        theme: cayman
+        fig_width: 10
+        fig_height: 10
+---
+
+```{r setup, include=FALSE, message=F}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Packages 
+
+<details>
+<summary>Click to expand</summary> 
+```{r load_packages}
+library(tidyverse)
+library(magrittr)
+library(glue)
+library(ggplot2)
+library(ggnetwork)
+library(igraph)
+```
+</details>
+
+<br>
+
+## Functions 
+
+<details>
+<summary>Click to expand</summary> 
+```{r functions}
+# load data functions
+purrr::map(fs::dir_ls('src/functions/', glob = "*.R"), source)
+
+```
+</details>
+
+<br>
+
+## Set up
+
+```{r data_and_vars}
+# Data
+# DEMO_SNP_DATA <- "data/demo_data/euscape/pw-euscape-difference-matrix.csv"
+# DEMO_METADATA <- "data/demo_data/euscape/pw-euscape-metadata.csv"
+# DEMO_KLEBORATE_DATA <- "data/demo_data/euscape/pw-euscape-kleborate.csv"
+
+# Use private data
+DEMO_SNP_DATA <- "data/private_data/CHAMPS/CHAMPS_distance_matrix.csv"
+DEMO_METADATA <- "data/private_data/CHAMPS/CHAMPS_metadata.csv"
+DEMO_KLEBORATE_DATA <- "data/private_data/CHAMPS/CHAMPS_kleborate.csv"
+# Thresholds
+snp_distance_threshold <- 10
+temporal_distance_threshold <- 14 # days
+geo_column <- 'Site'
+
+# Specs ---------------------------------------------------
+REQUIRED_METADATA_COLS <- c('id', 'Year', 'Month', 'Day', 'Country') 
+```
+
+## Load data
+
+```{r load_data}
+# load data
+snp_data <- read_snp_csv(DEMO_SNP_DATA)
+metadata <- read_metadata_csv(DEMO_METADATA)
+kleborate_data <- read_kleborate_data_csv(DEMO_KLEBORATE_DATA)
+# format sample dates
+sample_dates <- format_sample_dates(metadata)
+```
+
+# Get clusters
+
+```{r get_clusters}
+# get pairwise snp distance, days between isolates, and shared location
+snp_and_epi_data <- get_snp_and_epi_data(snp_data, sample_dates, metadata, 
+                                              geo_column = geo_column)
+# get cluster graph based on snp distance, days between isolates, and shared location
+epi_snp_graph <- get_cluster_graph(snp_and_epi_data, 
+                                   dist_column = c('dist', 'days'), 
+                                   pair_location_column = "pair_location",
+                                   dist_threshold = c(snp_distance_threshold, temporal_distance_threshold))
+epi_snp_clusters <- get_cluster_membership_from_graph(epi_snp_graph) %>% 
+    dplyr::right_join(metadata, by = 'id') %>% 
+    dplyr::left_join(sample_dates, by = 'id') %>% 
+    dplyr::left_join(kleborate_data, by = c('id' = 'Genome Name'))
+
+```
+
+## Cluster proportion 
+
+```{r cluster_proportion}
+cluster_proportion <- calculate_cluster_proportion(epi_snp_clusters)
+
+```
+Proportion of cases part of a transmission cluster = `r cluster_proportion`
+
+## Plots
+
+```{r plots}
+# plot snp distance distribution
+plot_dist_distribution(snp_and_epi_data, dist_column = "dist", x_label = "Pairwise distance (SNPs)")
+# plot temporal distance distribution
+plot_dist_distribution(snp_and_epi_data, dist_column = "days", x_label = "Pairwise temporal distance (days)")
+# plot snp distance vs temporal distance
+plot_snp_vs_temporal_dist(snp_and_epi_data)
+# plot clusters
+min_cluster_size <- 5
+plot_clusters(epi_snp_clusters, min_cluster_size = min_cluster_size)
+# plot transmission network
+user_network <- ggnetwork::ggnetwork(epi_snp_graph)
+tranmission_plot <- plot_transmission_network(user_network, kleborate_data, "ST")
+plotly::ggplotly(tranmission_plot)
+```
+
