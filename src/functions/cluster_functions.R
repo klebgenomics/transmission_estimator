@@ -78,12 +78,12 @@ summarise_cluster <- function(clusters_data) {
     return(
         tribble(
             ~name, ~value,
-            'Samples:', n_distinct(clusters_data$id),
-            'Clusters:', n_distinct(clusters_data$Cluster, na.rm = T),
-            'N isolates in clusters:', clusters_data %>% filter(!is.na(Cluster)) %>% nrow(),
-            'Countries:', n_distinct(clusters_data$Country, na.rm = T),
-            'Years:', n_distinct(clusters_data$Year, na.rm = T),
-            'STs:', n_distinct(clusters_data$ST, na.rm = T)
+            'Samples', n_distinct(clusters_data$id),
+            'Clusters', n_distinct(clusters_data$Cluster, na.rm = T),
+            'N isolates in clusters', clusters_data %>% filter(!is.na(Cluster)) %>% nrow(),
+            'Countries', n_distinct(clusters_data$Country, na.rm = T),
+            'Years', n_distinct(clusters_data$Year, na.rm = T),
+            'STs', n_distinct(clusters_data$ST, na.rm = T)
         )
     )}
 
