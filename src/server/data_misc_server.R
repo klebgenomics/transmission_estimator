@@ -28,8 +28,10 @@ shiny::outputOptions(output, "data_loaded", suspendWhenHidden = FALSE)
 shiny::observe({
     if (! data_loaded()) {
         shiny::hideTab(inputId = "main_tabs", target = "Clusters")
+        shiny::hideTab(inputId = "main_tabs", target = "Sensitivity")
     } else {
         shiny::showTab(inputId = "main_tabs", target = "Clusters")
+        shiny::showTab(inputId = "main_tabs", target = "Sensitivity")
         if (input$data_option == "Upload dataset") {
             shiny::updateTabsetPanel(inputId = "main_tabs", selected = "Clusters")
         }
