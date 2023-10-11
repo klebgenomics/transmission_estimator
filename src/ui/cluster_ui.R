@@ -6,6 +6,7 @@ library(DT)
 cluster_ui <- shiny::tabPanel(
     title = "Clusters",
     shiny::fluidRow(
+        style = 'margin-top: 24px;',
         shiny::column(
             width = 6,
             actionButton(

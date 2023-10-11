@@ -18,4 +18,5 @@ function(input, output, session) {
     source('src/server/data_misc_server.R', local = TRUE)
     # Load other server logic
     source('src/server/cluster_server.R', local = TRUE)
+    source('src/server/sensitivity_server.R', local = TRUE)
 }

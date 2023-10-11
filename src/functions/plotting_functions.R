@@ -109,7 +109,8 @@ plot_clusters <- function(clusters_data, min_cluster_size = 3) {
         viridis::scale_color_viridis(discrete = TRUE, option = 'inferno') +
         ggplot2::theme_bw() +
         ggplot2::labs(x = "Isolation date", y = "Sequence type") +
-        ggplot2::scale_x_date(labels = scales::date_format("%Y-%m"), breaks = scales::breaks_pretty(n = 6)) +
+        ggplot2::scale_x_date(labels = scales::date_format("%Y-%m"), 
+                              breaks = scales::breaks_pretty(n = 6)) +
         ggplot2::theme(
             axis.text = element_text(size = 10),
             axis.text.x = element_text(angle = 45, hjust = 1),

@@ -1,5 +1,5 @@
-require(tidyverse)
-require(igraph)
+library(tidyverse)
+library(igraph)
 
 
 
