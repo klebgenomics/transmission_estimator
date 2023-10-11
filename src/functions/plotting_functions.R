@@ -27,10 +27,11 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
         ggplot2::geom_histogram(binwidth = 10, color = "black", alpha = 0.8) +
         ggplot2::labs(title = plot_title, x = x_label, y = "Number of isolate pairs") +
         ggplot2::theme_minimal() +
-        ggplot2::theme(axis.text = element_text(size = 14)) +
-        ggplot2::theme(axis.title = element_text(size = 14)) +
-        ggplot2::theme(legend.text = element_text(size = 14)) +
-        ggplot2::theme(plot.title = element_text(size = 14, face = "bold")) +
+        ggplot2::theme(axis.text = element_text(size = 10),
+                       axis.title = element_text(size = 12),
+                       legend.text = element_text(size = 10),
+                       legend.title = element_text(size = 12),
+                       plot.title = element_text(size = 12, face = "bold")) +
     if (scale_y){
         dist_plot <- dist_plot + scale_y_log10(labels = scales::comma_format())
     }
@@ -56,11 +57,11 @@ plot_snp_vs_temporal_dist <- function(distance_data, snp_column = 'dist', tempor
         ggplot2::theme(legend.position="none") +
         ggplot2::labs(x = x_label, y = y_label, title = plot_title) +
         ggplot2::theme_minimal() +
-        ggplot2::theme(axis.text = element_text(size = 14)) +
-        ggplot2::theme(axis.title = element_text(size = 14)) +
-        ggplot2::theme(legend.title = element_text(size = 14)) +
-        ggplot2::theme(legend.text = element_text(size = 14)) +
-        ggplot2::theme(plot.title = element_text(size = 14, face = "bold")) +
+        ggplot2::theme(axis.text = element_text(size = 10),
+                       axis.title = element_text(size = 12),
+                       legend.text = element_text(size = 10),
+                       legend.title = element_text(size = 12),
+                       plot.title = element_text(size = 12, face = "bold")) +
         ggplot2::geom_smooth(method = "lm", formula = y ~ x, color = "#2a77be")
     snp_vs_temporal_dist_plot <- ggExtra::ggMarginal(p, type = "density", fill = "#2a77be")
     return(snp_vs_temporal_dist_plot)
@@ -83,7 +84,6 @@ plot_transmission_network <- function(snp_graph, kleborate_data, var1) {
 }
 
 
-# TO DO. Add options for customising plot
 plot_clusters <- function(clusters_data, min_cluster_size = 3) {
     # filter
     clusters_data %<>% 
@@ -93,22 +93,33 @@ plot_clusters <- function(clusters_data, min_cluster_size = 3) {
     # Calculate point sizes based on the number of isolates on each date per cluster
     size_scale_factor <- clusters_data %>%
         dplyr::group_by(Cluster, formatted_date) %>%
-        dplyr::reframe(size_scale = n())
+        dplyr::reframe(Cases = n())
     # merge
-    clusters_data %<>% dplyr::left_join(size_scale_factor, by = c("Cluster", "formatted_date"))
+    clusters_data %<>% dplyr::left_join(size_scale_factor, by = c("Cluster", "formatted_date")) %>% 
+        dplyr::rename("Date" = "formatted_date")
+    clusters_data$Cluster <- factor(clusters_data$Cluster, levels = unique(clusters_data$Cluster))
+    
     # plot
-    ggpubr::ggscatter(
-        clusters_data, x = "formatted_date", y = "ST", 
-        color = "Cluster", palette = "viridis", ellipse = TRUE, ellipse.type = "convex",
-        # shape = "Country",
-        size = clusters_data$size_scale,  # Use the size scaling factor
-        legend = "right", ggtheme = theme_bw(), 
-        ylab = "ST",
-        xlab = "Isolation date"
-    ) + ggplot2::scale_x_date(labels = scales::date_format("%Y-%m"), date_breaks = "4 weeks") +
-        ggplot2::theme(axis.text = element_text(size = 14)) +
-        ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-        ggplot2::theme(axis.title = element_text(size = 14)) +
-        ggplot2::theme(legend.text = element_text(size = 14))
+    plot <- clusters_data %>% ggplot(aes(x = Date, y = ST,
+                                         size = Cases, fill = Cluster, color = Cluster)) +
+        ggplot2::geom_point() +
+        ggplot2::scale_size_continuous(name = "Cases") +
+        ggplot2::geom_line(size = 1, aes(colour = Cluster)) +
+        viridis::scale_fill_viridis(discrete = TRUE, option = 'inferno') +
+        viridis::scale_color_viridis(discrete = TRUE, option = 'inferno') +
+        ggplot2::theme_bw() +
+        ggplot2::labs(x = "Isolation date", y = "Sequence type") +
+        ggplot2::scale_x_date(labels = scales::date_format("%Y-%m"), breaks = scales::breaks_pretty(n = 6)) +
+        ggplot2::theme(
+            axis.text = element_text(size = 10),
+            axis.text.x = element_text(angle = 45, hjust = 1),
+            axis.title = element_text(size = 12),
+            legend.text = element_text(size = 10),
+            legend.title = element_text(size = 12)
+        ) +
+        ggplot2::guides(fill = "none", color = "none")
+    
+    return(plot)
 }
+
 

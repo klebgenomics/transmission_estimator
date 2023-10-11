@@ -42,13 +42,13 @@ cluster_ui <- shiny::tabPanel(
         shiny::column(
             width = 9,
             shiny::plotOutput("dist_plots") %>% shinycssloaders::withSpinner()
-        )
+        ),
     ), # End fluidRow - Cluster proportion and summary
     shiny::fluidRow(
         shiny::column(width = 12, h4("Clusters plot")),
         shiny::column(
             width=4,
-            shiny::numericInput("min_cluster_size", "Minimum isolates per cluster",
+            shiny::numericInput("min_cluster_size", "Minimum cases per cluster",
                                 value = 2, min = 2, max = 10, step = 1)),
         shiny::column(
             width=4,
@@ -58,7 +58,7 @@ cluster_ui <- shiny::tabPanel(
             shiny::uiOutput("filter_plot_options")),
         shiny::column(
             width = 12,
-            shiny::plotOutput("clusters_plot") %>% shinycssloaders::withSpinner()
+            plotly::plotlyOutput("clusters_plot") %>% shinycssloaders::withSpinner()
         )
     ), # End fluidRow - Clusters plot
 )

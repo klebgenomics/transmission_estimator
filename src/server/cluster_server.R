@@ -90,8 +90,9 @@ output$dist_plots <- shiny::renderPlot({
     c <- plot_snp_vs_temporal_dist(snp_and_epi_data())
     # combine plots
     ggpubr::ggarrange(a,b,c)
-    
+
 })
+
 
 # Clusters summary 
 output$clusters_summary <- shiny::renderTable({
@@ -101,9 +102,10 @@ output$clusters_summary <- shiny::renderTable({
     colnames = FALSE, align = 'l')
 
 # Plot clusters 
-output$clusters_plot <- shiny::renderPlot({
+output$clusters_plot <- plotly::renderPlotly({
     shiny::req(epi_snp_clusters(), input$min_cluster_size)
-    plot_clusters(epi_snp_clusters(), min_cluster_size = input$min_cluster_size)
+    clusters_plot <- plot_clusters(epi_snp_clusters(), min_cluster_size = input$min_cluster_size)
+    plotly::ggplotly(clusters_plot, height = 600)
 })
 
 # Plot transmissions 
