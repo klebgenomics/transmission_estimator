@@ -33,12 +33,14 @@ sensitivity_ui <- shiny::tabPanel(
         shiny::column(
             width = 12,
             style='margin-bottom: 50px;',
-            plotly::plotlyOutput("cluster_prop_sensitivity_heatmap") %>% shinycssloaders::withSpinner()
+            plotly::plotlyOutput("cluster_prop_sensitivity_heatmap", height = "500px") %>% 
+                shinycssloaders::withSpinner()
         ),
         shiny::column(
             width = 12,
             style='margin-bottom: 50px;',
-            plotly::plotlyOutput("transmission_prop_sensitivity_heatmap") %>% shinycssloaders::withSpinner()
+            plotly::plotlyOutput("transmission_prop_sensitivity_heatmap", height = "500px") #%>% 
+                #shinycssloaders::withSpinner()
         ),
     )
 )
