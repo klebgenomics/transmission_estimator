@@ -43,13 +43,17 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
 }
 
 
-plot_snp_vs_temporal_dist <- function(distance_data, snp_column = 'dist', temporal_dist_column = 'days', 
+plot_snp_vs_temporal_dist <- function(distance_data, snp_column = 'dist', temporal_dist_column = 'days',
+                                      max_snp_dist = 100, max_temporal_dist = 100,
                                       y_label = "Pairwise SNP distances", 
                                       x_label = "Pairwise temporal distances (days)",
                                       plot_title = "Distribution of pairwise distances"){
     if(! all(c(snp_column, temporal_dist_column) %in% colnames(distance_data)) ) {
         stop(glue::glue("{snp_column} and/or 'temporal_dist_column' columns not present in distance data"))
     }
+    # filter
+    distance_data %<>% dplyr::filter(!!rlang::sym(snp_column) <= max_snp_dist)
+    distance_data %<>% dplyr::filter(!!rlang::sym(temporal_dist_column) <= max_temporal_dist)
     # plot
     p <- ggplot2::ggplot(distance_data, aes(y = !!rlang::sym(snp_column), 
                                             x = !!rlang::sym(temporal_dist_column))) +
@@ -61,7 +65,7 @@ plot_snp_vs_temporal_dist <- function(distance_data, snp_column = 'dist', tempor
                        axis.title = element_text(size = 12),
                        legend.text = element_text(size = 10),
                        legend.title = element_text(size = 12),
-                       plot.title = element_text(size = 12, face = "bold")) +
+                       plot.title = element_text(size = 12, face = "bold", hjust = 0.5)) +
         ggplot2::geom_smooth(method = "lm", formula = y ~ x, color = "#2a77be")
     snp_vs_temporal_dist_plot <- ggExtra::ggMarginal(p, type = "density", fill = "#2a77be")
     return(snp_vs_temporal_dist_plot)
@@ -94,33 +98,31 @@ plot_clusters <- function(clusters_data, min_cluster_size = 3) {
     size_scale_factor <- clusters_data %>%
         dplyr::group_by(Cluster, formatted_date) %>%
         dplyr::reframe(Cases = n())
-    # merge
+    # merge and order
     clusters_data %<>% dplyr::left_join(size_scale_factor, by = c("Cluster", "formatted_date")) %>% 
-        dplyr::rename("Date" = "formatted_date")
-    clusters_data$Cluster <- factor(clusters_data$Cluster, levels = unique(clusters_data$Cluster))
-    
+        dplyr::rename("Date" = "formatted_date") %>% 
+        dplyr::mutate(Cluster = fct_reorder(Cluster, desc(ST)))
+
     # plot
-    plot <- clusters_data %>% ggplot(aes(x = Date, y = ST,
-                                         size = Cases, fill = Cluster, color = Cluster)) +
+    plot <- clusters_data %>% ggplot(aes(x = Date, y = Cluster,
+                                         size = Cases, fill = factor(ST), color = factor(ST))) +
         ggplot2::geom_point() +
         ggplot2::scale_size_continuous(name = "Cases") +
-        ggplot2::geom_line(size = 1, aes(colour = Cluster)) +
-        viridis::scale_fill_viridis(discrete = TRUE, option = 'inferno') +
-        viridis::scale_color_viridis(discrete = TRUE, option = 'inferno') +
+        ggplot2::geom_line(size = 0.8, aes(colour = ST)) +
+        viridis::scale_fill_viridis(discrete = TRUE) +
+        viridis::scale_color_viridis(discrete = TRUE) +
         ggplot2::theme_bw() +
-        ggplot2::labs(x = "Isolation date", y = "Sequence type") +
+        ggplot2::labs(x = "Isolation date", y = "Cluster", color = "Sequence type") +
         ggplot2::scale_x_date(labels = scales::date_format("%Y-%m"), 
                               breaks = scales::breaks_pretty(n = 6)) +
         ggplot2::theme(
-            axis.text = element_text(size = 10),
-            axis.text.x = element_text(angle = 45, hjust = 1),
+            axis.text.y = element_blank(),
+            axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
             axis.title = element_text(size = 12),
             legend.text = element_text(size = 10),
             legend.title = element_text(size = 12)
         ) +
-        ggplot2::guides(fill = "none", color = "none")
+        ggplot2::guides(fill = "none")
     
     return(plot)
 }
-
-

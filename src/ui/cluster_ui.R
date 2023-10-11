@@ -31,21 +31,38 @@ cluster_ui <- shiny::tabPanel(
     shiny::fluidRow(
         shiny::column(
             width = 3,
-            h4(shiny::textOutput("cluster_proportion") %>% 
-                   shinycssloaders::withSpinner()),
-            hr(),
-            h4(shiny::textOutput("transmission_proportion") %>% 
-                   shinycssloaders::withSpinner()),
-            hr(),
+            h4("Clusters summary"),
             shiny::tableOutput("clusters_summary") %>% 
-                shinycssloaders::withSpinner()
+                shinycssloaders::withSpinner(),
+            hr(),
+            h4(shiny::textOutput("cluster_proportion")), #%>% 
+                   # shinycssloaders::withSpinner()),
+            hr(),
+            h4(shiny::textOutput("transmission_proportion")) #%>% 
+                   # shinycssloaders::withSpinner()),
             ),
+        
         shiny::column(
             width = 9,
-            shiny::plotOutput("dist_plots") %>% shinycssloaders::withSpinner()
+            shiny::fluidRow(
+                align = 'center',
+                h4("Distribution of pairwise distances"),
+                shiny::column(
+                    width = 6, shiny::uiOutput("max_snp_option")
+                ),
+                shiny::column(
+                    width = 6, shiny::uiOutput("max_temporal_dist_option")
+                ),
+                shiny::column(
+                    width = 12,
+                    shiny::plotOutput("dist_plots") %>% shinycssloaders::withSpinner()
+                )
+            )
         ),
     ), # End fluidRow - Cluster proportion and summary
+    hr(),
     shiny::fluidRow(
+        align = "center",
         shiny::column(width = 12, h4("Clusters plot")),
         shiny::column(
             width=4,
@@ -59,7 +76,7 @@ cluster_ui <- shiny::tabPanel(
             shiny::uiOutput("filter_plot_options")),
         shiny::column(
             width = 12,
-            plotly::plotlyOutput("clusters_plot") %>% shinycssloaders::withSpinner()
-        )
+            plotly::plotlyOutput("clusters_plot", height = "600px") %>% shinycssloaders::withSpinner()
+        ),
     ), # End fluidRow - Clusters plot
 )

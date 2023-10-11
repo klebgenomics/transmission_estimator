@@ -43,9 +43,26 @@ output$geo_column_picker <- shiny::renderUI({
     choices <- metadata() %>% 
         names() %>% unique() %>% as.character()
     shiny::selectInput(inputId = "geo_column_picker", 
-                       label = glue::glue("Geographic column for clustering: "), 
+                       label = "Geographic column for clustering", 
                        choices = choices,
                        selected = "Country") # Country is a mandatory metadata column
+})
+# Distribution plot options
+output$max_snp_option <- shiny::renderUI({
+    shiny::req(snp_and_epi_data())
+    max_val <- max(snp_and_epi_data()$dist)
+    shiny::sliderInput(inputId = 'max_snp_option',
+                       label = "Max SNP value", 
+                       min = 0, max = max_val,
+                       value = max_val)
+})
+output$max_temporal_dist_option <- shiny::renderUI({
+    shiny::req(snp_and_epi_data())
+    max_val <- max(snp_and_epi_data()$days)
+    shiny::sliderInput(inputId = 'max_temporal_dist_option',
+                       label = "Max temporal distance value", 
+                       min = 0, max = max_val,
+                       value = max_val)
 })
 
 ### RENDER UI ---------------
@@ -79,18 +96,11 @@ output$transmission_proportion <- shiny::renderText({
 
 # SNP and temporal distance distributions  
 output$dist_plots <- shiny::renderPlot({
-    shiny::req(snp_and_epi_data())
-    # plot snp distance distribution
-    a <- plot_dist_distribution(snp_and_epi_data(), dist_column = "dist", x_label = "Pairwise distance (SNPs)",
-                                plot_title = "Distribution of pairwise SNP distances")
-    # plot temporal distance distribution
-    b <- plot_dist_distribution(snp_and_epi_data(), dist_column = "days", x_label = "Pairwise temporal distance (days)",
-                                plot_title = "Distribution of pairwise temporal distances")
+    shiny::req(snp_and_epi_data(), input$max_snp_option, input$max_temporal_dist_option)
     # plot snp distance vs temporal distance
-    c <- plot_snp_vs_temporal_dist(snp_and_epi_data())
-    # combine plots
-    ggpubr::ggarrange(a,b,c)
-
+    plot_snp_vs_temporal_dist(snp_and_epi_data(), plot_title = NULL,
+                              max_snp_dist = input$max_snp_option,
+                              max_temporal_dist = input$max_temporal_dist_option)
 })
 
 
@@ -105,6 +115,7 @@ output$clusters_summary <- shiny::renderTable({
 output$clusters_plot <- plotly::renderPlotly({
     shiny::req(epi_snp_clusters(), input$min_cluster_size)
     clusters_plot <- plot_clusters(epi_snp_clusters(), min_cluster_size = input$min_cluster_size)
+    clusters_plot <- clusters_plot + ggplot2::guides(fill = "none", size = "none", color = "none")
     plotly::ggplotly(clusters_plot, height = 600)
 })
 
@@ -114,13 +125,9 @@ output$transmission_plot <- plotly::renderPlotly({
     user_network <- ggnetwork::ggnetwork(epi_snp_graph())
     transmission_plot <- plot_transmission_network(user_network, kleborate_data(), "ST")
     plotly::ggplotly(transmission_plot,
-                     height = 500)
+                     height = 600)
 })
 
-
-
-# Other plot options
-# Plot proportion of all isolates in clusters
 
 
 
