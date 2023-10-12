@@ -63,6 +63,7 @@ kleborate_validate <- function(d) {
 }
 
 
+# Functions to load data locally
 read_snp_csv <- function(distance_matrix_csv_path){
     tryCatch({
         snp_data <- read_csv(distance_matrix_csv_path, show_col_types = F)
@@ -94,14 +95,15 @@ read_kleborate_data_csv <- function(kleborate_data_path){
 }
 
 read_metadata_csv <- function(metadata_path){
+    required_cols <- c('id', 'Year', 'Month', 'Day', 'Country')
     tryCatch({
         metadata <- read_csv(metadata_path, show_col_types = F)
     }, error = function(e) {
         stop("Error reading the metadata file. Please check that it is a valid CSV file.")
     })
-    if (! all(REQUIRED_METADATA_COLS %in% names(metadata)) ) {
+    if (! all(required_cols %in% names(metadata)) ) {
         stop(paste0("The following columns are required in the metadata file: ", 
-                    paste(REQUIRED_METADATA_COLS, collapse = ", ")))
+                    paste(required_cols, collapse = ", ")))
     }
     return(metadata)
 }
