@@ -35,10 +35,10 @@ cluster_ui <- shiny::tabPanel(
             shiny::tableOutput("clusters_summary") %>% 
                 shinycssloaders::withSpinner(),
             hr(),
-            h4(shiny::textOutput("cluster_proportion")), #%>% 
+            h5(shiny::textOutput("cluster_proportion")), #%>% 
                    # shinycssloaders::withSpinner()),
             hr(),
-            h4(shiny::textOutput("transmission_proportion")) #%>% 
+            h5(shiny::textOutput("transmission_proportion")) #%>% 
                    # shinycssloaders::withSpinner()),
         ),
         
@@ -61,7 +61,7 @@ cluster_ui <- shiny::tabPanel(
     hr(),
     shiny::fluidRow(
         align = "center",
-        shiny::column(width = 12, h4("Clusters plot")),
+        shiny::column(width = 12, h3("Clusters plot")),
         shiny::column(
             width=4,
             shiny::numericInput("min_cluster_size", "Minimum cases per cluster",

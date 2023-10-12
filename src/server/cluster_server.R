@@ -125,7 +125,7 @@ output$clusters_plot <- plotly::renderPlotly({
     shiny::req(epi_snp_clusters(), input$min_cluster_size)
     clusters_plot <- plot_clusters(epi_snp_clusters(), min_cluster_size = input$min_cluster_size)
     clusters_plot <- clusters_plot + ggplot2::guides(fill = "none", size = "none", color = "none")
-    plotly::ggplotly(clusters_plot, height = 600)
+    plotly::ggplotly(clusters_plot, height = 600, tooltip = c("x", "y", "colour"))
 })
 
 # Plot transmissions 

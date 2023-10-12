@@ -110,7 +110,7 @@ plot_clusters <- function(clusters_data, min_cluster_size = 3) {
                                          size = Cases, fill = factor(ST), color = factor(ST))) +
         ggplot2::geom_point() +
         ggplot2::scale_size_continuous(name = "Cases") +
-        ggplot2::geom_line(linewidth = 0.8, aes(colour = ST)) +
+        ggplot2::geom_line(linewidth = 0.8) +
         viridis::scale_fill_viridis(discrete = TRUE) +
         viridis::scale_color_viridis(discrete = TRUE) +
         ggplot2::theme_bw() +
@@ -124,7 +124,7 @@ plot_clusters <- function(clusters_data, min_cluster_size = 3) {
             legend.text = element_text(size = 10),
             legend.title = element_text(size = 12)
         ) +
-        ggplot2::guides(fill = "none")
+        ggplot2::guides(fill = "none", colour = "none")
     
     return(plot)
 }
