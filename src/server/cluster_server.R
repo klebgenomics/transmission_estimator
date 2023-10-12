@@ -47,23 +47,23 @@ output$geo_column_picker <- shiny::renderUI({
                        choices = choices,
                        selected = "Country") # Country is a mandatory metadata column
 })
-# Distribution plot options
-output$max_snp_option <- shiny::renderUI({
-    shiny::req(snp_and_epi_data())
-    max_val <- max(snp_and_epi_data()$dist, na.rm = T)
-    shiny::sliderInput(inputId = 'max_snp_option',
-                       label = "Max SNP value", 
-                       min = 0, max = max_val,
-                       value = max_val)
-})
-output$max_temporal_dist_option <- shiny::renderUI({
-    shiny::req(snp_and_epi_data())
-    max_val <- max(snp_and_epi_data()$days, na.rm = T)
-    shiny::sliderInput(inputId = 'max_temporal_dist_option',
-                       label = "Max temporal distance value", 
-                       min = 0, max = max_val,
-                       value = max_val)
-})
+# # Distribution plot options
+# output$max_snp_option <- shiny::renderUI({
+#     shiny::req(snp_and_epi_data())
+#     max_val <- max(snp_and_epi_data()$dist, na.rm = T)
+#     shiny::sliderInput(inputId = 'max_snp_option',
+#                        label = "Max SNP value", 
+#                        min = 0, max = max_val,
+#                        value = max_val)
+# })
+# output$max_temporal_dist_option <- shiny::renderUI({
+#     shiny::req(snp_and_epi_data())
+#     max_val <- max(snp_and_epi_data()$days, na.rm = T)
+#     shiny::sliderInput(inputId = 'max_temporal_dist_option',
+#                        label = "Max temporal distance value", 
+#                        min = 0, max = max_val,
+#                        value = max_val)
+# })
 
 ### RENDER UI ---------------
 ## Show / hide clustering options
@@ -94,13 +94,22 @@ output$transmission_proportion <- shiny::renderText({
     glue::glue("Proportion of cases due to transmission = {transmission_proportion}")
 })
 
-# SNP and temporal distance distributions  
-output$dist_plots <- shiny::renderPlot({
-    shiny::req(snp_and_epi_data(), input$max_snp_option, input$max_temporal_dist_option)
+# distance distributions  
+output$snp_distribution_plot <- plotly::renderPlotly({
+    shiny::req(snp_and_epi_data())
     # plot snp distance vs temporal distance
-    plot_snp_vs_temporal_dist(snp_and_epi_data(), plot_title = NULL,
-                              max_snp_dist = input$max_snp_option,
-                              max_temporal_dist = input$max_temporal_dist_option)
+    p <- plot_dist_distribution(snp_and_epi_data(), dist_column = "dist", 
+                                x_label = "Pairwise distance (SNPs)",
+                                plot_title = NULL)
+    plotly::ggplotly(p)
+})
+output$temporal_distribution_plot <- plotly::renderPlotly({
+    shiny::req(snp_and_epi_data())
+    # plot snp distance vs temporal distance
+    p <- plot_dist_distribution(snp_and_epi_data(), dist_column = "days", 
+                                x_label = "Pairwise temporal distance (days)",
+                                plot_title = NULL)
+    plotly::ggplotly(p)
 })
 
 

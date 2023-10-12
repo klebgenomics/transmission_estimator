@@ -44,7 +44,7 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
 
 
 plot_snp_vs_temporal_dist <- function(distance_data, snp_column = 'dist', temporal_dist_column = 'days',
-                                      max_snp_dist = 100, max_temporal_dist = 100,
+                                      max_snp_dist = 40, max_temporal_dist = 365,
                                       y_label = "Pairwise SNP distances", 
                                       x_label = "Pairwise temporal distances (days)",
                                       plot_title = "Distribution of pairwise distances"){
@@ -65,10 +65,12 @@ plot_snp_vs_temporal_dist <- function(distance_data, snp_column = 'dist', tempor
                        axis.title = element_text(size = 12),
                        legend.text = element_text(size = 10),
                        legend.title = element_text(size = 12),
-                       plot.title = element_text(size = 12, face = "bold", hjust = 0.5)) +
-        ggplot2::geom_smooth(method = "lm", formula = y ~ x, color = "#2a77be")
-    snp_vs_temporal_dist_plot <- ggExtra::ggMarginal(p, type = "density", fill = "#2a77be")
-    return(snp_vs_temporal_dist_plot)
+                       plot.title = element_text(size = 12, face = "bold", hjust = 0.5))
+    # corr
+    p <- p + ggplot2::geom_smooth(method = "lm", formula = y ~ x, color = "#2a77be")
+    # add marginal plots; does not work with plotly
+    # p <- ggExtra::ggMarginal(p, type = "density", fill = "#2a77be")
+    return(p)
 }
 
 
@@ -108,7 +110,7 @@ plot_clusters <- function(clusters_data, min_cluster_size = 3) {
                                          size = Cases, fill = factor(ST), color = factor(ST))) +
         ggplot2::geom_point() +
         ggplot2::scale_size_continuous(name = "Cases") +
-        ggplot2::geom_line(size = 0.8, aes(colour = ST)) +
+        ggplot2::geom_line(linewidth = 0.8, aes(colour = ST)) +
         viridis::scale_fill_viridis(discrete = TRUE) +
         viridis::scale_color_viridis(discrete = TRUE) +
         ggplot2::theme_bw() +

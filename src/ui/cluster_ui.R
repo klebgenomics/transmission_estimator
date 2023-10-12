@@ -40,7 +40,7 @@ cluster_ui <- shiny::tabPanel(
             hr(),
             h4(shiny::textOutput("transmission_proportion")) #%>% 
                    # shinycssloaders::withSpinner()),
-            ),
+        ),
         
         shiny::column(
             width = 9,
@@ -48,16 +48,14 @@ cluster_ui <- shiny::tabPanel(
                 align = 'center',
                 h4("Distribution of pairwise distances"),
                 shiny::column(
-                    width = 6, shiny::uiOutput("max_snp_option")
+                    width = 6,
+                    plotly::plotlyOutput("snp_distribution_plot") %>% shinycssloaders::withSpinner()
                 ),
                 shiny::column(
-                    width = 6, shiny::uiOutput("max_temporal_dist_option")
+                    width = 6,
+                    plotly::plotlyOutput("temporal_distribution_plot") %>% shinycssloaders::withSpinner()
                 ),
-                shiny::column(
-                    width = 12,
-                    shiny::plotOutput("dist_plots") %>% shinycssloaders::withSpinner()
-                )
-            )
+            ),
         ),
     ), # End fluidRow - Cluster proportion and summary
     hr(),
