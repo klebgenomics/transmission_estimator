@@ -50,7 +50,7 @@ output$geo_column_picker <- shiny::renderUI({
 # Distribution plot options
 output$max_snp_option <- shiny::renderUI({
     shiny::req(snp_and_epi_data())
-    max_val <- max(snp_and_epi_data()$dist)
+    max_val <- max(snp_and_epi_data()$dist, na.rm = T)
     shiny::sliderInput(inputId = 'max_snp_option',
                        label = "Max SNP value", 
                        min = 0, max = max_val,
@@ -58,7 +58,7 @@ output$max_snp_option <- shiny::renderUI({
 })
 output$max_temporal_dist_option <- shiny::renderUI({
     shiny::req(snp_and_epi_data())
-    max_val <- max(snp_and_epi_data()$days)
+    max_val <- max(snp_and_epi_data()$days, na.rm = T)
     shiny::sliderInput(inputId = 'max_temporal_dist_option',
                        label = "Max temporal distance value", 
                        min = 0, max = max_val,
