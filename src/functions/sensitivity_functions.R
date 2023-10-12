@@ -71,7 +71,7 @@ plot_sensitivity_SNP_vs_temp_range <- function(
         dplyr::mutate(temporal_threshold = temporal_threshold / 7)
     temp_dist_range_vals <- temp_dist_range_vals / 7
     # Use intuitive var names for interactive plot
-    y_vars <- paste0(temp_dist_range_vals, " weeks threshold") 
+    y_vars <- paste0(prop_var, " at ", temp_dist_range_vals, " weeks threshold") 
     # wrangle and plot
     cluster_and_transmission_sensitivity_df %>% 
         dplyr::filter(temporal_threshold %in% temp_dist_range_vals) %>% 
@@ -101,7 +101,8 @@ plot_sensitivity_temp_dist_vs_snp_range <- function(
     cluster_and_transmission_sensitivity_df %<>% 
         dplyr::mutate(temporal_threshold = temporal_threshold / 7)
     # Use intuitive var names for interactive plot
-    y_vars <- paste0(snp_range_vals, " SNPs threshold") 
+    y_vars <- paste0(prop_var, " at ", snp_range_vals, " SNPs threshold")
+    
     # wrangle and plot
     cluster_and_transmission_sensitivity_df %>% 
         dplyr::filter(snp_threshold %in% snp_range_vals) %>% 
