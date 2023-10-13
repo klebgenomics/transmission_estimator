@@ -128,3 +128,47 @@ plot_clusters <- function(clusters_data, min_cluster_size = 3) {
     
     return(plot)
 }
+
+plot_clusters2 <- function(clusters_data, min_cluster_size = 2, color_column = 'ST') {
+    # filter
+    clusters_data %<>% 
+        dplyr::filter(!is.na(Cluster)) %>% 
+        dplyr::add_count(Cluster, name = "cluster_size") %>% 
+        dplyr::filter(cluster_size >= min_cluster_size)
+    # Calculate point sizes based on the number of isolates on each date per cluster
+    size_scale_factor <- clusters_data %>%
+        dplyr::group_by(Cluster, formatted_date) %>%
+        dplyr::reframe(Cases = n())
+    # merge and order
+    clusters_data %<>% dplyr::left_join(size_scale_factor, by = c("Cluster", "formatted_date")) %>% 
+        dplyr::rename("Date" = "formatted_date") %>% 
+        dplyr::mutate(Cluster = fct_reorder(Cluster, desc(ST)))
+    
+    # plot
+    plot <- clusters_data %>% 
+        ggplot(aes(x = Date, y = ST, group = Cluster, color = !!sym(color_column))) +
+        ggplot2::geom_point(aes(size = Cases),
+                            position=ggstance::position_dodgev(height = 0.5)) +
+        ggplot2::scale_size_continuous(name = "Cases") +
+        ggplot2::geom_line(linewidth = 0.8,
+                           position=ggstance::position_dodgev(height = 0.5)) +
+        # viridis::scale_fill_viridis(discrete = TRUE) +
+        # viridis::scale_color_viridis(discrete = TRUE) +
+        ggplot2::theme_bw() +
+        ggplot2::labs(x = "Isolation date", y = "Sequence type") +
+        ggplot2::scale_x_date(labels = scales::date_format("%Y-%m"), 
+                              breaks = scales::breaks_pretty(n = 6)) +
+        ggplot2::theme(
+            axis.text = element_text(size = 10),
+            axis.text.x = element_text(angle = 45, hjust = 1),
+            axis.title = element_text(size = 12),
+            legend.text = element_text(size = 10),
+            legend.title = element_text(size = 12)
+        ) +
+        ggplot2::guides(fill = "none", colour = "none")
+    
+    return(plot)
+}
+
+
+

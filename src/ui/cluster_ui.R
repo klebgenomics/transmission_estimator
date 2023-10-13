@@ -68,7 +68,7 @@ cluster_ui <- shiny::tabPanel(
                                 value = 2, min = 2, max = 10, step = 1)),
         shiny::column(
             width=4,
-            shiny::uiOutput("filter_plots_column")),
+            shiny::uiOutput("clusters_plot_colour_var")),
         shiny::column(
             width=4,
             shiny::uiOutput("filter_plot_options")),

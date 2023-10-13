@@ -47,6 +47,17 @@ output$geo_column_picker <- shiny::renderUI({
                        choices = choices,
                        selected = "Country") # Country is a mandatory metadata column
 })
+# Column in metadata data to use for colouring clusters plot
+output$clusters_plot_colour_var <- shiny::renderUI({
+    choices <- metadata() %>% 
+        names() %>% unique() %>% as.character()
+    choices <- setdiff(choices, c('id', 'Day', 'Month', 'Year'))
+    shiny::selectInput(inputId = "clusters_plot_colour_var", 
+                       label = "Colour plot by:", 
+                       choices = choices,
+                       selected = "Country") # Country is a mandatory metadata column
+})
+
 # # Distribution plot options
 # output$max_snp_option <- shiny::renderUI({
 #     shiny::req(snp_and_epi_data())
@@ -123,7 +134,8 @@ output$clusters_summary <- shiny::renderTable({
 # Plot clusters 
 output$clusters_plot <- plotly::renderPlotly({
     shiny::req(epi_snp_clusters(), input$min_cluster_size)
-    clusters_plot <- plot_clusters(epi_snp_clusters(), min_cluster_size = input$min_cluster_size)
+    clusters_plot <- plot_clusters2(epi_snp_clusters(), min_cluster_size = input$min_cluster_size,
+                                    color_column = input$clusters_plot_colour_var)
     clusters_plot <- clusters_plot + ggplot2::guides(fill = "none", size = "none", color = "none")
     plotly::ggplotly(clusters_plot, height = 600, tooltip = c("x", "y", "colour"))
 })
