@@ -63,13 +63,12 @@ plot_sensitivity_heatmap <- function(cluster_and_transmission_sensitivity_df,
 
 plot_sensitivity_SNP_vs_temp_range <- function(
         cluster_and_transmission_sensitivity_df,
-        temp_dist_range_vals = c(7, 14, 28, 56, 84),
+        temp_dist_range_vals = c(1, 2, 4, 8, 12),
         prop_var = 'cluster_prop', y_title = "Proportion in clusters",
         plot_title = NULL){
     # rescale days to weeks
     cluster_and_transmission_sensitivity_df %<>% 
         dplyr::mutate(temporal_threshold = temporal_threshold / 7)
-    temp_dist_range_vals <- temp_dist_range_vals / 7
     # Use intuitive var names for interactive plot
     y_vars <- paste0(prop_var, " at ", temp_dist_range_vals, " weeks threshold") 
     # wrangle and plot
@@ -83,10 +82,12 @@ plot_sensitivity_SNP_vs_temp_range <- function(
                          ~tidyselect::all_of(y_vars)) %>% 
         ggplot2::ggplot(aes(x = snp_threshold)) +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]], 
-                                 x = snp_threshold)) +
+                                 x = snp_threshold), fill = "#8b0000") +
         ggplot2::geom_line(aes(y = .data[[y_vars[3]]]), colour = "white") +
-        ggplot2::geom_line(aes(y = .data[[y_vars[1]]]), colour = "red", lty = 2) +
-        ggplot2::geom_line(aes(y = .data[[y_vars[5]]]), colour = "red", lty = 2) +
+        ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[2]]]), 
+                             fill = "#ffc1c1", alpha = 0.75) +
+        ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[4]]], ymax = .data[[y_vars[5]]]), 
+                           fill = "#ffc1c1", alpha = 0.75) +
         ggplot2::theme_minimal() + ggplot2::ylim(0, 1) + 
         ggplot2::labs(x = "SNP threshold", y = y_title, title = plot_title) +
         custom_plots_theme 
@@ -114,10 +115,12 @@ plot_sensitivity_temp_dist_vs_snp_range <- function(
                          ~tidyselect::all_of(y_vars)) %>% 
         ggplot2::ggplot(aes(x = temporal_threshold)) +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]], 
-                                 x = temporal_threshold)) +
+                                 x = temporal_threshold), fill = "#8b0000") +
         ggplot2::geom_line(aes(y = .data[[y_vars[3]]]), colour = "white") +
-        ggplot2::geom_line(aes(y = .data[[y_vars[1]]]), colour = "red", lty = 2) +
-        ggplot2::geom_line(aes(y = .data[[y_vars[5]]]), colour = "red", lty = 2) +
+        ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[2]]]), 
+                             fill = "#ffc1c1", alpha = 0.75) +
+        ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[4]]], ymax = .data[[y_vars[5]]]), 
+                             fill = "#ffc1c1", alpha = 0.75) +
         ggplot2::theme_minimal() + ggplot2::ylim(0, 1) +
         ggplot2::labs(x = "Temporal distance threshold (weeks)", y = y_title,
                       title = plot_title) +
