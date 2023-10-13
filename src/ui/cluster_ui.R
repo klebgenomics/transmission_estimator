@@ -34,12 +34,15 @@ cluster_ui <- shiny::tabPanel(
             h4("Clusters summary"),
             shiny::tableOutput("clusters_summary") %>% 
                 shinycssloaders::withSpinner(),
-            hr(),
             h5(shiny::textOutput("cluster_proportion")), #%>% 
                    # shinycssloaders::withSpinner()),
             hr(),
-            h5(shiny::textOutput("transmission_proportion")) #%>% 
-                   # shinycssloaders::withSpinner()),
+            h5(shiny::textOutput("transmission_proportion")),
+            shiny::fluidRow(
+                shiny::column(width = 12, shiny::uiOutput("download_clusters_summary_button")),
+                shiny::column(width = 12, style = 'margin-top: 24px;',
+                              shiny::uiOutput("download_clusters_data_button")),
+            ),
         ),
         
         shiny::column(
@@ -69,9 +72,6 @@ cluster_ui <- shiny::tabPanel(
         shiny::column(
             width=4,
             shiny::uiOutput("clusters_plot_colour_var")),
-        shiny::column(
-            width=4,
-            shiny::uiOutput("filter_plot_options")),
         shiny::column(
             width = 12,
             plotly::plotlyOutput("clusters_plot", height = "600px") %>% shinycssloaders::withSpinner()

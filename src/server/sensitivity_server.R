@@ -139,4 +139,3 @@ output$transmission_prop_SNP_plot <- plotly::renderPlotly({
 
 
 
-

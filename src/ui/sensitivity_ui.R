@@ -41,5 +41,12 @@ sensitivity_ui <- shiny::tabPanel(
             plotly::plotlyOutput("transmission_prop_SNP_plot", height = "300px") %>%
                 shinycssloaders::withSpinner()
         ),
+    ),
+    # download sensitivity data
+    shiny::fluidRow(
+        shiny::column(
+            width = 4,
+            shiny::uiOutput("download_sensitivity_data_button")
+        )
     )
 )

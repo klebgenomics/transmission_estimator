@@ -87,4 +87,21 @@ summarise_cluster <- function(clusters_data) {
         )
     )}
 
+summarise_cluster2 <- function(clusters_data, snp_distance_threshold, temporal_distance_threshold) {
+    return(
+        tribble(
+            ~Variable, ~Value,
+            'Samples', n_distinct(clusters_data$id),
+            'Countries', n_distinct(clusters_data$Country, na.rm = T),
+            'Years', n_distinct(clusters_data$Year, na.rm = T),
+            'STs', n_distinct(clusters_data$ST, na.rm = T),
+            'Clusters', n_distinct(clusters_data$Cluster, na.rm = T),
+            'N isolates in clusters', clusters_data %>% filter(!is.na(Cluster)) %>% nrow(),
+            "Prop in clusters", calculate_cluster_proportion(clusters_data),
+            "Prop due to transmission", calculate_cluster_proportion(clusters_data),
+            'SNPs threshold used',  snp_distance_threshold,
+            'Temporal distance threshold used (days)', temporal_distance_threshold,
+        )
+    )}
+
 
