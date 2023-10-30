@@ -30,9 +30,9 @@ purrr::map(fs::dir_ls('src/functions/', glob = "*.R"), source)
 
 
 ### Demo data ----------------------------------------------
-DEMO_SNP_DATA <- "data/demo_data/euscape/pw-euscape-difference-matrix.csv"
-DEMO_METADATA <- "data/demo_data/euscape/pw-euscape-metadata.csv"
-DEMO_KLEBORATE_DATA <- "data/demo_data/euscape/pw-euscape-kleborate.csv"
+DEMO_SNP_DATA <- "data/demo_data/BARNARDS/BARNARDS_distance_matrix.csv"
+DEMO_METADATA <- "data/demo_data/BARNARDS/BARNARDS_metadata.csv"
+DEMO_KLEBORATE_DATA <- "data/demo_data/BARNARDS/BARNARDS_kleborate.csv"
 
 ### Specs ---------------------------------------------------
 REQUIRED_METADATA_COLS <- c('id', 'Year', 'Month', 'Day', 'Country') # Require Site instead?
