@@ -40,8 +40,9 @@ epi_snp_clusters <- shiny::reactive({
 ### DYNAMIC INPUT / OPTIONS ----------------
 # Column in metadata to use for spatial clustering
 output$geo_column_picker <- shiny::renderUI({
-    choices <- metadata() %>% 
+    choices <- metadata() %>% dplyr::select(where(is.character)) %>% 
         names() %>% unique() %>% as.character()
+    choices <- setdiff(choices, c('id', 'Day', 'Month', 'Year'))
     shiny::selectInput(inputId = "geo_column_picker", 
                        label = "Geographic column for clustering", 
                        choices = choices,
@@ -49,7 +50,7 @@ output$geo_column_picker <- shiny::renderUI({
 })
 # Column in metadata data to use for colouring clusters plot
 output$clusters_plot_colour_var <- shiny::renderUI({
-    choices <- metadata() %>% 
+    choices <- metadata() %>% dplyr::select(where(is.character)) %>% 
         names() %>% unique() %>% as.character()
     choices <- setdiff(choices, c('id', 'Day', 'Month', 'Year'))
     shiny::selectInput(inputId = "clusters_plot_colour_var", 
@@ -108,18 +109,16 @@ output$transmission_proportion <- shiny::renderText({
 # distance distributions  
 output$snp_distribution_plot <- plotly::renderPlotly({
     shiny::req(snp_and_epi_data())
-    # plot snp distance vs temporal distance
     p <- plot_dist_distribution(snp_and_epi_data(), dist_column = "dist", 
                                 x_label = "Pairwise distance (SNPs)",
-                                plot_title = NULL)
+                                plot_title = NULL, bins = 10)
     plotly::ggplotly(p)
 })
 output$temporal_distribution_plot <- plotly::renderPlotly({
     shiny::req(snp_and_epi_data())
-    # plot snp distance vs temporal distance
     p <- plot_dist_distribution(snp_and_epi_data(), dist_column = "days", 
-                                x_label = "Pairwise temporal distance (days)",
-                                plot_title = NULL)
+                                x_label = "Pairwise temporal distance (weeks)",
+                                plot_title = NULL, bins = 1)
     plotly::ggplotly(p)
 })
 
