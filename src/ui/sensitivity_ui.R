@@ -32,13 +32,13 @@ sensitivity_ui <- shiny::tabPanel(
         shiny::column(
             width = 6,
             style='margin-bottom: 50px;',
-            plotly::plotlyOutput("cluster_prop_SNP_plot", height = "300px") %>%
+            plotly::plotlyOutput("cluster_prop_SNP_plot", height = "400px") %>%
                 shinycssloaders::withSpinner()
         ),
         shiny::column(
             width = 6,
             style='margin-bottom: 50px;',
-            plotly::plotlyOutput("transmission_prop_SNP_plot", height = "300px") %>%
+            plotly::plotlyOutput("transmission_prop_SNP_plot", height = "400px") %>%
                 shinycssloaders::withSpinner()
         ),
     ),

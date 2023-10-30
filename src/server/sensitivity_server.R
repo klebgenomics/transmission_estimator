@@ -35,46 +35,25 @@ cluster_and_transmission_sensitivity_df <- shiny::reactive({
     return(df)
 })
 
-
-## PLOT SENSITIVITY HEATMAPS ----------------
-# Proportion of cases part of a cluster
-output$cluster_prop_sensitivity_heatmap <- plotly::renderPlotly({
-    shiny::req(cluster_and_transmission_sensitivity_df())
-    p <- plot_sensitivity_heatmap(
-        cluster_and_transmission_sensitivity_df(), 'cluster_prop',
-        plot_title = 'Cluster proportion at different thresholds')
-    plotly::ggplotly(p, height = 300)
-})
-
-# Proportion of cases due to transmission
-output$transmission_prop_sensitivity_heatmap <- plotly::renderPlotly({
-    shiny::req(cluster_and_transmission_sensitivity_df())
-    p <- plot_sensitivity_heatmap(
-        cluster_and_transmission_sensitivity_df(), 'transmission_prop',
-        plot_title = 'Transmission proportion at different thresholds')
-    plotly::ggplotly(p, height = 300)
-})
-
-
 ### SENSITIVITY RIBBON GRAPHS -----------------------
 # User-set sensitivity plot thresholds
 output$date_threshold <- shiny::renderUI({
     shiny::numericInput(inputId = 'date_threshold',
-                        label = 'Selected date threshold (weeks)',
+                        label = 'Temporal threshold (weeks)',
                         value = 4, min = 3, max = 24)
 })
 output$date_threshold_range <- shiny::renderUI({
     # set intuitive colours for both sliders 
-    shiny::fluidPage(shinyWidgets::setSliderColor(c("#ffc1c1", "#8b0000"), 
-                                                  sliderId = c(1,2)),
+    shiny::fluidPage(shinyWidgets::setSliderColor(c("#ffc1c1", "#8b0000"),
+                                                  sliderId = c(1, 2)),
         shiny::sliderInput(inputId = "date_threshold_range", 
-                           label = "Date threshold range", 
+                           label = "Temporal threshold range", 
                            min = 2, max = 25, value = c(2, 8))
     )
 })
 output$ext_date_threshold_range <- shiny::renderUI({
         shiny::sliderInput(inputId = "ext_date_threshold_range", 
-                           label = "Extreme date threshold range", 
+                           label = "Extreme temporal threshold range", 
                            min = 1, max = 52, value = c(1, 52))
 })
 
@@ -122,8 +101,9 @@ output$cluster_prop_SNP_plot <- plotly::renderPlotly({
     p <- plot_sensitivity_SNP_vs_temp_range(cluster_and_transmission_sensitivity_df(), 
                                             temp_dist_range_vals = sensitivity_temp_dist_range_vals(),
                                             prop_var = "cluster_prop", 
-                                            y_title = "Proportion in clusters")
-    plotly::ggplotly(p, height = 300)
+                                            y_title = "Proportion in clusters",
+                                            plot_title = "Proportion in clusters")
+    plotly::ggplotly(p, height = 400)
 })
 # Proportion of cases due to transmission by SNP threshold, for range of temporal thresholds
 output$transmission_prop_SNP_plot <- plotly::renderPlotly({
@@ -133,8 +113,9 @@ output$transmission_prop_SNP_plot <- plotly::renderPlotly({
     p <- plot_sensitivity_SNP_vs_temp_range(cluster_and_transmission_sensitivity_df(), 
                                             temp_dist_range_vals = sensitivity_temp_dist_range_vals(),
                                             prop_var = "transmission_prop", 
-                                            y_title = "Proportion due to transmission")
-    plotly::ggplotly(p, height = 300)
+                                            y_title = "Proportion due to transmission",
+                                            plot_title = "Proportion due to transmission")
+    plotly::ggplotly(p, height = 400)
 })
 
 
