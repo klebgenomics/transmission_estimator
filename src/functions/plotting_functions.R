@@ -6,8 +6,8 @@ library(plotly)
 
 
 plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwise distance", 
-                                   plot_title = "Distribution of pairwise distances",
-                                   scale_y = F, facet_plot = F, facet_column = NULL){
+                                   plot_title = NULL, scale_y = F, bins = 10,
+                                   facet_plot = F, facet_column = NULL){
     if(! all(c('iso1', 'iso2') %in% colnames(distance_data)) ) {
         stop("'iso1' and 'iso2' columns required")
     }
@@ -22,9 +22,18 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
             stop(glue::glue("'{facet_column}' column missing from distance_data"))
         }
     }
+    distance_data %<>% dplyr::filter(!is.na(!!sym(dist_column))) 
+    if(dist_column == "days") {
+        distance_data$Weeks <- distance_data$days / 7
+        dist_column <- "Weeks"
+    } else if (dist_column == "dist") {
+        distance_data %<>% dplyr::rename("SNPs" = "dist") 
+        dist_column <- "SNPs"
+    }
+    
     # plot
     dist_plot <- ggplot(distance_data, aes(x = !!rlang::sym(dist_column))) +
-        ggplot2::geom_histogram(binwidth = 10, color = "black", alpha = 0.8) +
+        ggplot2::geom_histogram(binwidth = bins, color = "black", alpha = 0.8) +
         ggplot2::labs(title = plot_title, x = x_label, y = "Number of isolate pairs") +
         ggplot2::theme_minimal() +
         ggplot2::theme(axis.text = element_text(size = 10),
@@ -37,7 +46,7 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
     }
     if (facet_plot){
         dist_plot <- dist_plot + 
-            facet_wrap(~pair_location, nrow=2, scales="free_y")
+            facet_wrap(~facet_column, nrow=2, scales="free_y")
     }
     return(dist_plot)
 }
@@ -146,14 +155,12 @@ plot_clusters2 <- function(clusters_data, min_cluster_size = 2, color_column = '
     
     # plot
     plot <- clusters_data %>% 
-        ggplot(aes(x = Date, y = ST, group = Cluster, color = !!sym(color_column))) +
-        ggplot2::geom_point(aes(size = Cases),
-                            position=ggstance::position_dodgev(height = 0.5)) +
+        ggplot(aes(x = Date, y = ST, group = Cluster)) +
+        ggplot2::geom_point(aes(size = Cases, color = !!sym(color_column)),
+                            position=ggstance::position_dodgev(height = 1)) +
         ggplot2::scale_size_continuous(name = "Cases") +
-        ggplot2::geom_line(linewidth = 0.8,
-                           position=ggstance::position_dodgev(height = 0.5)) +
-        # viridis::scale_fill_viridis(discrete = TRUE) +
-        # viridis::scale_color_viridis(discrete = TRUE) +
+        ggplot2::geom_line(aes(group = Cluster, alpha = 0.25), color = "grey50", linewidth = 0.8, 
+                           position=ggstance::position_dodgev(height = 1)) +
         ggplot2::theme_bw() +
         ggplot2::labs(x = "Isolation date", y = "Sequence type") +
         ggplot2::scale_x_date(labels = scales::date_format("%Y-%m"), 
@@ -165,10 +172,8 @@ plot_clusters2 <- function(clusters_data, min_cluster_size = 2, color_column = '
             legend.text = element_text(size = 10),
             legend.title = element_text(size = 12)
         ) +
-        ggplot2::guides(fill = "none", colour = "none")
+        ggplot2::guides(fill = "none", colour = "none", alpha = "none")
     
     return(plot)
 }
-
-
 
