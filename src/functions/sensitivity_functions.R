@@ -21,6 +21,37 @@ get_cluster_and_transmission_fraction <- function(snp_and_epi_data, metadata,
     
 }
 
+get_cluster_sensitivity <- function(snp_and_epi_data, metadata, 
+                                snp_range=c(1:25),
+                                date_range=7*c(1:52)) {
+    date_range = date_range*7 # change weeks to days for cluster function
+    # init empty df
+    df <- data.frame(
+        snp_threshold = numeric(0),
+        temporal_threshold = numeric(0),
+        cluster_prop = numeric(0),
+        transmission_prop = numeric(0)
+    )
+    for (snps in snp_range){
+        for (days in date_range) {
+            cluster_and_transmission_prop <- get_cluster_and_transmission_fraction(
+                snp_and_epi_data, metadata,
+                snp_distance_threshold = snps, temporal_distance_threshold = days
+            )
+            cluster_prop <- cluster_and_transmission_prop$cluster_prop
+            transmission_prop <- cluster_and_transmission_prop$transmission_prop
+            # Append the results
+            df <- rbind(df, data.frame(
+                snp_threshold = snps,
+                temporal_threshold = days,
+                cluster_prop = cluster_prop,
+                transmission_prop = transmission_prop
+            ))
+        }
+    } # End loop
+    return(df)
+}
+
 custom_plots_theme <- ggplot2::theme(
     axis.text = ggplot2::element_text(size = 10),
     axis.title = ggplot2::element_text(size = 12),

@@ -8,31 +8,7 @@ date_range <- seq(1, 52, by = 1) # weeks
 
 cluster_and_transmission_sensitivity_df <- shiny::reactive({
     shiny::req(metadata(), snp_and_epi_data(), snp_range, date_range)
-    # init empty df
-    df <- data.frame(
-        snp_threshold = numeric(0),
-        temporal_threshold = numeric(0),
-        cluster_prop = numeric(0),
-        transmission_prop = numeric(0)
-    )
-    for (snps in snp_range){
-        for (days in date_range*7) {
-            cluster_and_transmission_prop <- get_cluster_and_transmission_fraction(
-                snp_and_epi_data(), metadata(),
-                snp_distance_threshold = snps, temporal_distance_threshold = days
-            )
-            cluster_prop <- cluster_and_transmission_prop$cluster_prop
-            transmission_prop <- cluster_and_transmission_prop$transmission_prop
-            # Append the results
-            df <- rbind(df, data.frame(
-                snp_threshold = snps,
-                temporal_threshold = days,
-                cluster_prop = cluster_prop,
-                transmission_prop = transmission_prop
-                ))
-        }
-    } # End loop
-    return(df)
+    get_cluster_sensitivity(snp_and_epi_data(), metadata(), snp_range, date_range)
 })
 
 ### SENSITIVITY RIBBON GRAPHS -----------------------
