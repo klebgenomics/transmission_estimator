@@ -35,7 +35,7 @@ DEMO_METADATA <- "data/demo_data/BARNARDS/BARNARDS_metadata.csv"
 DEMO_KLEBORATE_DATA <- "data/demo_data/BARNARDS/BARNARDS_kleborate.csv"
 
 ### Specs ---------------------------------------------------
-REQUIRED_METADATA_COLS <- c('id', 'Year', 'Month', 'Day', 'Country') # Require Site instead?
+REQUIRED_METADATA_COLS <- c('id', 'Year', 'Month', 'Day', 'Country', 'Site') 
 
 METADATA_ID_COL <- "id"
 KLEBORATE_ID_COL <- "Genome Name"
