@@ -42,7 +42,7 @@ epi_snp_clusters <- shiny::reactive({
 output$geo_column_picker <- shiny::renderUI({
     choices <- metadata() %>% dplyr::select(where(is.character)) %>% 
         names() %>% unique() %>% as.character()
-    choices <- setdiff(choices, c('id', 'Day', 'Month', 'Year'))
+    choices <- setdiff(choices, NO_CHOICE_VARS)
     shiny::selectInput(inputId = "geo_column_picker", 
                        label = "Geographic column for clustering", 
                        choices = choices,
@@ -52,7 +52,7 @@ output$geo_column_picker <- shiny::renderUI({
 output$clusters_plot_colour_var <- shiny::renderUI({
     choices <- metadata() %>% dplyr::select(where(is.character)) %>% 
         names() %>% unique() %>% as.character()
-    choices <- setdiff(choices, c('id', 'Day', 'Month', 'Year'))
+    choices <- setdiff(choices, NO_CHOICE_VARS)
     shiny::selectInput(inputId = "clusters_plot_colour_var", 
                        label = "Colour plot by:", 
                        choices = choices,
@@ -138,6 +138,36 @@ output$clusters_plot <- plotly::renderPlotly({
     clusters_plot <- clusters_plot + ggplot2::guides(fill = "none", size = "none", color = "none")
     plotly::ggplotly(clusters_plot, height = 600, tooltip = c("x", "y", "colour"))
 })
+
+#  stratify cluster stats by categorical variable
+output$cluster_stats_stratify_var <- shiny::renderUI({
+    shiny::req(epi_snp_clusters())
+    choices <- epi_snp_clusters() %>%
+        dplyr::select(where(is.character)) %>% 
+        dplyr::select(!truncated_resistance_hits:spurious_virulence_hits) %>% 
+        names() %>% unique() %>% as.character()
+    choices <- setdiff(choices, NO_CHOICE_VARS)
+    shiny::selectInput(inputId = "cluster_stats_stratify_var", 
+                       label = "Get cluster stats by:", 
+                       choices = choices,
+                       selected = "Country") 
+})
+stratified_cluster_stats <- shiny::reactive({
+    shiny::req(epi_snp_clusters(), input$cluster_stats_stratify_var)
+    cluster_stats_by_variable(epi_snp_clusters(), grouping_var = input$cluster_stats_stratify_var)
+})
+output$cluster_stats_stratified <- shiny::renderTable({
+    shiny::req(stratified_cluster_stats())
+    stratified_cluster_stats()$stats
+}, align = 'l')
+output$cluster_stats_stratified_plot <- plotly::renderPlotly({
+    shiny::req(stratified_cluster_stats())
+    plotly::ggplotly(stratified_cluster_stats()$plot, height = 600) %>% 
+        plotly::layout(legend = list(orientation = 'h', 
+                                     x=0, xanchor='left', yanchor='bottom', 
+                                     orientation='h'))
+})
+
 
 # Plot transmissions 
 output$transmission_plot <- plotly::renderPlotly({

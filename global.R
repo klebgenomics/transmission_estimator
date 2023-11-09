@@ -67,6 +67,14 @@ GENOME_FILTER_COLS <- c(
     "species_match", "contig_count", "N50", "largest_contig", "total_size"
 )
 
+NO_CHOICE_VARS <- c(
+    # metadata
+    'id', 'Day', 'Month', 'Year',
+    # kleborate
+    "K_locus_problems", "K_locus_confidence", "K_locus_identity", "K_locus_missing_genes",
+    "O_locus_problems", "O_locus_confidence", "O_locus_identity", "O_locus_missing_genes"
+)
+
 
 
 

@@ -77,4 +77,22 @@ cluster_ui <- shiny::tabPanel(
             plotly::plotlyOutput("clusters_plot", height = "600px") %>% shinycssloaders::withSpinner()
         ),
     ), # End fluidRow - Clusters plot
+    hr(),
+    shiny::fluidRow(
+        align = "center",
+        shiny::column(width = 12, h3("Cluster stats per group")),
+        shiny::fluidRow(
+            shiny::column(
+                width=4,
+                shiny::uiOutput("cluster_stats_stratify_var")),
+            shiny::column(
+                width=4,
+                div(tags$label(), style = "margin-bottom: 5px"),
+                div(shiny::uiOutput("download_cluster_stats_stratified_button")))
+            ),
+        shiny::column(
+            width = 12,
+            plotly::plotlyOutput("cluster_stats_stratified_plot", height = "600px") %>% shinycssloaders::withSpinner()
+        ),
+    ), # End fluidRow - Stratified cluster stats
 )

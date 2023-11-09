@@ -77,35 +77,65 @@ calc_prop_samples_due_to_transmission <- function(clusters_data){
 
 summarise_cluster <- function(clusters_data) {
     summary <- tibble::tribble(
-            ~name, ~value,
-            'Total isolates', n_distinct(clusters_data$id),
-            'Clusters', n_distinct(clusters_data$Cluster, na.rm = T),
-            'N isolates in clusters', clusters_data %>% filter(!is.na(Cluster)) %>% nrow(),
-            'Median cluster size', clusters_data %>% 
-                dplyr::add_count(Cluster, name = "cluster_size") %>% 
-                dplyr::pull(cluster_size) %>% median() %>% round(digits = 0),
-            'Cluster STs', clusters_data %>% dplyr::filter(!is.na(Cluster)) %>% pull(ST) %>% n_distinct(na.rm = T)
-        )
+        ~name, ~value,
+        'Total isolates', n_distinct(clusters_data$id),
+        'Clusters', n_distinct(clusters_data$Cluster, na.rm = T),
+        'N isolates in clusters', clusters_data %>% filter(!is.na(Cluster)) %>% nrow(),
+        'Median cluster size', clusters_data %>% filter(!is.na(Cluster)) %>% 
+            dplyr::add_count(Cluster, name = "cluster_size") %>% 
+            dplyr::pull(cluster_size) %>% median() %>% round(digits = 0),
+        'Cluster STs', clusters_data %>% dplyr::filter(!is.na(Cluster)) %>% 
+            pull(ST) %>% n_distinct(na.rm = T)
+    )
     return(summary)
     
 }
 
 summarise_cluster2 <- function(clusters_data, snp_distance_threshold, temporal_distance_threshold) {
+    summary <- tibble::tribble(
+        ~name, ~value,
+        "Prop in clusters", calculate_cluster_proportion(clusters_data),
+        "Prop due to transmission", calc_prop_samples_due_to_transmission(clusters_data),
+        'SNPs threshold used',  snp_distance_threshold,
+        'Temporal distance threshold used (days)', temporal_distance_threshold,
+    )
     return(
-        tibble::tribble(
-            ~Variable, ~Value,
-            'Total isolates', n_distinct(clusters_data$id),
-            'Clusters', n_distinct(clusters_data$Cluster, na.rm = T),
-            'N isolates in clusters', clusters_data %>% filter(!is.na(Cluster)) %>% nrow(),
-            'Median cluster size', clusters_data %>% filter(!is.na(Cluster)) %>% 
-                dplyr::add_count(Cluster, name = "cluster_size") %>% 
-                dplyr::pull(cluster_size) %>% median() %>% round(digits = 0),
-            'Cluster STs', clusters_data %>% dplyr::filter(!is.na(Cluster)) %>% pull(ST) %>% n_distinct(na.rm = T),
-            "Prop in clusters", calculate_cluster_proportion(clusters_data),
-            "Prop due to transmission", calc_prop_samples_due_to_transmission(clusters_data),
-            'SNPs threshold used',  snp_distance_threshold,
-            'Temporal distance threshold used (days)', temporal_distance_threshold,
+        dplyr::bind_rows(
+            summarise_cluster(clusters_data),
+            summary
         )
-    )}
+    )
+}
+
+cluster_stats_by_variable <- function(clusters_data, grouping_var = "Country", group_label = grouping_var){
+    clust_prop <- calculate_cluster_proportion(clusters_data)
+    transmission_prop <- calc_prop_samples_due_to_transmission(clusters_data)
+    stats <- clusters_data %>% 
+        dplyr::rename("Group" = all_of(grouping_var)) %>% 
+        dplyr::group_by(Group) %>% 
+        dplyr::reframe(`Cluster proportion` = calculate_cluster_proportion(dplyr::pick(tidyselect::everything())),
+                       `Transmission proportion` = calc_prop_samples_due_to_transmission(dplyr::pick(tidyselect::everything())),
+                       n_isolates = n()) %>% 
+        dplyr::arrange(`Cluster proportion`)
+    cols <- c("Transmission proportion" = "#2bbed8", "Cluster proportion" = "#0770b5")
+    plot <- stats %>%
+        dplyr::mutate(Group = factor(Group, levels = Group)) %>%
+        tidyr::pivot_longer(-c(Group, n_isolates), names_to = "name", values_to = "value") %>% 
+        dplyr::mutate(name = factor(name, levels = c('Transmission proportion','Cluster proportion'))) %>%
+        ggplot2::ggplot(aes(x = Group, y = value, fill = name)) + 
+        ggplot2::geom_bar(stat = 'identity', position = 'dodge') + ggplot2::ylim(0, 1) +
+        ggplot2::geom_hline(yintercept = transmission_prop, lty = 2, colour = cols[1]) +
+        ggplot2::geom_hline(yintercept = clust_prop, lty = 2, colour = cols[2]) +
+        # ggplot2::geom_text(aes(label = paste("n = ", n_isolates), y = 1)) +
+        ggplot2::scale_fill_manual(values = cols, name = NULL) +
+        ggplot2::coord_flip() + 
+        ggplot2::theme_minimal() + 
+        ggplot2::labs(x = group_label, y = "Proportion") +
+        ggplot2::theme(axis.text = element_text(size = 10),
+                       axis.title = element_text(size = 12),
+                       legend.text = element_text(size = 12),
+                       legend.position = "bottom")
+    return(list("stats" = stats, "plot" = plot))
+}
 
 

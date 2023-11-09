@@ -49,3 +49,19 @@ output$download_clusters_data <- shiny::downloadHandler(
         write.table(d, file, row.names = FALSE, na = "", sep = ",")
     }
 )
+
+### CLUSTERS STATS BY GROUP DATA -------------------
+# Download grouped stats
+output$download_cluster_stats_stratified_button <- shiny::renderUI({
+    shiny::req(stratified_cluster_stats())
+    shiny::downloadButton("download_cluster_stats_stratified", "Download grouped stats",
+                          icon = shiny::icon("download"))
+})
+output$download_cluster_stats_stratified <- shiny::downloadHandler(
+    filename = paste0("cluster_stats_by_", tolower(input$cluster_stats_stratify_var), ".csv"),
+    content = function(file) {
+        d <- stratified_cluster_stats()$stats
+        write.table(d, file, row.names = FALSE, na = "", sep = ",")
+    }
+)
+
