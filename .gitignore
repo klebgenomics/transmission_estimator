@@ -4,5 +4,5 @@
 .DS_Store
 .Rproj.user
 private_data
-test.*
+test*
 rsconnect
