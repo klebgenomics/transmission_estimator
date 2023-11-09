@@ -76,28 +76,31 @@ calc_prop_samples_due_to_transmission <- function(clusters_data){
 
 
 summarise_cluster <- function(clusters_data) {
-    return(
-        tribble(
+    summary <- tibble::tribble(
             ~name, ~value,
-            'Samples', n_distinct(clusters_data$id),
+            'Total isolates', n_distinct(clusters_data$id),
             'Clusters', n_distinct(clusters_data$Cluster, na.rm = T),
             'N isolates in clusters', clusters_data %>% filter(!is.na(Cluster)) %>% nrow(),
-            'Countries', n_distinct(clusters_data$Country, na.rm = T),
-            'Years', n_distinct(clusters_data$Year, na.rm = T),
-            'STs', n_distinct(clusters_data$ST, na.rm = T)
+            'Median cluster size', clusters_data %>% 
+                dplyr::add_count(Cluster, name = "cluster_size") %>% 
+                dplyr::pull(cluster_size) %>% median() %>% round(digits = 0),
+            'Cluster STs', clusters_data %>% dplyr::filter(!is.na(Cluster)) %>% pull(ST) %>% n_distinct(na.rm = T)
         )
-    )}
+    return(summary)
+    
+}
 
 summarise_cluster2 <- function(clusters_data, snp_distance_threshold, temporal_distance_threshold) {
     return(
-        tribble(
+        tibble::tribble(
             ~Variable, ~Value,
-            'Samples', n_distinct(clusters_data$id),
-            'Countries', n_distinct(clusters_data$Country, na.rm = T),
-            'Years', n_distinct(clusters_data$Year, na.rm = T),
-            'STs', n_distinct(clusters_data$ST, na.rm = T),
+            'Total isolates', n_distinct(clusters_data$id),
             'Clusters', n_distinct(clusters_data$Cluster, na.rm = T),
             'N isolates in clusters', clusters_data %>% filter(!is.na(Cluster)) %>% nrow(),
+            'Median cluster size', clusters_data %>% filter(!is.na(Cluster)) %>% 
+                dplyr::add_count(Cluster, name = "cluster_size") %>% 
+                dplyr::pull(cluster_size) %>% median() %>% round(digits = 0),
+            'Cluster STs', clusters_data %>% dplyr::filter(!is.na(Cluster)) %>% pull(ST) %>% n_distinct(na.rm = T),
             "Prop in clusters", calculate_cluster_proportion(clusters_data),
             "Prop due to transmission", calc_prop_samples_due_to_transmission(clusters_data),
             'SNPs threshold used',  snp_distance_threshold,
