@@ -66,7 +66,7 @@ kleborate_validate <- function(d) {
 # Functions to load data locally
 read_snp_csv <- function(distance_matrix_csv_path){
     tryCatch({
-        snp_data <- read_csv(distance_matrix_csv_path, show_col_types = F)
+        snp_data <- readr::read_csv(distance_matrix_csv_path, show_col_types = F)
     }, error = function(e) {
         stop("Error reading the SNP data file. Please check that it is a valid CSV file.")
     })
@@ -94,8 +94,7 @@ read_kleborate_data_csv <- function(kleborate_data_path){
     return(kleborate_data)
 }
 
-read_metadata_csv <- function(metadata_path){
-    required_cols <- c('id', 'Year', 'Month', 'Day', 'Country')
+read_metadata_csv <- function(metadata_path, required_cols = c('id')){
     tryCatch({
         metadata <- read_csv(metadata_path, show_col_types = F)
     }, error = function(e) {

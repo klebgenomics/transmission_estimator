@@ -45,6 +45,7 @@ get_cluster_graph <- function(snp_and_epi_data, dist_columns, dist_thresholds,
 }
 
 
+
 # adapted from KleborateR function; removed dependency on kleborate data
 get_cluster_membership_from_graph <- function(cluster_graph) {
     if(!igraph::is_igraph(cluster_graph)){stop('cluster_graph is not an igraph')}
@@ -58,7 +59,7 @@ calculate_cluster_proportion <- function(clusters_data){
     clusters_data %>% 
         dplyr::summarise(
             cluster_proportion = round(sum(!is.na(Cluster)) / n(), 2)
-        ) %>% dplyr::pull(cluster_proportion)
+        ) %>% dplyr::pull(cluster_proportion) %>% round(digits = 2)
 }
 
 calc_prop_samples_due_to_transmission <- function(clusters_data){
@@ -69,7 +70,7 @@ calc_prop_samples_due_to_transmission <- function(clusters_data){
         dplyr::summarise(nc = sum(!is.na(Cluster)) - 1) %>% 
         dplyr::ungroup() %>% 
         dplyr::summarise(prop = round(sum(nc) / nrow(clusters_data), digits = 2)) %>% 
-        dplyr::pull(prop)
+        dplyr::pull(prop) %>% round(digits = 2)
 }
 
 
@@ -98,7 +99,7 @@ summarise_cluster2 <- function(clusters_data, snp_distance_threshold, temporal_d
             'Clusters', n_distinct(clusters_data$Cluster, na.rm = T),
             'N isolates in clusters', clusters_data %>% filter(!is.na(Cluster)) %>% nrow(),
             "Prop in clusters", calculate_cluster_proportion(clusters_data),
-            "Prop due to transmission", calculate_cluster_proportion(clusters_data),
+            "Prop due to transmission", calc_prop_samples_due_to_transmission(clusters_data),
             'SNPs threshold used',  snp_distance_threshold,
             'Temporal distance threshold used (days)', temporal_distance_threshold,
         )
