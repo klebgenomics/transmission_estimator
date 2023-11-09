@@ -6,3 +6,8 @@
 private_data
 test*
 rsconnect
+
+# temp
+problem_clones*
+source/
+misc_functions.R
