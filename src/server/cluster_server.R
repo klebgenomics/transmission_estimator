@@ -139,14 +139,14 @@ output$clusters_plot <- plotly::renderPlotly({
     plotly::ggplotly(clusters_plot, height = 600, tooltip = c("x", "y", "colour"))
 })
 
-#  stratify cluster stats by categorical variable
+#  Get cluster stats by grouping variable
 output$cluster_stats_stratify_var <- shiny::renderUI({
     shiny::req(epi_snp_clusters())
     choices <- epi_snp_clusters() %>%
         dplyr::select(where(is.character)) %>% 
         dplyr::select(!truncated_resistance_hits:spurious_virulence_hits) %>% 
         names() %>% unique() %>% as.character()
-    choices <- setdiff(choices, NO_CHOICE_VARS)
+    choices <- setdiff(choices, c(NO_CHOICE_VARS, "Cluster"))
     shiny::selectInput(inputId = "cluster_stats_stratify_var", 
                        label = "Get cluster stats by:", 
                        choices = choices,
