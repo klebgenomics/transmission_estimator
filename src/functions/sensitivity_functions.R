@@ -25,13 +25,8 @@ get_cluster_sensitivity <- function(snp_and_epi_data, metadata,
                                 snp_range=c(1:25),
                                 date_range=7*c(1:52)) {
     date_range = date_range*7 # change weeks to days for cluster function
-    # init empty df
-    df <- data.frame(
-        snp_threshold = numeric(0),
-        temporal_threshold = numeric(0),
-        cluster_prop = numeric(0),
-        transmission_prop = numeric(0)
-    )
+    i <- 1
+    results <- vector("list", length(snp_range) * length(date_range))
     for (snps in snp_range){
         for (days in date_range) {
             cluster_and_transmission_prop <- get_cluster_and_transmission_fraction(
@@ -41,14 +36,16 @@ get_cluster_sensitivity <- function(snp_and_epi_data, metadata,
             cluster_prop <- cluster_and_transmission_prop$cluster_prop
             transmission_prop <- cluster_and_transmission_prop$transmission_prop
             # Append the results
-            df <- rbind(df, data.frame(
+            results[[i]] <- data.frame(
                 snp_threshold = snps,
                 temporal_threshold = days,
                 cluster_prop = cluster_prop,
                 transmission_prop = transmission_prop
-            ))
+            )
+            i <- i + 1
         }
     } # End loop
+    df <- dplyr::bind_rows(results)
     return(df)
 }
 
