@@ -55,7 +55,7 @@ kleborate_validate <- function(d) {
         missing_kleborate_cols <- setdiff(REQUIRED_KLEBORATE_COLS, colnames(d))
         showNotification(paste0('Input Kleborate file did not contain required columns: ',
                                 paste(missing_kleborate_cols, collapse = ',')),
-                         type='error', duration=NULL)
+                         type='error', duration=4)
         return(FALSE)
     } else {
         return(TRUE)
