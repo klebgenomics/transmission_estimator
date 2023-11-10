@@ -2,7 +2,7 @@ library(shiny)
 
 ### SENSITIVITY DATA ------------------
 # Download sensitivity data
-observeEvent(cluster_and_transmission_sensitivity_df(), {
+# observeEvent(cluster_and_transmission_sensitivity_df(), {
     output$download_sensitivity_data_button <- shiny::renderUI({
         shiny::req(cluster_and_transmission_sensitivity_df())
         shiny::downloadButton("download_sensitivity_data", "Download cluster sensitivity data",
@@ -22,7 +22,7 @@ observeEvent(cluster_and_transmission_sensitivity_df(), {
             write.table(d, file, row.names = FALSE, na = "", sep = ",")
         }
     )
-})
+# })
 
 ### CLUSTERS DATA -------------------
 # Download clusters summary

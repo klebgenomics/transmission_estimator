@@ -5,19 +5,6 @@ library(ggnetwork)
 library(plotly)
 
 ### GET CLUSTERS ----------------
-# format dates
-sample_dates <- shiny::reactive({
-    shiny::req(metadata())
-    #print(input$filter_data_column)
-    #print(input$filter_data_options)
-    format_sample_dates(metadata())
-})
-# get df of snp and date (days) distances, and shared geolocation
-snp_and_epi_data <- shiny::reactive({
-    shiny::req(snp_data(), metadata(), sample_dates(), input$geo_column_picker)
-    get_snp_and_epi_data(snp_data(), sample_dates(), metadata(), 
-                         geo_column = input$geo_column_picker) 
-})
 # Get cluster graph based on SNPs, dates of isolation, and spatial (geo) clustering
 epi_snp_graph <- shiny::reactive({
     shiny::req(snp_and_epi_data(), input$snp_threshold, input$temporal_threshold)
@@ -162,10 +149,10 @@ output$cluster_stats_stratified <- shiny::renderTable({
 }, align = 'l')
 output$cluster_stats_stratified_plot <- plotly::renderPlotly({
     shiny::req(stratified_cluster_stats())
-    plotly::ggplotly(stratified_cluster_stats()$plot, height = 600) %>% 
-        plotly::layout(legend = list(orientation = 'h', 
-                                     x=0, xanchor='left', yanchor='bottom', 
-                                     orientation='h'))
+    plotly::ggplotly(stratified_cluster_stats()$plot, height = 600) # %>% 
+        # plotly::layout(legend = list(orientation = 'h', 
+        #                              x=0, xanchor='left', yanchor='bottom', 
+        #                              orientation='h'))
 })
 
 
