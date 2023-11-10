@@ -77,6 +77,9 @@ NO_CHOICE_VARS <- c(
     "O_locus_problems", "O_locus_confidence", "O_locus_identity", "O_locus_missing_genes"
 )
 
+MAX_SNP_DIST <- 1000
+MAX_TEMP_DIST <- 364
+
 
 
 

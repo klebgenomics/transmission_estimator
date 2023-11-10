@@ -18,10 +18,10 @@ cluster_ui <- shiny::tabPanel(
         shinydashboard::box(id = "cluster_options_box", width = 12,
               shiny::fluidRow(
                   shiny::column(shiny::numericInput("snp_threshold", "Number of SNPs within cluster",
-                                                    value = 10, min = 1, max = 1000, step = 1),
+                                                    value = 10, min = 1, max = MAX_SNP_DIST, step = 1),
                                 width = 4),
                   shiny::column(shiny::numericInput("temporal_threshold", "Number of days between isolates",
-                                                    value = 14, min = 1, max = 1000, step = 1),
+                                                    value = 14, min = 1, max = MAX_TEMP_DIST, step = 1),
                                 width = 4),
                   shiny::column(width = 4, shiny::uiOutput("geo_column_picker")),
               ),

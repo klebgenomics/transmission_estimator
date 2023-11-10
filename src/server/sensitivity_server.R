@@ -34,28 +34,28 @@ output$ext_date_threshold_range <- shiny::renderUI({
 })
 
 # Constrain thresholds in sensible ranges
-observeEvent(c(input$date_threshold, input$date_threshold_range, input$ext_date_threshold_range), {
+observeEvent(c(req(input$date_threshold), input$date_threshold_range, input$ext_date_threshold_range), {
     min_value = input$date_threshold_range[1]
     max_value = input$date_threshold_range[2]
     if (input$date_threshold_range[1] >= input$date_threshold){
-        showNotification("Selected value outside allowed range", type='error', duration=2)
+        showNotification("Selected value outside allowed range", type='warning', duration=2)
         min_value = input$date_threshold - 1
     } 
     if (input$date_threshold_range[2] <= input$date_threshold){
-        showNotification("Selected value outside allowed range", type='error', duration=2)
+        showNotification("Selected value outside allowed range", type='warning', duration=2)
         max_value = input$date_threshold + 1
     }
     updateSliderInput(session, "date_threshold_range", value = c(min_value, max_value))
 })
-observeEvent(c(input$date_threshold, input$date_threshold_range, input$ext_date_threshold_range), {
+observeEvent(c(req(input$date_threshold), input$date_threshold_range, input$ext_date_threshold_range), {
     min_value = input$ext_date_threshold_range[1]
     max_value = input$ext_date_threshold_range[2]
     if (input$ext_date_threshold_range[1] >= input$date_threshold_range[1]){
-        showNotification("Selected value outside allowed range", type='error', duration=2)
+        showNotification("Selected value outside allowed range", type='warning', duration=2)
         min_value = input$date_threshold_range[1] - 1
     } 
     if (input$ext_date_threshold_range[2] <= input$date_threshold_range[2]){
-        showNotification("Selected value outside allowed range", type='error', duration=2)
+        showNotification("Selected value outside allowed range", type='warning', duration=2)
         max_value = input$date_threshold_range[2] + 1
     }
     updateSliderInput(session, "ext_date_threshold_range", value = c(min_value, max_value))
@@ -76,6 +76,7 @@ sensitivity_temp_dist_range_vals <- shiny::reactive({
 output$cluster_prop_SNP_plot <- plotly::renderPlotly({
     shiny::req(cluster_and_transmission_sensitivity_df(), 
                sensitivity_temp_dist_range_vals(),
+               !any(is.na(sensitivity_temp_dist_range_vals())),
                !any(duplicated(sensitivity_temp_dist_range_vals())))
     
     p <- plot_sensitivity_SNP_vs_temp_range(cluster_and_transmission_sensitivity_df(), 
@@ -89,6 +90,7 @@ output$cluster_prop_SNP_plot <- plotly::renderPlotly({
 output$transmission_prop_SNP_plot <- plotly::renderPlotly({
     shiny::req(cluster_and_transmission_sensitivity_df(), 
                sensitivity_temp_dist_range_vals(),
+               !any(is.na(sensitivity_temp_dist_range_vals())),
                !any(duplicated(sensitivity_temp_dist_range_vals())))
     p <- plot_sensitivity_SNP_vs_temp_range(cluster_and_transmission_sensitivity_df(), 
                                             temp_dist_range_vals = sensitivity_temp_dist_range_vals(),

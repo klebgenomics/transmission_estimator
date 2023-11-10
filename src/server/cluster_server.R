@@ -4,27 +4,23 @@ library(ggpubr)
 library(ggnetwork)
 library(plotly)
 
-### GET CLUSTERS ----------------
-# Get cluster graph based on SNPs, dates of isolation, and spatial (geo) clustering
-epi_snp_graph <- shiny::reactive({
-    shiny::req(snp_and_epi_data(), input$snp_threshold, input$temporal_threshold)
-    get_cluster_graph(snp_and_epi_data(),
-                      dist_columns = c('dist', 'days'),
-                      dist_thresholds = c(input$snp_threshold,
-                                          input$temporal_threshold),
-                      pair_location_column = "pair_location")
-})
-# Get clusters; Rejoin to metadata and kleborate data
-epi_snp_clusters <- shiny::reactive({
-    shiny::req(metadata(), kleborate_data(), sample_dates(), epi_snp_graph())
-    get_cluster_membership_from_graph(epi_snp_graph()) %>% 
-        dplyr::right_join(metadata(), by = 'id') %>% 
-        dplyr::left_join(sample_dates(), by = 'id') %>% 
-        dplyr::left_join(kleborate_data(), by = c('id' = 'Genome Name'))
-})
-
 
 ### DYNAMIC INPUT / OPTIONS ----------------
+shiny::observeEvent(input$snp_threshold, {
+    if(input$snp_threshold > MAX_SNP_DIST){
+        showNotification(paste0("Selected value outside allowed range. Using max allowed value: ", MAX_SNP_DIST), 
+                         type='warning', duration=3)
+        shiny::updateNumericInput(session, 'snp_threshold', value = MAX_SNP_DIST)
+    }
+}, ignoreInit = TRUE)
+shiny::observeEvent(input$temporal_threshold, {
+    if(input$temporal_threshold > MAX_TEMP_DIST){
+        showNotification(paste0("Selected value outside allowed range. Using max allowed value: ", MAX_TEMP_DIST), 
+                         type='warning', duration=3)
+        shiny::updateNumericInput(session, 'temporal_threshold', value = MAX_TEMP_DIST)
+    }
+}, ignoreInit = TRUE)
+
 # Column in metadata to use for spatial clustering
 output$geo_column_picker <- shiny::renderUI({
     choices <- metadata() %>% dplyr::select(where(is.character)) %>% 
@@ -44,6 +40,26 @@ output$clusters_plot_colour_var <- shiny::renderUI({
                        label = "Colour plot by:", 
                        choices = choices,
                        selected = "Country") # Country is a mandatory metadata column
+})
+
+
+### GET CLUSTERS ----------------
+# Get cluster graph based on SNPs, dates of isolation, and spatial (geo) clustering
+epi_snp_graph <- shiny::reactive({
+    shiny::req(snp_and_epi_data(), input$snp_threshold, input$temporal_threshold)
+    get_cluster_graph(snp_and_epi_data(),
+                      dist_columns = c('dist', 'days'),
+                      dist_thresholds = c(input$snp_threshold,
+                                          input$temporal_threshold),
+                      pair_location_column = "pair_location")
+})
+# Get clusters; Rejoin to metadata and kleborate data
+epi_snp_clusters <- shiny::reactive({
+    shiny::req(metadata(), kleborate_data(), sample_dates(), epi_snp_graph())
+    get_cluster_membership_from_graph(epi_snp_graph()) %>% 
+        dplyr::right_join(metadata(), by = 'id') %>% 
+        dplyr::left_join(sample_dates(), by = 'id') %>% 
+        dplyr::left_join(kleborate_data(), by = c('id' = 'Genome Name'))
 })
 
 # # Distribution plot options
