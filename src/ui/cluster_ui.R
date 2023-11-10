@@ -40,7 +40,9 @@ cluster_ui <- shiny::tabPanel(
             h5(shiny::textOutput("transmission_proportion")),
             shiny::fluidRow(
                 shiny::column(width = 12, shiny::uiOutput("download_clusters_summary_button")),
-                shiny::column(width = 12, style = 'margin-top: 24px;',
+                shiny::column(width = 12, style = 'margin-top: 12px;',
+                              shiny::uiOutput("download_clusters_info_button")),
+                shiny::column(width = 12, style = 'margin-top: 12px;',
                               shiny::uiOutput("download_clusters_data_button")),
             ),
         ),

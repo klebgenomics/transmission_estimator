@@ -107,6 +107,24 @@ summarise_cluster2 <- function(clusters_data, snp_distance_threshold, temporal_d
     )
 }
 
+get_cluster_info <- function(clusters_data){
+    clusters_data %>% 
+        dplyr::filter(!is.na(Cluster)) %>% 
+        dplyr::group_by(Cluster) %>% 
+        dplyr::reframe(Site = paste0(sort(unique(Site)), collapse = '; '),
+                       "N isolates" = n(),
+                       ST = paste0(sort(unique(ST)), collapse = '; '),
+                       "Median virulence score" = median(virulence_score),
+                       "Median resistance score" = median(resistance_score),
+                       "Start date" = min(formatted_date, na.rm = T),
+                       "End date" = max(formatted_date, na.rm = T)
+        ) %>% 
+        dplyr::mutate(`Duration (days)` = abs(floor(as.numeric(
+            difftime(`Start date`, `End date`, units = "days") + 1 # plus first day
+        )))) %>% 
+        dplyr::arrange(desc(`N isolates`), desc(`Duration (days)`))
+}
+
 cluster_stats_by_variable <- function(clusters_data, grouping_var = "Country", group_label = grouping_var){
     clust_prop <- calculate_cluster_proportion(clusters_data)
     transmission_prop <- calc_prop_samples_due_to_transmission(clusters_data)

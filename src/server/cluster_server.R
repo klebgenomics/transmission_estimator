@@ -6,14 +6,14 @@ library(plotly)
 
 
 ### DYNAMIC INPUT / OPTIONS ----------------
-shiny::observeEvent(input$snp_threshold, {
+shiny::observeEvent(req(input$snp_threshold), {
     if(input$snp_threshold > MAX_SNP_DIST){
         showNotification(paste0("Selected value outside allowed range. Using max allowed value: ", MAX_SNP_DIST), 
                          type='warning', duration=3)
         shiny::updateNumericInput(session, 'snp_threshold', value = MAX_SNP_DIST)
     }
 }, ignoreInit = TRUE)
-shiny::observeEvent(input$temporal_threshold, {
+shiny::observeEvent(req(input$temporal_threshold), {
     if(input$temporal_threshold > MAX_TEMP_DIST){
         showNotification(paste0("Selected value outside allowed range. Using max allowed value: ", MAX_TEMP_DIST), 
                          type='warning', duration=3)
@@ -129,7 +129,8 @@ output$temporal_distribution_plot <- plotly::renderPlotly({
 # Clusters summary 
 output$clusters_summary <- shiny::renderTable({
         shiny::req(epi_snp_clusters())
-        summarise_cluster(epi_snp_clusters())
+        summarise_cluster(epi_snp_clusters()) %>% 
+            dplyr::mutate(value = as.character(value))
     }, 
     colnames = FALSE, align = 'l')
 
@@ -146,7 +147,7 @@ output$clusters_plot <- plotly::renderPlotly({
 output$cluster_stats_stratify_var <- shiny::renderUI({
     shiny::req(epi_snp_clusters())
     choices <- epi_snp_clusters() %>%
-        dplyr::select(where(is.character)) %>% 
+        dplyr::select(where(is.character), resistance_score, virulence_score) %>% 
         dplyr::select(!truncated_resistance_hits:spurious_virulence_hits) %>% 
         names() %>% unique() %>% as.character()
     choices <- setdiff(choices, c(NO_CHOICE_VARS, "Cluster"))

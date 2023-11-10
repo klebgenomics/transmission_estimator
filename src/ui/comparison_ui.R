@@ -3,9 +3,8 @@ comparison_ui <- shiny::tabPanel(
     title = "Comparisons",
     shiny::fluidRow(
         style='margin-top: 18px;',
-        # align = 'center',
         shiny::column(
-            width = 4,
+            width = 3,
             shinyWidgets::materialSwitch(
                 inputId = "add_public_data",
                 label = "Add public data",
@@ -29,11 +28,11 @@ comparison_ui <- shiny::tabPanel(
                 shinycssloaders::withSpinner()
         ),
     ),
-    # download comparison data
-    # shiny::fluidRow(
-    #     shiny::column(
-    #         width = 4,
-    #         shiny::uiOutput("download_comparison_data_button")
-    #     )
-    # )
+    # download sensitivity data
+    shiny::fluidRow(
+        shiny::column(
+            width = 4,
+            shiny::uiOutput("download_comparison_data_button")
+        )
+    )
 )
