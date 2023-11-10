@@ -19,5 +19,6 @@ function(input, output, session) {
     # Load other server logic
     source('src/server/cluster_server.R', local = TRUE)
     source('src/server/sensitivity_server.R', local = TRUE)
+    source('src/server/comparison_server.R', local = TRUE)
     source('src/server/downloads_server.R', local = TRUE)
 }

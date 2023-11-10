@@ -14,6 +14,7 @@ source('src/ui/sidebar_ui.R') # sidebar_ui
 source('src/ui/home_ui.R') # home_ui
 source('src/ui/cluster_ui.R') # cluster_ui
 source('src/ui/sensitivity_ui.R') # sensitivity_ui
+source('src/ui/comparison_ui.R') # comparison_ui
 
 # Page layout
 shiny::fluidPage(
@@ -44,7 +45,7 @@ shiny::fluidPage(
         # load ui for each tab in main panel
         shiny::mainPanel(shiny::tabsetPanel(
             id = "main_tabs",
-            home_ui, cluster_ui, sensitivity_ui
+            home_ui, cluster_ui, sensitivity_ui, comparison_ui
         )) 
     ), # End sidebarLayout
     shiny::hr()
