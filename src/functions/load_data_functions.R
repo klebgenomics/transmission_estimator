@@ -49,21 +49,48 @@ read_file <- function(fp, input_name) {
 
 
 # validate kleborate data
-kleborate_validate <- function(d) {
-    if (! all(REQUIRED_KLEBORATE_COLS %in% colnames(d)) ) {
-        # First check presence of default columns
-        missing_kleborate_cols <- setdiff(REQUIRED_KLEBORATE_COLS, colnames(d))
-        showNotification(paste0('Input Kleborate file did not contain required columns: ',
-                                paste(missing_kleborate_cols, collapse = ',')),
-                         type='error', duration=4)
+kleborate_validate <- function(d, required_kleborate_cols) {
+    if (! all(required_kleborate_cols %in% colnames(d)) ) {
         return(FALSE)
     } else {
         return(TRUE)
     }
 }
 
+clean_kleborate <- function(kleborate_data){
+    if ('K_locus' %in% names(kleborate_data)){
+        kleborate_data %<>% 
+            dplyr::mutate(K_locus_original = K_locus) %>%
+            dplyr::mutate(K_locus = dplyr::if_else(K_locus == "unknown (KL107)", 
+                                                   "nontypeable", K_locus)) %>%
+            dplyr::mutate(K_locus = stringr::str_replace(K_locus, "unknown \\(", "")) %>%
+            dplyr::mutate(K_locus = stringr::str_replace(K_locus, "\\)", ""))
+        if ('K_locus_confidence' %in% names(kleborate_data)){
+            kleborate_data %<>%
+                dplyr::mutate(K_locus = dplyr::if_else(K_locus =="KL107" & K_locus_confidence=="None",
+                                                       "nontypeable", K_locus))
+        }
+    }
+    if ('O_type' %in% names(kleborate_data)){
+        kleborate_data %<>% 
+            dplyr::mutate(O_type = dplyr::if_else(startsWith(O_type,"unknown"), "unknown", O_type))
+    }
+    if ('Genome Name' %in% names(kleborate_data)){
+        kleborate_data %<>% dplyr::mutate(dplyr::across(.cols = c(`Genome Name`), as.character))
+    }
+    return(kleborate_data)
+}
 
-# Functions to load data locally
+filter_data <- function(d, filter_column, filter_values){
+    if(is.null(filter_column)){return(d)}
+    if(is.null(filter_values)){return(d)}
+    if(!filter_column %in% names(d)){return(d)}
+    d <- d %>% dplyr::filter(!!rlang::sym(filter_column) %in% filter_values)
+    return(d)
+}
+
+
+# Functions to load local data
 read_snp_csv <- function(distance_matrix_csv_path){
     tryCatch({
         snp_data <- readr::read_csv(distance_matrix_csv_path, show_col_types = F)
@@ -79,41 +106,46 @@ read_snp_csv <- function(distance_matrix_csv_path){
     }
     return(
         snp_data %>% 
-            pivot_longer(cols = !Name, values_to = 'dist', names_to = 'iso2') %>%
-            rename(iso1=Name)
+            tidyr::pivot_longer(cols = !Name, values_to = 'dist', names_to = 'iso2') %>%
+            dplyr::rename(iso1=Name) %>% 
+            dplyr::mutate(dplyr::across(.cols = c(iso1, iso2), as.character))
     )
 }
 
-read_kleborate_data_csv <- function(kleborate_data_path){
+read_kleborate_data_csv <- function(kleborate_data_path, required_kleborate_cols, clean = T){
     tryCatch({
-        kleborate_data <- read_csv(kleborate_data_path, show_col_types = F)
+        d <- read_csv(kleborate_data_path, show_col_types = F)
     }, error = function(e) {
         stop("Error reading the kleborate data file. Please check that it is a valid CSV file.")
     })
-    # TODO: validate kleborate data columns
-    return(kleborate_data)
+    if (is.null(d) || ! kleborate_validate(d, required_kleborate_cols)) {
+        missing_kleborate_cols <- setdiff(REQUIRED_KLEBORATE_COLS, colnames(d))
+        stop(paste0('Input Kleborate file is invalid or did not contain required columns: ',
+                    paste(missing_kleborate_cols, collapse = ',')))
+    }
+    if(clean){d <- clean_kleborate(d)}
+    return(d)
 }
 
 read_metadata_csv <- function(metadata_path, required_cols = c('id')){
     tryCatch({
-        metadata <- read_csv(metadata_path, show_col_types = F)
+        d <- read_csv(metadata_path, show_col_types = F)
     }, error = function(e) {
         stop("Error reading the metadata file. Please check that it is a valid CSV file.")
     })
-    if (! all(required_cols %in% names(metadata)) ) {
+    if (! all(required_cols %in% names(d)) ) {
         stop(paste0("The following columns are required in the metadata file: ", 
                     paste(required_cols, collapse = ", ")))
+    } else {
+        # Standardise (rename) mandatory column names
+        col_inds <- match(tolower(required_cols), tolower(names(d)))
+        colnames(d)[col_inds] <- required_cols
+        # id column always character
+        d %<>% dplyr::mutate(dplyr::across(.cols = c(id), as.character))
     }
-    return(metadata)
-}
-
-filter_data <- function(d, filter_column, filter_values){
-    if(is.null(filter_column)){return(d)}
-    if(is.null(filter_values)){return(d)}
-    if(!filter_column %in% names(d)){return(d)}
-    d <- d %>% dplyr::filter(!!rlang::sym(filter_column) %in% filter_values)
     return(d)
 }
+
 
 format_sample_dates <- function(metadata){
     if(! all(c('id', 'Year', 'Month', 'Day') %in% names(metadata)) ) {
@@ -176,7 +208,17 @@ get_snp_and_epi_data <- function(snp_data, sample_dates, metadata,
     return(snp_and_epi_data)
 }
 
-
+select_metadata_and_kleborate_var_choices <- function(epi_snp_clusters, metadata){
+    EXCLUDE_VARS <- c('id', 'Day', 'Month', 'Year')
+    INCLUDE_VARS <- c('resistance_score', 'virulence_score', 'species', 
+                      'K_locus', 'O_locus', 'ST')
+    choices <- epi_snp_clusters %>% 
+        dplyr::select(any_of(c(names(metadata), INCLUDE_VARS))) %>% 
+        # dplyr::select(where(is.character)) %>% 
+        names() %>% unique() %>% as.character()
+    choices <- setdiff(choices, c(EXCLUDE_VARS, "Cluster"))
+    return(choices)
+}
     
     
     

@@ -5,12 +5,45 @@ library(ggpubr)
 library(plotly)
 
 custom_plots_theme <- ggplot2::theme(
-    axis.text = ggplot2::element_text(size = 10),
-    axis.title = ggplot2::element_text(size = 12),
-    legend.text = ggplot2::element_text(size = 10),
-    legend.title = ggplot2::element_text(size = 12),
-    plot.title = element_text(size = 12)
+    axis.text = ggplot2::element_text(size = 12),
+    axis.title = ggplot2::element_text(size = 14),
+    legend.text = ggplot2::element_text(size = 12),
+    legend.title = ggplot2::element_text(size = 14),
+    plot.title = element_text(size = 14)
 )
+
+rename_vars_for_plotting <- function(d, column){
+    virulence_score_names <- c(
+        '0'='0: None',
+        '1'='1: ybt',
+        '2'='2: ybt + clb',
+        '3'='3: iuc (VP)',
+        '4'='4: ybt + iuc (VP)',
+        '5'='5: ybt + clb + iuc (VP)'
+    )
+    resistance_score_names <- c(
+        '0'='0: ESBL-, Carb-',
+        '1'='1: ESBL+, Carb-',
+        '2'='2: Carb+',
+        '3'='3: Carb+, Col+'
+    )
+    if (column == 'resistance_score'){
+        d %<>% dplyr::mutate(resistance_score = dplyr::case_when(
+            resistance_score %in% names(resistance_score_names) ~ resistance_score_names[as.character(resistance_score)],
+            is.na(resistance_score) ~ NA,
+            TRUE ~ as.character(resistance_score))
+        ) 
+        
+    } else if (column == 'virulence_score'){
+        d %<>% dplyr::mutate(virulence_score =  dplyr::case_when(
+            virulence_score %in% names(virulence_score_names) ~ virulence_score_names[as.character(virulence_score)],
+            is.na(virulence_score) ~ NA,
+            TRUE ~ as.character(virulence_score))
+        ) 
+        
+    }
+    return(d)
+}
 
 plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwise distance", 
                                    plot_title = NULL, scale_y = F, bins = 10,
@@ -44,7 +77,9 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
         ggplot2::labs(title = plot_title, x = x_label, y = "Number of isolate pairs") +
         ggplot2::theme_minimal() +
         custom_plots_theme +
-        ggplot2::theme(plot.title = element_text(face = "bold"))
+        ggplot2::theme(plot.title = element_text(face = "bold", size = 12),
+                       axis.text = ggplot2::element_text(size = 10),
+                       axis.title = ggplot2::element_text(size = 12))
     if (scale_y){
         dist_plot <- dist_plot + scale_y_log10(labels = scales::comma_format())
     }

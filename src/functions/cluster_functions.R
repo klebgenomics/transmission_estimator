@@ -114,7 +114,6 @@ get_cluster_info <- function(clusters_data){
         dplyr::reframe(Site = paste0(sort(unique(Site)), collapse = '; '),
                        "N isolates" = n(),
                        ST = paste0(sort(unique(ST)), collapse = '; '),
-                       "Median virulence score" = median(virulence_score),
                        "Median resistance score" = median(resistance_score),
                        "Start date" = min(formatted_date, na.rm = T),
                        "End date" = max(formatted_date, na.rm = T)
@@ -141,18 +140,24 @@ cluster_stats_by_variable <- function(clusters_data, grouping_var = "Country", g
         tidyr::pivot_longer(-c(Group, n_isolates), names_to = "name", values_to = "value") %>% 
         dplyr::mutate(name = factor(name, levels = c('Transmission proportion','Cluster proportion'))) %>%
         ggplot2::ggplot(aes(x = Group, y = value, fill = name)) + 
-        ggplot2::geom_bar(stat = 'identity', position = 'dodge') + ggplot2::ylim(0, 1) +
+        ggplot2::geom_bar(stat = 'identity', position = 'dodge') + 
         ggplot2::geom_hline(yintercept = transmission_prop, lty = 2, colour = cols[1]) +
         ggplot2::geom_hline(yintercept = clust_prop, lty = 2, colour = cols[2]) +
-        # ggplot2::geom_text(aes(label = paste("n = ", n_isolates), y = 1)) +
         ggplot2::scale_fill_manual(values = cols, name = NULL) +
-        ggplot2::coord_flip() + 
+        ggplot2::coord_flip(clip = 'off') + 
+        ggplot2::geom_text(aes(label = paste("N = ", n_isolates), hjust = 0, 
+                               y = max(stats$`Cluster proportion`)+.1)) +
+        scale_y_continuous(breaks = seq(0, 1, 0.2)) +
         ggplot2::theme_minimal() + 
         ggplot2::labs(x = group_label, y = "Proportion") +
-        ggplot2::theme(axis.text = element_text(size = 10),
-                       axis.title = element_text(size = 12),
+        ggplot2::theme(axis.text = element_text(size = 12),
+                       axis.title = element_text(size = 14),
                        legend.text = element_text(size = 12),
-                       legend.position = "bottom")
+                       legend.position = "bottom",
+                       panel.border=element_blank(),
+                       axis.line = element_line(),
+                       panel.grid.major=element_blank(),
+                       panel.grid.minor = element_blank())
     return(list("stats" = stats, "plot" = plot))
 }
 

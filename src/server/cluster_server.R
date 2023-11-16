@@ -23,25 +23,14 @@ shiny::observeEvent(req(input$temporal_threshold), {
 
 # Column in metadata to use for spatial clustering
 output$geo_column_picker <- shiny::renderUI({
-    choices <- metadata() %>% dplyr::select(where(is.character)) %>% 
-        names() %>% unique() %>% as.character()
-    choices <- setdiff(choices, NO_CHOICE_VARS)
+    choices <- select_metadata_and_kleborate_var_choices(
+        metadata(), metadata()
+    )
     shiny::selectInput(inputId = "geo_column_picker", 
                        label = "Geographic column for clustering", 
                        choices = choices,
-                       selected = "Country") # Country is a mandatory metadata column
+                       selected = "Site") # Site is a mandatory metadata column
 })
-# Column in metadata data to use for colouring clusters plot
-output$clusters_plot_colour_var <- shiny::renderUI({
-    choices <- metadata() %>% dplyr::select(where(is.character)) %>% 
-        names() %>% unique() %>% as.character()
-    choices <- setdiff(choices, NO_CHOICE_VARS)
-    shiny::selectInput(inputId = "clusters_plot_colour_var", 
-                       label = "Colour plot by:", 
-                       choices = choices,
-                       selected = "Country") # Country is a mandatory metadata column
-})
-
 
 ### GET CLUSTERS ----------------
 # Get cluster graph based on SNPs, dates of isolation, and spatial (geo) clustering
@@ -134,23 +123,35 @@ output$clusters_summary <- shiny::renderTable({
     }, 
     colnames = FALSE, align = 'l')
 
-# Plot clusters 
+# Column in metadata data to use for colouring clusters plot
+output$clusters_plot_colour_var <- shiny::renderUI({
+    shiny::req(epi_snp_clusters(), metadata())
+    choices <- select_metadata_and_kleborate_var_choices(
+        epi_snp_clusters(), metadata()
+    )
+    shiny::selectInput(inputId = "clusters_plot_colour_var", 
+                       label = "Colour plot by:", 
+                       choices = choices,
+                       selected = "Site") # Site is a mandatory metadata column
+})
+
+# Clusters plot
 output$clusters_plot <- plotly::renderPlotly({
-    shiny::req(epi_snp_clusters(), input$min_cluster_size)
-    clusters_plot <- plot_clusters2(epi_snp_clusters(), min_cluster_size = input$min_cluster_size,
+    shiny::req(epi_snp_clusters(), input$min_cluster_size, input$clusters_plot_colour_var)
+    d <- rename_vars_for_plotting(epi_snp_clusters(), input$clusters_plot_colour_var)
+    clusters_plot <- plot_clusters2(d, min_cluster_size = input$min_cluster_size,
                                     color_column = input$clusters_plot_colour_var)
     clusters_plot <- clusters_plot + ggplot2::guides(fill = "none", size = "none", color = "none")
-    plotly::ggplotly(clusters_plot, height = 600, tooltip = c("x", "y", "colour"))
+    plotly::ggplotly(clusters_plot, height = 600, tooltip = c("x", "y", "colour", "size")) %>% 
+        plotly::layout(yaxis = list(title = list(standoff = 30L)))
 })
 
 #  Get cluster stats by grouping variable
 output$cluster_stats_stratify_var <- shiny::renderUI({
-    shiny::req(epi_snp_clusters())
-    choices <- epi_snp_clusters() %>%
-        dplyr::select(where(is.character), resistance_score, virulence_score) %>% 
-        dplyr::select(!truncated_resistance_hits:spurious_virulence_hits) %>% 
-        names() %>% unique() %>% as.character()
-    choices <- setdiff(choices, c(NO_CHOICE_VARS, "Cluster"))
+    shiny::req(epi_snp_clusters(), metadata())
+    choices <- select_metadata_and_kleborate_var_choices(
+        epi_snp_clusters(), metadata()
+    )
     shiny::selectInput(inputId = "cluster_stats_stratify_var", 
                        label = "Get cluster stats by:", 
                        choices = choices,
@@ -158,7 +159,8 @@ output$cluster_stats_stratify_var <- shiny::renderUI({
 })
 stratified_cluster_stats <- shiny::reactive({
     shiny::req(epi_snp_clusters(), input$cluster_stats_stratify_var)
-    cluster_stats_by_variable(epi_snp_clusters(), grouping_var = input$cluster_stats_stratify_var)
+    d <- rename_vars_for_plotting(epi_snp_clusters(), input$cluster_stats_stratify_var)
+    cluster_stats_by_variable(d, grouping_var = input$cluster_stats_stratify_var)
 })
 output$cluster_stats_stratified <- shiny::renderTable({
     shiny::req(stratified_cluster_stats())
@@ -166,10 +168,14 @@ output$cluster_stats_stratified <- shiny::renderTable({
 }, align = 'l')
 output$cluster_stats_stratified_plot <- plotly::renderPlotly({
     shiny::req(stratified_cluster_stats())
-    plotly::ggplotly(stratified_cluster_stats()$plot, height = 600) # %>% 
-        # plotly::layout(legend = list(orientation = 'h', 
-        #                              x=0, xanchor='left', yanchor='bottom', 
-        #                              orientation='h'))
+    p <- stratified_cluster_stats()$plot 
+    plotly::ggplotly(p, height = 600, tooltip = c("x", "y", "fill")) %>%
+        plotly::style(hoverinfo = "none", traces = c(4:6), 
+                      textposition = "right", cliponaxis = FALSE) %>% 
+        plotly::layout(yaxis = list(title = list(standoff = 30L)),
+                       margin = list(r = 80),
+                       legend=list(x=0, y = -.15,
+                                   orientation='h'))
 })
 
 

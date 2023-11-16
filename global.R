@@ -21,64 +21,43 @@ suppressPackageStartupMessages({
     library(plotly)
 })
 
-### Shiny app options ----------------------------------------------
+### SHINY APP OPTIONS ----------------------------------------------
 # Max file upload size
 options(shiny.maxRequestSize = 100*1024^2)  # 100 MB
 
-### Load functions ----------------------------------------------
+### FUNCTIONS ----------------------------------------------
 purrr::map(fs::dir_ls('src/functions/', glob = "*.R"), source)
 
 
-### Demo data ----------------------------------------------
+### DEMO DATA ----------------------------------------------
 DEMO_SNP_DATA <- "data/demo_data/BARNARDS/BARNARDS_distance_matrix.csv"
 DEMO_METADATA <- "data/demo_data/BARNARDS/BARNARDS_metadata.csv"
 DEMO_KLEBORATE_DATA <- "data/demo_data/BARNARDS/BARNARDS_kleborate.csv"
 
-### Specs ---------------------------------------------------
-REQUIRED_METADATA_COLS <- c('id', 'Year', 'Month', 'Day', 'Country', 'Site') 
 
+### DATA SPECS ---------------------------------------------------
+REQUIRED_METADATA_COLS <- c('id', 'Year', 'Month', 'Day', 'Country', 'Site') 
 METADATA_ID_COL <- "id"
 KLEBORATE_ID_COL <- "Genome Name"
-
 REQUIRED_KLEBORATE_COLS <- c(
-    'Genome ID',
     'Genome Name',
-    # 'Version',	'Kleborate version',
     'species', 
+    # Res / Vir columns
+    'resistance_score', # 'virulence_score',
     # Genome quality columns
-    # 'species_match', 'contig_count', 'N50', 'largest_contig', 
-    # 'total_size', 'ambiguous_bases', 'QC_warnings', 
+    'contig_count', 'N50', 'total_size', 
     # K/O columns
-    # 'wzi', 'K_locus', 'K_type', 'K_locus_problems', 'K_locus_confidence', 
-    # 'K_locus_identity', 'K_locus_missing_genes', # K
-    # 'O_locus',	'O_type',	'O_locus_problems',	'O_locus_confidence', 
-    # 'O_locus_identity', 'O_locus_missing_genes' # O
+    # 'K_locus', 'K_type', 'K_locus_problems', 'K_locus_confidence', 
+    # 'O_locus', 'O_type', 'O_locus_problems', 'O_locus_confidence', 
     'ST'
 )
 
-KLEBORATE_FILTER_COLS <- c(
-    'species',
-    'ST',
-    'K_locus',
-    'O_locus'
-)
-
-GENOME_FILTER_COLS <- c(
-    "species_match", "contig_count", "N50", "largest_contig", "total_size"
-)
-
-NO_CHOICE_VARS <- c(
-    # metadata
-    'id', 'Day', 'Month', 'Year',
-    # kleborate
-    "Genome ID", "Version", "Kleborate version", "strain", "species",
-    "species_match", "contig_count", "N50", "largest_contig", "total_size", "ambiguous_bases", "QC_warnings",
-    "K_locus_problems", "K_locus_confidence", "K_locus_identity", "K_locus_missing_genes",
-    "O_locus_problems", "O_locus_confidence", "O_locus_identity", "O_locus_missing_genes"
-)
-
+### INPUT VALIDATION ---------------------
 MAX_SNP_DIST <- 1000
 MAX_TEMP_DIST <- 364
+
+
+
 
 
 
