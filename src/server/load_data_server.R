@@ -39,7 +39,7 @@ observeEvent(
         if (! all(tolower(REQUIRED_METADATA_COLS) %in% tolower(names(d))) ) {
             shiny::showNotification(paste0("The following columns are required in the metadata file: ", 
                                     paste(REQUIRED_METADATA_COLS, collapse = ", ")), 
-                             type='error', duration=NULL)
+                             type='error', duration=10)
             dataset$metadata <- NULL
             shinyjs::reset('user_metadata')
             return()
@@ -71,7 +71,7 @@ observeEvent(
         # check valid matrix
         if(nrow(d) + 1 != ncol(d)){
             shiny::showNotification('Number of rows and cols in snp data must be the same', 
-                             type='error', duration=NULL)
+                             type='error', duration=10)
             dataset$snp_data <- NULL
             shinyjs::reset('user_distances')
             return()
@@ -104,7 +104,7 @@ observeEvent(
             missing_kleborate_cols <- setdiff(REQUIRED_KLEBORATE_COLS, colnames(d))
             showNotification(paste0('Input Kleborate file is invalid or did not contain required columns: ',
                                     paste(missing_kleborate_cols, collapse = ',')),
-                             type='error', duration=4)
+                             type='error', duration=10)
             shinyjs::reset('user_kleborate_data')
             return()
         }
