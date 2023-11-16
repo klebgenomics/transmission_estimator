@@ -184,6 +184,7 @@ plot_clusters2 <- function(clusters_data, min_cluster_size = 2, color_column = '
         dplyr::reframe(Cases = n())
     # merge and order
     clusters_data %<>% dplyr::left_join(size_scale_factor, by = c("Cluster", "formatted_date")) %>% 
+        dplyr::select(-any_of("Date")) %>% # remove Date column if exists
         dplyr::rename("Date" = "formatted_date") %>% 
         dplyr::mutate(Cluster = fct_reorder(Cluster, desc(ST)))
     

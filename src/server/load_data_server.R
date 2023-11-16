@@ -53,7 +53,9 @@ observeEvent(
         }
         shiny::showNotification('Successfully uploaded metadata file', 
                                 type = 'message', duration = 2)
-        dataset$metadata <- d
+        dataset$metadata <- d %>% 
+            # remove required kleborate data cols from metadata if exists
+            dplyr::select(-any_of(REQUIRED_KLEBORATE_COLS)) 
     }
 )
 
@@ -110,7 +112,11 @@ observeEvent(
         }
         shiny::showNotification('Successfully uploaded kleborate data file', 
                                 type = 'message', duration = 2)
-        dataset$kleborate_data <- clean_kleborate(d)
+        dataset$kleborate_data <- 
+            # clean kleborate columns
+            clean_kleborate(d) %>% 
+            # remove required metadata cols from kleborate df if exists
+            dplyr::select(-any_of(REQUIRED_METADATA_COLS)) 
     }
 )
 

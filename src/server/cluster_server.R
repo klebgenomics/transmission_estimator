@@ -23,9 +23,7 @@ shiny::observeEvent(req(input$temporal_threshold), {
 
 # Column in metadata to use for spatial clustering
 output$geo_column_picker <- shiny::renderUI({
-    choices <- select_metadata_and_kleborate_var_choices(
-        metadata(), metadata()
-    )
+    choices <- select_metadata_and_kleborate_var_choices(metadata())
     shiny::selectInput(inputId = "geo_column_picker", 
                        label = "Geographic column for clustering", 
                        choices = choices,
@@ -127,7 +125,7 @@ output$clusters_summary <- shiny::renderTable({
 output$clusters_plot_colour_var <- shiny::renderUI({
     shiny::req(epi_snp_clusters(), metadata())
     choices <- select_metadata_and_kleborate_var_choices(
-        epi_snp_clusters(), metadata()
+        metadata(), epi_snp_clusters()
     )
     shiny::selectInput(inputId = "clusters_plot_colour_var", 
                        label = "Colour plot by:", 
@@ -150,7 +148,7 @@ output$clusters_plot <- plotly::renderPlotly({
 output$cluster_stats_stratify_var <- shiny::renderUI({
     shiny::req(epi_snp_clusters(), metadata())
     choices <- select_metadata_and_kleborate_var_choices(
-        epi_snp_clusters(), metadata()
+        metadata(), epi_snp_clusters()
     )
     shiny::selectInput(inputId = "cluster_stats_stratify_var", 
                        label = "Get cluster stats by:", 

@@ -57,6 +57,7 @@ kleborate_validate <- function(d, required_kleborate_cols) {
     }
 }
 
+# clean values in selected kleborate data columns
 clean_kleborate <- function(kleborate_data){
     if ('K_locus' %in% names(kleborate_data)){
         kleborate_data %<>% 
@@ -75,12 +76,14 @@ clean_kleborate <- function(kleborate_data){
         kleborate_data %<>% 
             dplyr::mutate(O_type = dplyr::if_else(startsWith(O_type,"unknown"), "unknown", O_type))
     }
+    # Genome name column as character
     if ('Genome Name' %in% names(kleborate_data)){
         kleborate_data %<>% dplyr::mutate(dplyr::across(.cols = c(`Genome Name`), as.character))
     }
     return(kleborate_data)
 }
 
+# filter dataframe given column name (filter_column) and values to include (filter_values)
 filter_data <- function(d, filter_column, filter_values){
     if(is.null(filter_column)){return(d)}
     if(is.null(filter_values)){return(d)}
@@ -146,7 +149,7 @@ read_metadata_csv <- function(metadata_path, required_cols = c('id')){
     return(d)
 }
 
-
+# format sample dates; filter out NA rows
 format_sample_dates <- function(metadata){
     if(! all(c('id', 'Year', 'Month', 'Day') %in% names(metadata)) ) {
         stop(paste0("'id', 'Year', 'Month', and 'Day' columns are required."))
@@ -203,20 +206,25 @@ get_snp_and_epi_data <- function(snp_data, sample_dates, metadata,
         dplyr::left_join(geo_data, by = c('iso2' = 'id')) %>% dplyr::rename('geo2' = 'geo') %>% 
         dplyr::mutate(pair_location = if_else(geo1 == geo2, "Same", "Different")) %>% 
         dplyr::select(-c(geo1, geo2))
-    
-    
     return(snp_and_epi_data)
 }
 
-select_metadata_and_kleborate_var_choices <- function(epi_snp_clusters, metadata){
-    EXCLUDE_VARS <- c('id', 'Day', 'Month', 'Year')
+# Names to include in selectInput options (names from metadata and kleborate_data [optional]) 
+select_metadata_and_kleborate_var_choices <- function(metadata, kleborate_data = NULL){
+    EXCLUDE_VARS <- c('id', 'Day', 'Month', 'Year', 'Date', 'Cluster')
     INCLUDE_VARS <- c('resistance_score', 'virulence_score', 'species', 
                       'K_locus', 'O_locus', 'ST')
-    choices <- epi_snp_clusters %>% 
-        dplyr::select(any_of(c(names(metadata), INCLUDE_VARS))) %>% 
-        # dplyr::select(where(is.character)) %>% 
-        names() %>% unique() %>% as.character()
-    choices <- setdiff(choices, c(EXCLUDE_VARS, "Cluster"))
+    # select character vars from metadata
+    choices <-  metadata %>% dplyr::select(where(is.character)) %>% names()
+    if (!is.null(kleborate_data)){
+        # Only include selected vars from kleborate data
+        choices <- c(choices, kleborate_data %>% 
+                         dplyr::select(any_of(INCLUDE_VARS)) %>% names() 
+                     )
+    }
+    # Exclude vars (case insensitive)
+    choices <- choices[!tolower(choices) %in% tolower(EXCLUDE_VARS)] %>% 
+        unique() %>% as.character()
     return(choices)
 }
     
