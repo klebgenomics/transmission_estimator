@@ -1,10 +1,8 @@
 
 ### IS DATA LOADED? ------------------------------- 
 
-# TODO check and report whether samples in SNP_DATA == METADATA == KLEBORATE 
-
 # check data loaded
-data_loaded <- reactive({
+data_loaded <- shiny::reactive({
     if (is.null(dataset$snp_data) ||
         is.null(dataset$metadata) ||
         is.null(dataset$kleborate_data)) {
@@ -17,13 +15,11 @@ data_loaded <- reactive({
     }
     return(data_loaded)
 })
-
 # Is data loaded? - Boolean to UI
-output$data_loaded <- reactive({
+output$data_loaded <- shiny::reactive({
     data_loaded()
 })
 shiny::outputOptions(output, "data_loaded", suspendWhenHidden = FALSE)
-
 # hide tabs if complete data not loaded
 shiny::observe({
     if (! data_loaded()) {
@@ -41,10 +37,9 @@ shiny::observe({
 })
 
 
-
 ### DYNAMIC SIDEBAR OPTIONS ---------------
 
-# Filter data by any column(s) in metadata
+# Get filtering options for sidebar; From column(s) in metadata
 output$filter_data_columns <- shiny::renderUI({
     shiny::req(dataset$metadata)
     d <- dataset$metadata %>% dplyr::select(-c(id, Day))
@@ -57,7 +52,6 @@ output$filter_data_columns <- shiny::renderUI({
                                                       noneSelectedText = "No filter applied"),
                               selected = "Country") # Country is a mandatory metadata column
 })
-
 output$filter_data_options <- shiny::renderUI({
     shiny::req(input$filter_data_columns, dataset$metadata)
     # data
@@ -92,36 +86,53 @@ output$filter_data_options <- shiny::renderUI({
 
 
 ### FILTER DATA ------------------------------------
+
+# Apply user filters (if any)
 observeEvent(input$apply_filters,{
-    shiny::req(dataset$metadata, input$filter_data_columns, input$apply_filters)
+    shiny::req(dataset, input$filter_data_columns, input$apply_filters)
+    # reset final data
     final_data$snp_data <- dataset$snp_data
     final_data$metadata <- dataset$metadata
     final_data$kleborate_data <- dataset$kleborate_data
+    # apply filters
     for (filter_col in input$filter_data_columns){
         input_id <- paste0("filter_data_options_", filter_col)
         filter_values <- input[[input_id]]
         final_data$metadata <- filter_data(final_data$metadata, filter_col, filter_values)
     }
-    final_data$snp_data %<>% 
-        dplyr::filter(iso1 %in% final_data$metadata$id) %>% 
-        dplyr::filter(iso2 %in% final_data$metadata$id)
-    final_data$kleborate_data %<>% 
-        dplyr::filter(`Genome Name` %in% final_data$metadata$id)
-
 })
 
 
-# final reactive data 
-metadata <- shiny::reactive(final_data$metadata)
-kleborate_data <- shiny::reactive(final_data$kleborate_data)
-snp_data <- shiny::reactive(final_data$snp_data)
+### FINAL REACTIVE DATA ------------------------
 
+# Only use data with matching IDs in SNP data, metadata, and kleborate data
+data_ids <- shiny::reactive({
+    shiny::req(final_data)
+    s <- unique(c(final_data$snp_data$iso1, final_data$snp_data$iso2))
+    m <- final_data$metadata$id
+    k <- final_data$kleborate_data$`Genome Name`
+    return(base::intersect(base::intersect(s,m),k))
+})
+metadata <- shiny::reactive({
+    shiny::req(final_data)
+    shiny::showNotification(glue::glue('Using samples for {length(data_ids())} matching rows in the metadata, kleborate data, and snp data'), 
+                            type = 'message', duration = 3)
+    final_data$metadata %>% dplyr::filter(id %in% data_ids())
+})
+kleborate_data <- shiny::reactive({
+    shiny::req(final_data)
+    final_data$kleborate_data %>% dplyr::filter(`Genome Name` %in% data_ids())
+})
+snp_data <- shiny::reactive({
+    shiny::req(final_data)
+    final_data$snp_data %>% 
+        dplyr::filter(iso1 %in% data_ids()) %>% 
+        dplyr::filter(iso2 %in% data_ids())
+})
 
 # format dates
 sample_dates <- shiny::reactive({
     shiny::req(metadata())
-    #print(input$filter_data_column)
-    #print(input$filter_data_options)
     format_sample_dates(metadata())
 })
 # get df of snp and date (days) distances, and shared geolocation
