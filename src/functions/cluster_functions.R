@@ -145,7 +145,7 @@ cluster_stats_by_variable <- function(clusters_data, grouping_var = "Country", g
         ggplot2::geom_hline(yintercept = clust_prop, lty = 2, colour = cols[2]) +
         ggplot2::scale_fill_manual(values = cols, name = NULL) +
         ggplot2::coord_flip(clip = 'off') + 
-        ggplot2::geom_text(aes(label = paste("N = ", n_isolates), hjust = 0, 
+        ggplot2::geom_text(aes(label = paste("N=", n_isolates), hjust = 0, 
                                y = max(stats$`Cluster proportion`)+.1)) +
         scale_y_continuous(breaks = seq(0, 1, 0.2)) +
         ggplot2::theme_minimal() + 

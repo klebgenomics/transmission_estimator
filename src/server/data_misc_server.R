@@ -115,7 +115,7 @@ data_ids <- shiny::reactive({
 })
 metadata <- shiny::reactive({
     shiny::req(final_data)
-    shiny::showNotification(glue::glue('Using samples for {length(data_ids())} matching rows in the metadata, kleborate data, and snp data'), 
+    shiny::showNotification(glue::glue('Using {length(data_ids())} samples with matching rows in the metadata, kleborate data, and snp data'), 
                             type = 'message', duration = 3)
     final_data$metadata %>% dplyr::filter(id %in% data_ids())
 })
