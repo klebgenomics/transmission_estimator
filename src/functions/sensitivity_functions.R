@@ -1,5 +1,7 @@
 library(tidyverse)
 library(ggplot2)
+library(future)
+
 
 get_cluster_and_transmission_fraction <- function(snp_and_epi_data, metadata, 
                                                   snp_distance_threshold, 
@@ -15,35 +17,35 @@ get_cluster_and_transmission_fraction <- function(snp_and_epi_data, metadata,
     transmission_proportion <- calc_prop_samples_due_to_transmission(epi_snp_clusters)
     
     return(list(
+        "snp_threshold" = snp_distance_threshold,
+        "temporal_threshold" = temporal_distance_threshold,
         "cluster_prop" = cluster_proportion,
         "transmission_prop" = transmission_proportion
     ))
-    
 }
 
+
 get_cluster_sensitivity <- function(snp_and_epi_data, metadata, 
-                                snp_range=c(1:25),
-                                date_range=7*c(1:52)) {
-    date_range = date_range*7 # change weeks to days for cluster function
-    i <- 1
-    results <- vector("list", length(snp_range) * length(date_range))
-    for (snps in snp_range){
-        for (days in date_range) {
-            cluster_and_transmission_prop <- get_cluster_and_transmission_fraction(
-                snp_and_epi_data, metadata,
-                snp_distance_threshold = snps, temporal_distance_threshold = days
+                                     snp_range=c(1:25),
+                                     date_range=c(1:52)) {
+    # set multithreading plan
+    if (parallelly::supportsMulticore()){
+        future::plan(future::multicore(), workers = parallelly::availableCores())
+    } else {
+        future::plan(future::multisession(), workers = parallelly::availableCores())
+    }
+    # get all snp-date pairs; change weeks to days for cluster function
+    sensitivity <- tidyr::expand_grid(snp_range, date_range*7) |> 
+        (\(z) dplyr::bind_rows(
+            furrr::future_map2(
+                z[[1]], z[[2]],
+                ~get_cluster_and_transmission_fraction(snp_and_epi_data, metadata, .x, .y)
             )
-            # Append the results
-            results[[i]] <- c(
-                snp_threshold = snps,
-                temporal_threshold = days,
-                cluster_prop = cluster_and_transmission_prop$cluster_prop,
-                transmission_prop = cluster_and_transmission_prop$transmission_prop
-            )
-            i <- i + 1
-        }
-    } # End loop
-    df <- dplyr::bind_rows(results)
-    return(df)
+        ))()
+    future::plan("default")
+    
+    return(sensitivity)
 }
+
+
 

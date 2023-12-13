@@ -19,6 +19,9 @@ suppressPackageStartupMessages({
     library(data.table)
     library(kableExtra)
     library(plotly)
+    # multithreading
+    library(future)
+    library(furrr)
 })
 
 ### SHINY APP OPTIONS ----------------------------------------------
