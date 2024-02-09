@@ -210,28 +210,3 @@ observeEvent(input$download_comparison_plots_modal, {
                               class='btn-primary'),
         m.title = 'Download plots (ZIP)')
 })
-
-# 
-# ### COMPARISON TAB --------------------------------------------------
-# 
-# # Comparison data 
-# output$download_comparison_data_button <- shiny::renderUI({
-#     shiny::req(all_comparison_data())
-#     shiny::downloadButton("download_comparison_data", "Download comparison data",
-#                           icon = shiny::icon("table"))
-# })
-# output$download_comparison_data <- shiny::downloadHandler(
-#     filename = "comparison_data.csv",
-#     content = function(file) {
-#         d <- all_comparison_data() %>% 
-#             dplyr::select(comparison_group, tidyselect::everything()) %>% 
-#             dplyr::rename(
-#                 "Comparison group" = "comparison_group",
-#                 "SNP threshold" = "snp_threshold",
-#                 "Temporal threshold (weeks)" = "temporal_threshold",
-#                 "Proportion of isolates in clusters" = "cluster_prop",
-#                 "Proportion attributable to transmission" = "transmission_prop"
-#             )
-#         write.table(d, file, row.names = FALSE, na = "", sep = ",")
-#     }
-# )

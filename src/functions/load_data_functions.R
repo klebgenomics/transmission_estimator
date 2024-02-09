@@ -2,8 +2,8 @@ library(tidyverse)
 library(magrittr)
 library(lubridate)
 
-# From Kleborate-Viz
-# Determine file format and read data
+
+# Determine file format and read data (from Kleborate-Viz)
 read_file <- function(fp, input_name) {
     if (file.info(fp)$size < 1) {
         showNotification(
