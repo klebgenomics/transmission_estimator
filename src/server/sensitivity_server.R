@@ -4,11 +4,12 @@ library(plotly)
 
 ### SENSITIVITY OPTIONS ----------------------------------------------
 
-# Pre-calculate estimates for all combinations of these thresholds
+# Threshold values for sensitivity calculation 
+# All combinations are pre-calculated
 snp_range <- seq(1, 25, by = 1) 
 date_range <- seq(1, 52, by = 1) # weeks
 
-# User-set sensitivity plot thresholds
+# User-set thresholds for sensitivity plots
 output$date_threshold <- shiny::renderUI({
     shiny::numericInput(inputId = 'date_threshold',
                         label = 'Temporal threshold (weeks)',
@@ -30,7 +31,15 @@ output$ext_date_threshold_range <- shiny::renderUI({
 })
 
 # Constrain thresholds in sensible ranges
-observeEvent(c(req(input$date_threshold), input$date_threshold_range, input$ext_date_threshold_range), {
+observeEvent(req(input$date_threshold), {
+    val = input$date_threshold
+    if (input$date_threshold >= input$date_threshold_range[2]){
+        showNotification("Selected value outside allowed range", type='warning', duration=2)
+        val = input$date_threshold - 1
+    }
+    updateNumericInput(session, "date_threshold", value = val)
+})
+observeEvent(input$date_threshold_range, {
     min_value = input$date_threshold_range[1]
     max_value = input$date_threshold_range[2]
     if (input$date_threshold_range[1] >= input$date_threshold){
@@ -43,7 +52,7 @@ observeEvent(c(req(input$date_threshold), input$date_threshold_range, input$ext_
     }
     updateSliderInput(session, "date_threshold_range", value = c(min_value, max_value))
 })
-observeEvent(c(req(input$date_threshold), input$date_threshold_range, input$ext_date_threshold_range), {
+observeEvent(input$ext_date_threshold_range, {
     min_value = input$ext_date_threshold_range[1]
     max_value = input$ext_date_threshold_range[2]
     if (input$ext_date_threshold_range[1] >= input$date_threshold_range[1]){
@@ -83,7 +92,6 @@ cluster_sensitivity_plot <- shiny::reactive({
                sensitivity_temp_dist_vals(),
                !any(is.na(sensitivity_temp_dist_vals())),
                !any(duplicated(sensitivity_temp_dist_vals())))
-    
     p <- plot_sensitivity_SNP_vs_temp_range(sensitivity_df(), 
                                             temp_dist_vals = sensitivity_temp_dist_vals(),
                                             prop_var = "cluster_prop", 
