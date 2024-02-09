@@ -22,21 +22,23 @@ suppressPackageStartupMessages({
     # multithreading
     library(future)
     library(furrr)
+    library(parallel)
+    library(parallelly)
 })
 
 ### SHINY APP OPTIONS ----------------------------------------------
 # Max file upload size
 options(shiny.maxRequestSize = 100*1024^2)  # 100 MB
 
-### FUNCTIONS ----------------------------------------------
+
+### LOAD FUNCTIONS ------------------------------------------------
 purrr::map(fs::dir_ls('src/functions/', glob = "*.R"), source)
 
 
-### DEMO DATA ----------------------------------------------
+### DEMO DATA -----------------------------------------------------
 DEMO_SNP_DATA <- "data/demo_data/BARNARDS/BARNARDS_distance_matrix.csv"
 DEMO_METADATA <- "data/demo_data/BARNARDS/BARNARDS_metadata.csv"
 DEMO_KLEBORATE_DATA <- "data/demo_data/BARNARDS/BARNARDS_kleborate.csv"
-
 
 ### DATA SPECS ---------------------------------------------------
 REQUIRED_METADATA_COLS <- c('id', 'Year', 'Month', 'Day', 'Country', 'Site') 
@@ -55,10 +57,21 @@ REQUIRED_KLEBORATE_COLS <- c(
     'ST'
 )
 
-### INPUT VALIDATION ---------------------
+### INPUT DEFAULTS / VALIDATION ------------------------------------------
+DEFAULT_SNP_DIST <- 10
+DEFAULT_TEMP_DIST <- 4 # weeks
 MAX_SNP_DIST <- 1000
-MAX_TEMP_DIST <- 364
+MAX_TEMP_DIST <- 52 # weeks
 
+### PRELOADED PUBLIC DATA FOR COMPARISONS --------------------------------
+PUBLIC_COMP_SNP_AND_EPI_DATA <- dir_ls("data/public_comparison_data/", 
+                                       recurse = T, glob = "*_snp_and_epi_data.csv") %>% 
+    purrr::map_dfr(readr::read_csv, show_col_types = F)
+PUBLIC_COMP_METADATA <- fs::dir_ls("data/public_comparison_data/", 
+                                   recurse = T, glob = "*_metadata.csv") %>% 
+    purrr::map_dfr(readr::read_csv, show_col_types = F)
+PUBLIC_COMP_STUDY_DETAILS <- PUBLIC_COMP_METADATA %>% 
+    select(Study, study_SN, study_publication) %>% unique()
 
 
 

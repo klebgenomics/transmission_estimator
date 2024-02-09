@@ -8,7 +8,7 @@ library(igraph)
 #' and one or more columns containing distances (e.g., SNPs)
 #' between the isolates in the 'iso1' and 'iso2' columns
 #' @param dist_columns Vector of names of each of the columns containing distances 
-#' e.g., dist_columns = c('SNPs', 'days')
+#' e.g., dist_columns = c('SNPs', 'weeks')
 #' @param dist_thresholds Vector of distance thresholds [int] to be applied for each distance column
 #' Length of this vector must be equal to the length of dist_columns
 #' e.g., dist_threshold = c(10, 14)
@@ -97,7 +97,7 @@ summarise_cluster2 <- function(clusters_data, snp_distance_threshold, temporal_d
         "Prop in clusters", calculate_cluster_proportion(clusters_data),
         "Prop due to transmission", calc_prop_samples_due_to_transmission(clusters_data),
         'SNPs threshold used',  snp_distance_threshold,
-        'Temporal distance threshold used (days)', temporal_distance_threshold,
+        'Temporal distance threshold used (weeks)', temporal_distance_threshold,
     )
     return(
         dplyr::bind_rows(
@@ -115,13 +115,16 @@ get_cluster_info <- function(clusters_data){
                        "N isolates" = n(),
                        ST = paste0(sort(unique(ST)), collapse = '; '),
                        "Median resistance score" = median(resistance_score),
-                       "Start date" = min(formatted_date, na.rm = T),
-                       "End date" = max(formatted_date, na.rm = T)
+                       "Date first isolate" = min(formatted_date, na.rm = T),
+                       "Date last isolate" = max(formatted_date, na.rm = T)
         ) %>% 
-        dplyr::mutate(`Duration (days)` = abs(floor(as.numeric(
-            difftime(`Start date`, `End date`, units = "days") + 1 # plus first day
+        dplyr::mutate(`Duration (weeks)` = abs(floor(as.numeric(
+            difftime(`Date first isolate`, `Date last isolate`, units = "weeks")
         )))) %>% 
-        dplyr::arrange(desc(`N isolates`), desc(`Duration (days)`))
+        dplyr::arrange(desc(`N isolates`), desc(`Duration (weeks)`)) %>% 
+        dplyr::mutate(`Duration (weeks)` = if_else(
+            `Duration (weeks)` %in% c(0,1), "<=1", as.character(`Duration (weeks)`)
+        ))
 }
 
 cluster_stats_by_variable <- function(clusters_data, grouping_var = "Country", group_label = grouping_var){

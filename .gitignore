@@ -1,13 +1,19 @@
 .Rproj
 .Rhistory
 .RData
+.Renviron
 .DS_Store
 .Rproj.user
+
 private_data
-test*
+
+# deploy
 rsconnect
+manifest.json
+requirements.txt
 
 # temp
+test*
 problem_clones*
 source/
 misc_functions.R

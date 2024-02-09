@@ -1,5 +1,6 @@
 :root {
   --bg_blue: #2a77be;
+  --bg_grey: #5a5a5a;
   --white: #ffffff;
 }
 
@@ -12,8 +13,7 @@
   font-weight: bold;
   color: var(--bg_blue);
 }
-
-.filter-button {
+.my-button {
     cursor: pointer;
     color: var(--white);
     box-shadow: none;
@@ -22,6 +22,20 @@
     font-size: 1.2em;
     margin-bottom: 10px;
     margin-top: 10px;
+}
+
+.pry-button {
+    background: var(--bg_blue);
+}
+.grey-button {
+    background: var(--bg_grey);
+}
+
+.centered-items-row {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    margin: 8px 4px;
 }
 
 #sensitivity_options_box {

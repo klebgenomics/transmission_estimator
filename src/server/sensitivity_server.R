@@ -2,16 +2,12 @@ library(shiny)
 library(ggpubr)
 library(plotly)
 
-### GET CLUSTER/TRANSMISSION PROPORTION FOR A RANGE OF THRESHOLD VALUES --------------
+### SENSITIVITY OPTIONS ----------------------------------------------
+
+# Pre-calculate estimates for all combinations of these thresholds
 snp_range <- seq(1, 25, by = 1) 
 date_range <- seq(1, 52, by = 1) # weeks
 
-cluster_and_transmission_sensitivity_df <- shiny::reactive({
-    shiny::req(metadata(), snp_and_epi_data(), snp_range, date_range)
-    get_cluster_sensitivity(snp_and_epi_data(), metadata(), snp_range, date_range)
-})
-
-### SENSITIVITY RIBBON GRAPHS -----------------------
 # User-set sensitivity plot thresholds
 output$date_threshold <- shiny::renderUI({
     shiny::numericInput(inputId = 'date_threshold',
@@ -22,15 +18,15 @@ output$date_threshold_range <- shiny::renderUI({
     # set intuitive colours for both sliders 
     shiny::fluidPage(shinyWidgets::setSliderColor(c("#ffc1c1", "#8b0000"),
                                                   sliderId = c(1, 2)),
-        shiny::sliderInput(inputId = "date_threshold_range", 
-                           label = "Temporal threshold range", 
-                           min = 2, max = 25, value = c(2, 8))
+                     shiny::sliderInput(inputId = "date_threshold_range", 
+                                        label = "Temporal threshold range", 
+                                        min = 2, max = 25, value = c(2, 8))
     )
 })
 output$ext_date_threshold_range <- shiny::renderUI({
-        shiny::sliderInput(inputId = "ext_date_threshold_range", 
-                           label = "Extreme temporal threshold range", 
-                           min = 1, max = 52, value = c(1, 52))
+    shiny::sliderInput(inputId = "ext_date_threshold_range", 
+                       label = "Extreme temporal threshold range", 
+                       min = 1, max = 52, value = c(1, 52))
 })
 
 # Constrain thresholds in sensible ranges
@@ -61,8 +57,8 @@ observeEvent(c(req(input$date_threshold), input$date_threshold_range, input$ext_
     updateSliderInput(session, "ext_date_threshold_range", value = c(min_value, max_value))
 })
 
-# set range values
-sensitivity_temp_dist_range_vals <- shiny::reactive({
+# temp dist values for plot (n=5)
+sensitivity_temp_dist_vals <- shiny::reactive({
     c(input$ext_date_threshold_range[1],
       input$date_threshold_range[1],
       input$date_threshold,
@@ -70,35 +66,47 @@ sensitivity_temp_dist_range_vals <- shiny::reactive({
       input$ext_date_threshold_range[2])
 }) 
 
-# PLOT 
+
+### GET CLUSTER/TRANSMISSION PROPORTION FOR COMBINATION OF THRESHOLD VALUES ----
+
+sensitivity_df <- shiny::reactive({
+    shiny::req(metadata(), snp_and_epi_data(), snp_range, date_range)
+    get_cluster_sensitivity(snp_and_epi_data(), metadata(), snp_range, date_range)
+})
+
+
+### SENSITIVITY PLOTS ----------------------------------------------
 
 # Proportion of cases in clusters by SNP threshold, for range of temporal thresholds
-output$cluster_prop_SNP_plot <- plotly::renderPlotly({
-    shiny::req(cluster_and_transmission_sensitivity_df(), 
-               sensitivity_temp_dist_range_vals(),
-               !any(is.na(sensitivity_temp_dist_range_vals())),
-               !any(duplicated(sensitivity_temp_dist_range_vals())))
+cluster_sensitivity_plot <- shiny::reactive({
+    shiny::req(sensitivity_df(), 
+               sensitivity_temp_dist_vals(),
+               !any(is.na(sensitivity_temp_dist_vals())),
+               !any(duplicated(sensitivity_temp_dist_vals())))
     
-    p <- plot_sensitivity_SNP_vs_temp_range(cluster_and_transmission_sensitivity_df(), 
-                                            temp_dist_range_vals = sensitivity_temp_dist_range_vals(),
+    p <- plot_sensitivity_SNP_vs_temp_range(sensitivity_df(), 
+                                            temp_dist_vals = sensitivity_temp_dist_vals(),
                                             prop_var = "cluster_prop", 
                                             y_title = "Proportion in clusters",
                                             plot_title = "Proportion in clusters")
     plotly::ggplotly(p, height = 400)
 })
+output$cluster_sensitivity_plot <- plotly::renderPlotly(cluster_sensitivity_plot())
+
 # Proportion of cases due to transmission by SNP threshold, for range of temporal thresholds
-output$transmission_prop_SNP_plot <- plotly::renderPlotly({
-    shiny::req(cluster_and_transmission_sensitivity_df(), 
-               sensitivity_temp_dist_range_vals(),
-               !any(is.na(sensitivity_temp_dist_range_vals())),
-               !any(duplicated(sensitivity_temp_dist_range_vals())))
-    p <- plot_sensitivity_SNP_vs_temp_range(cluster_and_transmission_sensitivity_df(), 
-                                            temp_dist_range_vals = sensitivity_temp_dist_range_vals(),
+transmission_sensitivity_plot <- shiny::reactive({
+    shiny::req(sensitivity_df(), 
+               sensitivity_temp_dist_vals(),
+               !any(is.na(sensitivity_temp_dist_vals())),
+               !any(duplicated(sensitivity_temp_dist_vals())))
+    p <- plot_sensitivity_SNP_vs_temp_range(sensitivity_df(), 
+                                            temp_dist_vals = sensitivity_temp_dist_vals(),
                                             prop_var = "transmission_prop", 
                                             y_title = "Proportion due to transmission",
                                             plot_title = "Proportion due to transmission")
     plotly::ggplotly(p, height = 400)
 })
+output$transmission_sensitivity_plot <- plotly::renderPlotly(transmission_sensitivity_plot())
 
 
 

@@ -63,8 +63,8 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
         }
     }
     distance_data %<>% dplyr::filter(!is.na(!!sym(dist_column))) 
-    if(dist_column == "days") {
-        distance_data$Weeks <- distance_data$days / 7
+    if(dist_column == "weeks") {
+        distance_data %<>% dplyr::rename("Weeks" = "weeks") 
         dist_column <- "Weeks"
     } else if (dist_column == "dist") {
         distance_data %<>% dplyr::rename("SNPs" = "dist") 
@@ -91,10 +91,10 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
 }
 
 
-plot_snp_vs_temporal_dist <- function(distance_data, snp_column = 'dist', temporal_dist_column = 'days',
-                                      max_snp_dist = 40, max_temporal_dist = 365,
+plot_snp_vs_temporal_dist <- function(distance_data, snp_column = 'dist', temporal_dist_column = 'weeks',
+                                      max_snp_dist = 40, max_temporal_dist = 52,
                                       y_label = "Pairwise SNP distances", 
-                                      x_label = "Pairwise temporal distances (days)",
+                                      x_label = "Pairwise temporal distances (weeks)",
                                       plot_title = "Distribution of pairwise distances"){
     if(! all(c(snp_column, temporal_dist_column) %in% colnames(distance_data)) ) {
         stop(glue::glue("{snp_column} and/or 'temporal_dist_column' columns not present in distance data"))
@@ -243,22 +243,19 @@ plot_sensitivity_heatmap <- function(cluster_and_transmission_sensitivity_df,
 
 plot_sensitivity_SNP_vs_temp_range <- function(
         cluster_and_transmission_sensitivity_df,
-        temp_dist_range_vals = c(1, 2, 4, 8, 12),
+        temp_dist_vals = c(1, 2, 4, 8, 12),
         prop_var = 'cluster_prop', y_title = "Proportion in clusters",
         plot_title = NULL){
-    # rescale days to weeks
-    cluster_and_transmission_sensitivity_df %<>% 
-        dplyr::mutate(temporal_threshold = temporal_threshold / 7)
     # Use intuitive var names for interactive plot
-    y_vars <- paste0(prop_var, " at ", temp_dist_range_vals, " weeks threshold") 
+    y_vars <- paste0(prop_var, " at ", temp_dist_vals, " weeks threshold") 
     # wrangle and plot
     cluster_and_transmission_sensitivity_df %>% 
-        dplyr::filter(temporal_threshold %in% temp_dist_range_vals) %>% 
+        dplyr::filter(temporal_threshold %in% temp_dist_vals) %>% 
         unique() %>% 
         dplyr::select(snp_threshold, temporal_threshold, !!rlang::sym(prop_var)) %>% 
         tidyr::pivot_wider(id_cols = snp_threshold, 
                            names_from = temporal_threshold, values_from = !!rlang::sym(prop_var)) %>% 
-        dplyr::rename_at(vars(as.character(temp_dist_range_vals)), 
+        dplyr::rename_at(vars(as.character(temp_dist_vals)), 
                          ~tidyselect::all_of(y_vars)) %>% 
         ggplot2::ggplot(aes(x = snp_threshold)) +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]], 
@@ -278,9 +275,6 @@ plot_sensitivity_temp_dist_vs_snp_range <- function(
         snp_range_vals = c(2, 5, 10, 20, 25),
         prop_var = 'cluster_prop', y_title = "Proportion in clusters",
         plot_title = NULL){
-    # rescale days to weeks
-    cluster_and_transmission_sensitivity_df %<>% 
-        dplyr::mutate(temporal_threshold = temporal_threshold / 7)
     # Use intuitive var names for interactive plot
     y_vars <- paste0(prop_var, " at ", snp_range_vals, " SNPs threshold")
     
@@ -309,45 +303,76 @@ plot_sensitivity_temp_dist_vs_snp_range <- function(
 
 #### Comparisons -------------
 
-plot_site_sensitivity_comparisons <- function(
-        sites_sensitivity_data, snp_val, temp_dist_range_vals,
-        prop_var = 'cluster_prop', comparison_var = "Site",
-        y_title = "Proportion in clusters", plot_title = NULL){
-    if(length(snp_val) != 1){stop("Exactly one snp value required")}
-    if(length(temp_dist_range_vals) != 5){stop("Exactly five temporal dist values (weeks) required")}
+plot_comparisons <- function(
+        comparison_data, snp_val, temp_dist_vals, comparison_var = "comparison_group",
+        prop_var = 'cluster_prop', y_title = "Proportion in clusters", 
+        plot_title = NULL){
     
-    # rescale days to weeks
-    sites_sensitivity_data %<>% 
-        dplyr::mutate(temporal_threshold = temporal_threshold / 7) %>% 
-        # get only rows with snp_val
-        dplyr::filter(snp_threshold == snp_val)
-    # arrange sites by prop_var at mid point temp dist value
-    ordered_d <- sites_sensitivity_data %>% 
-        dplyr::filter(temporal_threshold == temp_dist_range_vals[3]) %>% 
-        dplyr::arrange(.data[[prop_var]])
+    if(length(snp_val) != 1){stop("Exactly one snp value required")}
+    if(length(temp_dist_vals) != 5){stop("Exactly five temporal dist values (weeks) required")}
+    
+    # Rename comparison group
+    d <- comparison_data %>% dplyr::rename("Group" := !!rlang::sym(comparison_var))
+    
+    # subset and delineate public data if included 
+    d_pub <- d %>% filter(data_source == "Preloaded public data")
+    if (nrow(d_pub) > 0) {
+        d <- d %>% dplyr::mutate(Group = dplyr::if_else(
+            data_source == "Preloaded public data", paste0(study_SN, " - ", Group), Group
+        ))
+    }
+
+    # arrange sites by prop_var at midpoint temp_dist
+    ordered_d <- d %>% 
+        dplyr::filter(temporal_threshold == temp_dist_vals[3]) %>% 
+        dplyr::arrange(data_source, desc(.data[[prop_var]]))
     # Use intuitive var names for interactive plot
-    y_vars <- paste0(prop_var, " at ", temp_dist_range_vals, " weeks threshold") 
-    # wrangle and plot
-    sites_sensitivity_data %>% 
-        dplyr::filter(temporal_threshold %in% temp_dist_range_vals) %>% 
-        unique() %>% 
-        dplyr::select(snp_threshold, temporal_threshold, all_of(c(prop_var, comparison_var))) %>% 
-        dplyr::mutate(Site = factor(Site, levels = ordered_d$Site)) %>% 
-        tidyr::pivot_wider(id_cols = c(snp_threshold, .data[[comparison_var]]), 
+    y_vars <- paste0(prop_var, " at ", temp_dist_vals, " week(s) threshold") 
+    # plot data
+    d <- d %>% 
+        dplyr::filter(snp_threshold == snp_val & temporal_threshold %in% temp_dist_vals) %>% 
+        dplyr::select(snp_threshold, temporal_threshold, data_source, Group, all_of(c(prop_var))) %>% 
+        dplyr::mutate(Group = factor(Group, levels = ordered_d$Group)) %>% 
+        tidyr::pivot_wider(id_cols = c(snp_threshold, data_source, Group), 
                            names_from = temporal_threshold, values_from = .data[[prop_var]]) %>% 
-        dplyr::rename_at(vars(as.character(temp_dist_range_vals)), 
-                         ~tidyselect::all_of(y_vars)) %>% 
-        ggplot2::ggplot(aes(x = .data[[comparison_var]])) +
+        dplyr::rename_at(vars(as.character(temp_dist_vals)), 
+                         ~tidyselect::all_of(y_vars)) 
+    
+    d_pub <- d %>% filter(data_source == "Preloaded public data")
+    
+    # plot
+    p <- d %>% 
+        ggplot2::ggplot(aes(x = Group)) +
+        # Estimates - User sites
         ggplot2::geom_linerange(aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[5]]]), 
                                 col = "#ffc1c1", lwd = 4) +
         ggplot2::geom_linerange(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]]), 
-                                col = "#8b0000", lwd = 2) +
-        ggplot2::geom_point(aes(y = .data[[y_vars[3]]]), col = "white", size = 1) +
-        ggplot2::theme_dark() + ggplot2::ylim(0, 1) + 
-        ggplot2::theme(panel.grid = element_blank()) +
-        ggplot2::labs(x = "Sites", y = y_title, title = plot_title) +
+                                col = "#8b0000", lwd = 2.5) +
+        ggplot2::geom_point(aes(y = .data[[y_vars[3]]]), shape = 22, color = "#8b0000", fill = "white", size = 2)
+    
+    if (nrow(d_pub) > 0) {
+        p <- p + 
+            # Estimates - preloaded data, if loaded 
+            ggplot2::geom_linerange(data = d_pub, 
+                                    aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[5]]]),
+                                    col = "lightblue", lwd = 4) +
+            ggplot2::geom_linerange(data = d_pub,
+                                    aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]]), 
+                                    col = "navyblue", lwd = 2.5) +
+            ggplot2::geom_point(data = d_pub,
+                                aes(y = .data[[y_vars[3]]]), 
+                                shape = 22, color = "navyblue", fill = "white", size = 2)
+    }
+    # Finish plot
+    p <- p + ggplot2::theme_minimal() + ggplot2::ylim(0, 1) + 
+        ggplot2::labs(x = NULL, y = y_title) +
         custom_plots_theme +
-        ggplot2::coord_flip()
+        ggplot2::theme(plot.title = element_text(face = 'bold', size = 12),
+                       axis.text = element_text(size = 10),
+                       axis.title = element_text(size = 12)) +
+        ggplot2::coord_flip() +
+        ggplot2::ggtitle(plot_title)
+    
+    return(p)
 }
-
 

@@ -169,11 +169,11 @@ get_snp_and_temporal_data <- function(snp_data, sample_dates){
     snp_and_temporal_data <- snp_data %>% 
         dplyr::left_join(sample_dates, by = c('iso1' = 'id')) %>% rename('iso1_date' = 'formatted_date') %>% 
         dplyr::left_join(sample_dates, by = c('iso2' = 'id')) %>% rename('iso2_date' = 'formatted_date') %>% 
-        dplyr::mutate(days = abs(floor(as.numeric(
-                    difftime(iso1_date, iso2_date, units = "days")
+        dplyr::mutate(weeks = abs(floor(as.numeric(
+                    difftime(iso1_date, iso2_date, units = "weeks")
                 )))
             ) %>% 
-        dplyr::select(iso1, iso2, dist, days)
+        dplyr::select(iso1, iso2, dist, weeks)
     return(snp_and_temporal_data)
 }
 
@@ -194,11 +194,11 @@ get_snp_and_epi_data <- function(snp_data, sample_dates, metadata,
         dplyr::mutate(L2 = if_else(iso1 > iso2, iso1, iso2)) %>% 
         dplyr::mutate(pairs = paste0(L1, "_", L2)) %>% 
         dplyr::distinct(pairs, .keep_all = TRUE) %>% dplyr::select(-c(L1, L2, pairs)) %>%
-        # days between isolation
+        # weeks between isolation
         dplyr::left_join(sample_dates, by = c('iso1' = 'id')) %>% dplyr::rename('iso1_date' = 'formatted_date') %>% 
         dplyr::left_join(sample_dates, by = c('iso2' = 'id')) %>% dplyr::rename('iso2_date' = 'formatted_date') %>% 
-        dplyr::mutate(days = abs(floor(as.numeric(
-            difftime(iso1_date, iso2_date, units = "days")
+        dplyr::mutate(weeks = abs(floor(as.numeric(
+            difftime(iso1_date, iso2_date, units = "weeks")
         )))) %>% 
         dplyr::select(-c(iso1_date, iso2_date)) %>% 
         # check isolates with same or different location
@@ -227,6 +227,22 @@ select_metadata_and_kleborate_var_choices <- function(metadata, kleborate_data =
         unique() %>% as.character()
     return(choices)
 }
+
+summarise_dataset <- function(metadata, kleborate_data, matching_ids){
+    tibble::tribble(
+        ~name, ~value,
+        'N Samples', length(matching_ids) %>% as.character(),
+        'N Countries', n_distinct(metadata$Country, na.rm = T) %>% as.character(),
+        'N Sites', n_distinct(metadata$Site, na.rm = T) %>% as.character(),
+        'N STs', n_distinct(kleborate_data$ST, na.rm = T) %>% as.character(),
+        'Years', if (all(is.na(metadata$Year))){NA_character_} else {
+            metadata %>% 
+                reframe(years = paste0(range(Year, na.rm = T), 
+                                       collapse = " - ")) %>% 
+                pull(years)}
+    )
+}
+
     
     
     

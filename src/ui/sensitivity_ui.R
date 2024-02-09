@@ -32,21 +32,22 @@ sensitivity_ui <- shiny::tabPanel(
         shiny::column(
             width = 6,
             style='margin-bottom: 50px;',
-            plotly::plotlyOutput("cluster_prop_SNP_plot", height = "400px") %>%
+            plotly::plotlyOutput("cluster_sensitivity_plot", height = "400px") %>%
                 shinycssloaders::withSpinner()
         ),
         shiny::column(
             width = 6,
             style='margin-bottom: 50px;',
-            plotly::plotlyOutput("transmission_prop_SNP_plot", height = "400px") %>%
+            plotly::plotlyOutput("transmission_sensitivity_plot", height = "400px") %>%
                 shinycssloaders::withSpinner()
         ),
     ),
+    hr(),
     # download sensitivity data
     shiny::fluidRow(
         shiny::column(
-            width = 4,
-            shiny::uiOutput("download_sensitivity_data_button")
-        )
-    )
+            width = 6,
+            div(shiny::uiOutput("download_sensitivity_data_and_plots")),
+        ),
+    ),
 )

@@ -5,7 +5,7 @@ library(shinyjs)
 # Load all demo data components
 observeEvent(input$data_option, {
     
-    if (input$data_option == "Use demo dataset") {
+    if (input$data_option == "Demo dataset") {
         # Load demo data 
         # TODO: remove redundant loading functions
         dataset$snp_data <- read_snp_csv(DEMO_SNP_DATA)
