@@ -13,6 +13,7 @@
   font-weight: bold;
   color: var(--bg_blue);
 }
+
 .my-button {
     cursor: pointer;
     color: var(--white);
@@ -27,6 +28,7 @@
 .pry-button {
     background: var(--bg_blue);
 }
+
 .grey-button {
     background: var(--bg_grey);
 }
@@ -36,6 +38,12 @@
     align-items: center; 
     justify-content: center; 
     margin: 8px 4px;
+}
+
+.shadow-border-box {
+    padding: 10px; 
+    box-shadow: -1px 3px 12px rgba(187, 195, 197, 0.6); 
+    min-height: 200px !important;
 }
 
 #sensitivity_options_box {

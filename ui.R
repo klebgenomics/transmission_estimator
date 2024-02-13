@@ -21,9 +21,9 @@ shiny::fluidPage(
     theme = shinythemes::shinytheme("cerulean"),
     shiny::titlePanel(
         shiny::fluidRow(
-            shiny::column(width = 9, p("Klebsiella Cluster Detection"))
+            shiny::column(width = 9, p("[App name]"))
         ),
-        windowTitle = "Klebsiella Cluster Detection"
+        windowTitle = "[App name]"
     ),
     shiny::tags$head(
         shiny::tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"),

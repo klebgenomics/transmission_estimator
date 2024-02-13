@@ -50,7 +50,7 @@ REQUIRED_KLEBORATE_COLS <- c(
     # Res / Vir columns
     'resistance_score', # 'virulence_score',
     # Genome quality columns
-    'contig_count', 'N50', 'total_size', 
+    # 'contig_count', 'N50', 'total_size', 
     # K/O columns
     # 'K_locus', 'K_type', 'K_locus_problems', 'K_locus_confidence', 
     # 'O_locus', 'O_type', 'O_locus_problems', 'O_locus_confidence', 
