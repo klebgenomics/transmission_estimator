@@ -46,22 +46,14 @@ rename_vars_for_plotting <- function(d, column){
 }
 
 plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwise distance", 
-                                   plot_title = NULL, scale_y = F, bins = 10,
-                                   facet_plot = F, facet_column = NULL){
+                                   plot_title = NULL, scale_y = F, bins = 10){
     if(! all(c('iso1', 'iso2') %in% colnames(distance_data)) ) {
         stop("'iso1' and 'iso2' columns required")
     }
     if(! dist_column %in% colnames(distance_data) ) {
         stop(glue::glue("'{dist_column}' column missing from distance_data"))
     }
-    if(facet_plot){
-        if(is.null(facet_column)){
-            stop("'facet_plot' set to TRUE but facet column not provided")
-        }
-        if(! facet_column %in% colnames(distance_data) ) {
-            stop(glue::glue("'{facet_column}' column missing from distance_data"))
-        }
-    }
+    
     distance_data %<>% dplyr::filter(!is.na(!!sym(dist_column))) 
     if(dist_column == "weeks") {
         distance_data %<>% dplyr::rename("Weeks" = "weeks") 
@@ -82,10 +74,6 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
                        axis.title = ggplot2::element_text(size = 12))
     if (scale_y){
         dist_plot <- dist_plot + scale_y_log10(labels = scales::comma_format())
-    }
-    if (facet_plot){
-        dist_plot <- dist_plot + 
-            facet_wrap(~facet_column, nrow=2, scales="free_y")
     }
     return(dist_plot)
 }
