@@ -29,6 +29,8 @@ output$ext_date_threshold_range <- shiny::renderUI({
                        label = "Extreme temporal threshold range", 
                        min = 1, max = 52, value = c(1, 52))
 })
+lapply(c("date_threshold", "date_threshold_range", "ext_date_threshold_range"),
+       function(x) shiny::outputOptions(output, x, suspendWhenHidden = FALSE))
 
 # Constrain thresholds in sensible ranges
 observeEvent(req(input$date_threshold), {

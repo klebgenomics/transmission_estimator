@@ -29,6 +29,8 @@ output$geo_column_picker <- shiny::renderUI({
                        choices = choices,
                        selected = "Site") # Site is a mandatory metadata column
 })
+shiny::outputOptions(output, "geo_column_picker", suspendWhenHidden = FALSE)
+
 
 # Column in metadata data to use for colouring clusters plot
 output$clusters_plot_colour_var <- shiny::renderUI({
