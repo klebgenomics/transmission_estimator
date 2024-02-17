@@ -46,12 +46,18 @@ rename_vars_for_plotting <- function(d, column){
 }
 
 plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwise distance", 
-                                   plot_title = NULL, scale_y = F, bins = 10){
+                                   plot_title = NULL, binwidth = 10, transform_y = F, 
+                                   transformation = NULL){
     if(! all(c('iso1', 'iso2') %in% colnames(distance_data)) ) {
         stop("'iso1' and 'iso2' columns required")
     }
     if(! dist_column %in% colnames(distance_data) ) {
         stop(glue::glue("'{dist_column}' column missing from distance_data"))
+    }
+    if(transform_y) {
+        if (is.null(transformation) || !transformation %in% c('log2', 'log10', 'sqrt') ) {
+            stop(glue::glue("`transformation` must be one of 'log2', 'log10', or 'sqrt'"))
+        }
     }
     
     distance_data %<>% dplyr::filter(!is.na(!!sym(dist_column))) 
@@ -62,18 +68,20 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
         distance_data %<>% dplyr::rename("SNPs" = "dist") 
         dist_column <- "SNPs"
     }
-    
     # plot
     dist_plot <- ggplot(distance_data, aes(x = !!rlang::sym(dist_column))) +
-        ggplot2::geom_histogram(binwidth = bins, color = "black", alpha = 0.8) +
+        ggplot2::geom_histogram(binwidth = binwidth, color = "black", alpha = 0.8) +
         ggplot2::labs(title = plot_title, x = x_label, y = "Number of isolate pairs") +
         ggplot2::theme_minimal() +
         custom_plots_theme +
         ggplot2::theme(plot.title = element_text(face = "bold", size = 12),
                        axis.text = ggplot2::element_text(size = 10),
                        axis.title = ggplot2::element_text(size = 12))
-    if (scale_y){
-        dist_plot <- dist_plot + scale_y_log10(labels = scales::comma_format())
+    if (transform_y){
+        dist_plot <- dist_plot + 
+            ggplot2::scale_y_continuous(trans=transformation, 
+                                        labels = scales::comma_format()) +
+            ggplot2::labs(y = glue::glue('Number of isolate pairs ({transformation})'))
     }
     return(dist_plot)
 }

@@ -5,7 +5,6 @@ library(DT)
 
 cluster_ui <- shiny::tabPanel(
     title = "Clusters",
-    
     # Clustering options box
     shiny::wellPanel(
         style = 'padding: 12px; margin-top: 8px;',
@@ -13,43 +12,38 @@ cluster_ui <- shiny::tabPanel(
             shinydashboard::box(id = "cluster_options_box", width = 12,
                   shiny::fluidRow(
                       align = 'center',
-                      shiny::column(shiny::numericInput("snp_threshold", "SNP distance threshold",
-                                                        value = DEFAULT_SNP_DIST, min = 1, 
-                                                        max = MAX_SNP_DIST, step = 1),
-                                    width = 4),
-                      shiny::column(shiny::numericInput("temporal_threshold", 
-                                                        "Temporal distance threshold (weeks)",
-                                                        value = DEFAULT_TEMP_DIST, min = 1, 
-                                                        max = MAX_TEMP_DIST, step = 1),
-                                    width = 4),
+                      shiny::column(width = 4,
+                          shiny::numericInput("snp_threshold", "SNP distance threshold",
+                                              value = DEFAULT_SNP_DIST, min = 1,
+                                              max = MAX_SNP_DIST, step = 1)
+                                    ),
+                      shiny::column(width = 4,
+                          shiny::numericInput("temporal_threshold",
+                                              "Temporal distance threshold (weeks)",
+                                              value = DEFAULT_TEMP_DIST, min = 1,
+                                              max = MAX_TEMP_DIST, step = 1)),
                       shiny::column(width = 4, shiny::uiOutput("geo_column_picker")),
                   ),
             ),
-            shiny::column(
-                width = 6,
+            shiny::column(width = 6,
                 actionButton(
                     style = 'font-size: 1em; margin: 4px;',
-                    inputId = "cluster_options_button", 
-                    icon = shiny::icon('minus'),
-                    label = "Collapse",
-                    class = "my-button grey-button"),
+                    class = "my-button grey-button",
+                    "cluster_options_button", icon = shiny::icon('minus'),
+                    label = "Collapse"),
             ),
         ),
     ),
-    shiny::hr(),
-    
     # Cluster proportion and summary
     shiny::fluidRow(
         shiny::column( # left panel
             width = 3,
-            h4(style='display: inline-block; margin: 4px 4px;', 
-               "Clusters summary"
-            ),
+            h4(style='display: inline-block; margin: 4px 4px;', "Clusters summary"),
             div(style='display: inline-block;', 
                 uiOutput("download_clusters_summary_button")
             ),
             br(), br(),
-            shiny::tableOutput("clusters_summary") %>% withSpinner(),
+            shiny::tableOutput("clusters_summary"), # %>% withSpinner(),
             h5(shiny::textOutput("cluster_proportion")), 
             h5(shiny::textOutput("transmission_proportion")),
             shiny::conditionalPanel( # Download clusters data (if clusters exist)
@@ -63,18 +57,36 @@ cluster_ui <- shiny::tabPanel(
                 ),
             )
         ),
-        shiny::column( # right panel
+        shiny::column( # right panel - distribution plots
             width = 9,
             shiny::fluidRow(
                 align = 'center',
                 h4("Distribution of pairwise distances"),
-                shiny::column(
-                    width = 6,
-                    plotly::plotlyOutput("snp_distribution_plot") %>% shinycssloaders::withSpinner()
+                # options
+                fluidRow(class = 'centered-items-row', style='height: 40px;',
+                    p(style='margin: 0px 10px;', 'Bin width'),
+                    div(style='margin: 16px 20px 0px 0px;',
+                        shiny::numericInput("bin_width", label = NULL, value = 10, min = 1,
+                                            max = 1000, width = '100px')),
+                    div(style='padding: 16px 20px 0px 0px;',
+                        shinyWidgets::prettySwitch("transform_y_axis", label = 'Transform Y axis', 
+                                                   status = 'primary', width = '125px')),
+                    shiny::conditionalPanel(condition = "input.transform_y_axis == true",
+                        div(style='margin: 0px 8px; padding-top: 20px;',
+                            shiny::selectInput("transformation", label = NULL, width = '100px',
+                                               choices = c('log2','log10','sqrt'))),
+                    ),
                 ),
-                shiny::column(
-                    width = 6,
-                    plotly::plotlyOutput("temporal_distribution_plot") %>% shinycssloaders::withSpinner()
+                # plots
+                shiny::fluidRow(style='margin-top: 0px;',
+                    shiny::column(
+                        width = 6,
+                        plotly::plotlyOutput("snp_distribution_plot") %>% shinycssloaders::withSpinner()
+                    ),
+                    shiny::column(
+                        width = 6,
+                        plotly::plotlyOutput("temporal_distribution_plot") %>% shinycssloaders::withSpinner()
+                    ),
                 ),
             ),
         ),
