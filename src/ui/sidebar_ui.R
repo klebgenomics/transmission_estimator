@@ -53,7 +53,10 @@ sidebar_ui <- shiny::sidebarPanel(
                 shiny::uiOutput("filter_data_options"),
                 shiny::actionButton(inputId = "apply_filters", 
                                     label = "Apply filters", 
-                                    class = 'my-button pry-button')
+                                    class = 'my-button pry-button'),
+                shiny::actionButton(inputId = "clear_filters", 
+                                    label = "Clear filters", 
+                                    class = 'my-button grey-button')
             ),
         ),
         hr(),

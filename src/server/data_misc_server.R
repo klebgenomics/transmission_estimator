@@ -67,7 +67,7 @@ output$filter_data_options <- shiny::renderUI({
     tagList(filter_data_inputs)
 })
 # Apply user filters (if any)
-observeEvent(input$apply_filters,{
+shiny::observeEvent(input$apply_filters,{
     shiny::req(dataset, input$apply_filters)
     # reset final data
     final_data$snp_data <- dataset$snp_data
@@ -79,6 +79,16 @@ observeEvent(input$apply_filters,{
         filter_values <- input[[input_id]]
         final_data$metadata <- filter_data(final_data$metadata, filter_col, filter_values)
     }
+})
+# Clear all filters
+shiny::observeEvent(input$clear_filters, {
+    shiny::req(dataset)
+    # reset final data
+    final_data$snp_data <- dataset$snp_data
+    final_data$metadata <- dataset$metadata
+    final_data$kleborate_data <- dataset$kleborate_data
+    # clear filter options
+    shinyWidgets::updatePickerInput(session, 'filter_data_columns', selected = character(0))
 })
 
 
