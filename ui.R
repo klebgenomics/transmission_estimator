@@ -45,7 +45,7 @@ shiny::fluidPage(
         # load ui for each tab in main panel
         shiny::mainPanel(shiny::tabsetPanel(
             id = "main_tabs",
-            home_ui, cluster_ui, sensitivity_ui, comparison_ui
+            home_ui, cluster_ui, sensitivity_ui, 
         )) 
     ), # End sidebarLayout
     shiny::hr()

@@ -140,11 +140,9 @@ shiny::observe({
     if ((! data_loaded()) || data_empty()) {
         shiny::hideTab(inputId = "main_tabs", target = "Clusters")
         shiny::hideTab(inputId = "main_tabs", target = "Sensitivity")
-        shiny::hideTab(inputId = "main_tabs", target = "Compare estimates")
     } else {
         shiny::showTab(inputId = "main_tabs", target = "Clusters")
         shiny::showTab(inputId = "main_tabs", target = "Sensitivity")
-        shiny::showTab(inputId = "main_tabs", target = "Compare estimates")
         if (input$data_option == "Upload dataset") {
             shiny::updateTabsetPanel(inputId = "main_tabs", selected = "Clusters")
         }
