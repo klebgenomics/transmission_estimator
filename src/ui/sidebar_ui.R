@@ -73,8 +73,8 @@ sidebar_ui <- shiny::sidebarPanel(
                 shiny::column(
                     width=12,
                     class = "text-danger",
-                    p("No samples found with matching rows in the metadata, 
-                      kleborate data, and SNP data. Please check the following:"),
+                    p("No samples with matching rows in the metadata, kleborate 
+                      data, and SNP data. Please check the following:"),
                     tags$ul(
                         tags$li("Confirm that the uploaded files contain 
                                 the expected data."),
