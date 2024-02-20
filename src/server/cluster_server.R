@@ -133,7 +133,7 @@ output$transmission_proportion <- shiny::renderText({
 
 # SNP distance distribution plot
 snp_distribution_plot <- shiny::reactive({
-    shiny::req(snp_and_epi_data())
+    shiny::req(snp_and_epi_data(), input$bin_width)
     p <- plot_dist_distribution(snp_and_epi_data(), dist_column = "dist", 
                                 x_label = "Pairwise distance (SNPs)",
                                 plot_title = NULL, binwidth = input$bin_width,
@@ -145,7 +145,7 @@ output$snp_distribution_plot <- plotly::renderPlotly(snp_distribution_plot())
 
 # Temporal distance distribution plot
 temporal_distribution_plot <- shiny::reactive({
-    shiny::req(snp_and_epi_data())
+    shiny::req(snp_and_epi_data(), input$bin_width)
     p <- plot_dist_distribution(snp_and_epi_data(), dist_column = "weeks", 
                                 x_label = "Pairwise temporal distance (weeks)",
                                 plot_title = NULL, binwidth = input$bin_width,
