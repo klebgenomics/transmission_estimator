@@ -66,7 +66,7 @@ cluster_ui <- shiny::tabPanel(
                 fluidRow(class = 'centered-items-row', style='height: 40px;',
                     p(style='margin: 0px 10px;', 'Bin width'),
                     div(style='margin: 16px 20px 0px 0px;',
-                        shiny::numericInput("bin_width", label = NULL, value = 1, min = 1,
+                        shiny::numericInput("bin_width", label = NULL, value = 10, min = 1,
                                             max = 1000, width = '100px')),
                     div(style='padding: 16px 20px 0px 0px;',
                         shinyWidgets::prettySwitch("transform_y_axis", label = 'Transform Y axis', 
