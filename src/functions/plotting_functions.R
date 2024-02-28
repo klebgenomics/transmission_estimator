@@ -304,11 +304,12 @@ plot_comparisons <- function(
         prop_var = 'cluster_prop', y_title = "Proportion in clusters", 
         plot_title = NULL){
     stopifnot(length(snp_val) == 1, length(temp_dist_vals) == 5)
-    # Rename comparison group and delineate public data if included 
-    d <- comparison_data %>% 
-        mutate(Group = if_else(data_source == "Preloaded public data", 
-                               paste0(study_SN, " - ", !!sym(comparison_var)), 
-                               !!sym(comparison_var)))
+    d <- comparison_data %>% dplyr::rename('Group' := !!sym(comparison_var))
+    # delineate public data if included
+    if ('study_SN' %in% names(d)) {
+        d %<>% dplyr::mutate(Group = if_else(data_source == "Preloaded public data",
+                                             paste0(study_SN, " - ", Group), Group))
+    }
     # arrange sites by prop_var at midpoint temp_dist
     ordered_d <- d %>% 
         dplyr::filter(temporal_threshold == temp_dist_vals[3]) %>%
