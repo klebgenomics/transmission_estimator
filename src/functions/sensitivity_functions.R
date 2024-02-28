@@ -30,12 +30,6 @@ get_cluster_and_transmission_fraction <- function(snp_and_epi_data, metadata,
 get_cluster_sensitivity <- function(snp_and_epi_data, metadata, 
                                      snp_range=c(1:25),
                                      date_range=c(1:52)) {
-    # set multithreading plan
-    if (parallelly::supportsMulticore()){
-        future::plan(future::multicore(), workers = parallelly::availableCores())
-    } else {
-        future::plan(future::multisession(), workers = parallelly::availableCores())
-    }
     sensitivity <- tidyr::expand_grid(snp_range, date_range) |> 
         (\(z) dplyr::bind_rows(
             furrr::future_map2(
@@ -43,8 +37,6 @@ get_cluster_sensitivity <- function(snp_and_epi_data, metadata,
                 ~get_cluster_and_transmission_fraction(snp_and_epi_data, metadata, .x, .y)
             )
         ))()
-    future::plan("default")
-    
     return(sensitivity)
 }
 

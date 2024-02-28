@@ -8,12 +8,6 @@ library(future)
 
 compare_estimates_by_group <- function(metadata, snp_and_epi_data, comparison_var, 
                                         snp_range, date_range) {
-    # set multithreading plan
-    if (parallelly::supportsMulticore()){
-        future::plan(future::multicore(), workers = parallelly::availableCores())
-    } else {
-        future::plan(future::multisession(), workers = parallelly::availableCores())
-    }
     # Vector of groups to iterate
     comparison_groups <- unique(metadata[[comparison_var]])
     # parallel loop using furrr
@@ -26,9 +20,6 @@ compare_estimates_by_group <- function(metadata, snp_and_epi_data, comparison_va
                                 snp_range = snp_range, date_range = date_range) %>%
             dplyr::mutate(comparison_group = .x)
     })
-    # reset multithreading
-    future::plan("default")
-    
     return(comparisons)
 }
 
