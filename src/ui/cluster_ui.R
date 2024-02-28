@@ -62,31 +62,54 @@ cluster_ui <- shiny::tabPanel(
             shiny::fluidRow(
                 align = 'center',
                 h4("Distribution of pairwise distances"),
-                # options
-                fluidRow(class = 'centered-items-row', style='height: 40px;',
-                    p(style='margin: 0px 10px;', 'Bin width'),
-                    div(style='margin: 16px 20px 0px 0px;',
-                        shiny::numericInput("bin_width", label = NULL, value = 10, min = 1,
-                                            max = 1000, width = '100px')),
-                    div(style='padding: 16px 20px 0px 0px;',
-                        shinyWidgets::prettySwitch("transform_y_axis", label = 'Transform Y axis', 
-                                                   status = 'primary', width = '125px')),
-                    shiny::conditionalPanel(condition = "input.transform_y_axis == true",
-                        div(style='margin: 0px 8px; padding-top: 20px;',
-                            shiny::selectInput("transformation", label = NULL, width = '100px',
-                                               choices = c('log2','log10','sqrt'))),
+                tags$style("#bin_width, #td_bin_width {padding:4px 4px;}"),
+                shiny::column(
+                    width = 6,
+                    # options
+                    fluidRow(class = 'centered-items-row', style='height: 40px;',
+                        p(style='margin: 0px 6px;', 'Bin width'),
+                        div(style='margin: 16px 20px 0px 0px;',
+                            shiny::numericInput("bin_width", label = NULL, value = 10, min = 1,
+                                                max = 99, width = '50px')),
+                        div(style='padding: 16px 20px 0px 0px;',
+                            shinyWidgets::prettySwitch("transform_y_axis", label = 'Transform Y', 
+                                                       status = 'primary', width = '90px')),
                     ),
+                    fluidRow(
+                        div(style='height: 10px;',
+                            shiny::conditionalPanel(
+                                condition = "input.transform_y_axis == true",
+                                shiny::selectInput("transformation", label = NULL, width = '90px',
+                                                   choices = c('log2','log10','sqrt'))
+                            ),
+                        ),
+                    ),
+                    # plot
+                    plotly::plotlyOutput("snp_distribution_plot") %>% shinycssloaders::withSpinner()
                 ),
-                # plots
-                shiny::fluidRow(style='margin-top: 0px;',
-                    shiny::column(
-                        width = 6,
-                        plotly::plotlyOutput("snp_distribution_plot") %>% shinycssloaders::withSpinner()
+                shiny::column(
+                    width = 6,
+                    # options
+                    fluidRow(class = 'centered-items-row', style='height: 40px;',
+                        p(style='margin: 0px 6px;', 'Bin width'),
+                        div(style='margin: 16px 20px 0px 0px;',
+                            shiny::numericInput("td_bin_width", label = NULL, value = 1, min = 1,
+                                                max = 99, width = '50px')),
+                        div(style='padding: 16px 20px 0px 0px;',
+                            shinyWidgets::prettySwitch("td_transform_y_axis", label = 'Transform Y', 
+                                                       status = 'primary', width = '90px')),
                     ),
-                    shiny::column(
-                        width = 6,
-                        plotly::plotlyOutput("temporal_distribution_plot") %>% shinycssloaders::withSpinner()
+                    fluidRow(
+                        div(style='height: 10px;',
+                            shiny::conditionalPanel(
+                                condition = "input.td_transform_y_axis == true",
+                                shiny::selectInput("td_transformation", label = NULL, width = '90px',
+                                                   choices = c('log2','log10','sqrt'))
+                            ),
+                        ),
                     ),
+                    # plot
+                    plotly::plotlyOutput("temporal_distribution_plot") %>% shinycssloaders::withSpinner()
                 ),
             ),
         ),
@@ -142,8 +165,7 @@ cluster_ui <- shiny::tabPanel(
             ),
         ),
         shiny::fluidRow( # options
-            align = 'center',
-            class = 'centered-items-row',
+            align = 'center', class = 'centered-items-row',
             shiny::column(
                 width=3,
                 shiny::uiOutput("cluster_stats_grouping_var")

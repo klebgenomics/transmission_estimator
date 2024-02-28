@@ -145,12 +145,12 @@ output$snp_distribution_plot <- plotly::renderPlotly(snp_distribution_plot())
 
 # Temporal distance distribution plot
 temporal_distribution_plot <- shiny::reactive({
-    shiny::req(snp_and_epi_data(), input$bin_width)
+    shiny::req(snp_and_epi_data(), input$td_bin_width)
     p <- plot_dist_distribution(snp_and_epi_data(), dist_column = "weeks", 
                                 x_label = "Pairwise temporal distance (weeks)",
-                                plot_title = NULL, binwidth = input$bin_width,
-                                transform_y = input$transform_y_axis,
-                                transformation = input$transformation)
+                                plot_title = NULL, binwidth = input$td_bin_width,
+                                transform_y = input$td_transform_y_axis,
+                                transformation = input$td_transformation)
     plotly::ggplotly(p)
 })
 output$temporal_distribution_plot <- plotly::renderPlotly(temporal_distribution_plot())
