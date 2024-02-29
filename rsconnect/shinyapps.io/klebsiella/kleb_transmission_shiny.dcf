@@ -1,0 +1,10 @@
+name: kleb_transmission_shiny
+title:
+username: klebsiella
+account: klebsiella
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10203146
+bundleId: 8313744
+url: https://klebsiella.shinyapps.io/kleb_transmission_shiny/
+version: 1
