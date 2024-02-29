@@ -8,7 +8,6 @@
 private_data
 
 # deploy
-rsconnect
 manifest.json
 requirements.txt
 
