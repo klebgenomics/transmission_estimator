@@ -248,11 +248,10 @@ plot_sensitivity_SNP_vs_temp_range <- function(
     cluster_and_transmission_sensitivity_df %>% 
         dplyr::filter(temporal_threshold %in% temp_dist_vals) %>% 
         unique() %>% 
-        dplyr::select(distance_threshold, temporal_threshold, !!rlang::sym(prop_var)) %>% 
+        dplyr::select(distance_threshold, temporal_threshold, !!sym(prop_var)) %>% 
         tidyr::pivot_wider(id_cols = distance_threshold, 
-                           names_from = temporal_threshold, values_from = !!rlang::sym(prop_var)) %>% 
-        dplyr::rename_at(vars(as.character(temp_dist_vals)), 
-                         ~tidyselect::all_of(y_vars)) %>% 
+                           names_from = temporal_threshold, values_from = !!sym(prop_var)) %>% 
+        dplyr::rename_at(vars(as.character(temp_dist_vals)), list(~y_vars)) %>% 
         ggplot2::ggplot(aes(x = distance_threshold)) +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]], 
                                  x = distance_threshold), fill = "#8b0000") +
@@ -278,11 +277,10 @@ plot_sensitivity_temp_dist_vs_snp_range <- function(
     cluster_and_transmission_sensitivity_df %>% 
         dplyr::filter(distance_threshold %in% snp_range_vals) %>% 
         unique() %>% 
-        dplyr::select(distance_threshold, temporal_threshold, !!rlang::sym(prop_var)) %>% 
+        dplyr::select(distance_threshold, temporal_threshold, !!sym(prop_var)) %>% 
         tidyr::pivot_wider(id_cols = temporal_threshold, 
-                           names_from = distance_threshold, values_from = !!rlang::sym(prop_var)) %>% 
-        dplyr::rename_at(vars(as.character(snp_range_vals)), 
-                         ~tidyselect::all_of(y_vars)) %>% 
+                           names_from = distance_threshold, values_from = !!sym(prop_var)) %>% 
+        dplyr::rename_at(vars(as.character(snp_range_vals)), list(~y_vars)) %>% 
         ggplot2::ggplot(aes(x = temporal_threshold)) +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]], 
                                  x = temporal_threshold), fill = "#8b0000") +

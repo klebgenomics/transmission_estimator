@@ -2,13 +2,19 @@ suppressPackageStartupMessages({
     # shiny app
     library(shiny)
     library(shinycssloaders)
+    library(shinydashboard)
     library(shinyjs)
     library(shinyWidgets)
     # wrangling
     library(tidyverse)
+    library(magrittr)
+    library(tidyr)
+    library(purrr)
     library(glue)
     # filesystem
     library(fs)
+    # graph
+    library(igraph)
     #plots and rendering
     library(ggplot2)
     library(ggpubr)
