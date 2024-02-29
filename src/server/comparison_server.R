@@ -57,7 +57,7 @@ cluster_comparison_plot <- shiny::reactive({
         sensitivity_temp_dist_vals(), comparison_var = "comparison_group",
         prop_var = 'cluster_prop', y_title = "Proportion in clusters",
         plot_title = paste("Cluster proportion",
-                           glue("estimates per {input$comparison_var_picker} ({input$snp_threshold} SNPs)"),
+                           glue("estimates per {input$comparison_var_picker} (Distance: {input$snp_threshold})"),
                            sep = "\n")
     )
     plotly::ggplotly(p, height = 400) # %>% 
@@ -74,7 +74,7 @@ transmission_comparison_plot <- shiny::reactive({
         prop_var = 'transmission_prop', comparison_var = "comparison_group",
         y_title = "Proportion due to transmission", 
         plot_title = paste("Transmission proportion",
-                           glue("estimates per {input$comparison_var_picker} ({input$snp_threshold} SNPs)"),
+                           glue("estimates per {input$comparison_var_picker} (Distance: {input$snp_threshold})"),
                            sep = "\n")
     )
     plotly::ggplotly(p, height = 400) # %>% 

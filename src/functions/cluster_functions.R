@@ -96,7 +96,7 @@ summarise_cluster2 <- function(clusters_data, snp_distance_threshold, temporal_d
         ~name, ~value,
         "Prop in clusters", calculate_cluster_proportion(clusters_data),
         "Prop due to transmission", calc_prop_samples_due_to_transmission(clusters_data),
-        'SNPs threshold used',  snp_distance_threshold,
+        'Distance threshold used',  snp_distance_threshold,
         'Temporal distance threshold used (weeks)', temporal_distance_threshold,
     )
     return(

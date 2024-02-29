@@ -135,7 +135,7 @@ output$transmission_proportion <- shiny::renderText({
 snp_distribution_plot <- shiny::reactive({
     shiny::req(snp_and_epi_data(), input$bin_width)
     p <- plot_dist_distribution(snp_and_epi_data(), dist_column = "dist", 
-                                x_label = "Pairwise distance (SNPs)",
+                                x_label = "Pairwise genetic distance",
                                 plot_title = NULL, binwidth = input$bin_width,
                                 transform_y = input$transform_y_axis,
                                 transformation = input$transformation)

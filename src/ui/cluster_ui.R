@@ -13,7 +13,7 @@ cluster_ui <- shiny::tabPanel(
                   shiny::fluidRow(
                       align = 'center',
                       shiny::column(width = 4,
-                          shiny::numericInput("snp_threshold", "SNP distance threshold",
+                          shiny::numericInput("snp_threshold", "Distance threshold",
                                               value = DEFAULT_SNP_DIST, min = 1,
                                               max = MAX_SNP_DIST, step = 1)
                                     ),

@@ -19,7 +19,7 @@ get_cluster_and_transmission_fraction <- function(snp_and_epi_data, metadata,
     transmission_proportion <- calc_prop_samples_due_to_transmission(epi_snp_clusters)
     
     return(list(
-        "snp_threshold" = snp_distance_threshold,
+        "distance_threshold" = snp_distance_threshold,
         "temporal_threshold" = temporal_distance_threshold,
         "cluster_prop" = cluster_proportion,
         "transmission_prop" = transmission_proportion

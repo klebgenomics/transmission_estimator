@@ -65,8 +65,8 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
         distance_data %<>% dplyr::rename("Weeks" = "weeks") 
         dist_column <- "Weeks"
     } else if (dist_column == "dist") {
-        distance_data %<>% dplyr::rename("SNPs" = "dist") 
-        dist_column <- "SNPs"
+        distance_data %<>% dplyr::rename("Distance" = "dist") 
+        dist_column <- "Distance"
     }
     # plot
     dist_plot <- ggplot(distance_data, aes(x = !!rlang::sym(dist_column))) +
@@ -89,7 +89,7 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
 
 plot_snp_vs_temporal_dist <- function(distance_data, snp_column = 'dist', temporal_dist_column = 'weeks',
                                       max_snp_dist = 40, max_temporal_dist = 52,
-                                      y_label = "Pairwise SNP distances", 
+                                      y_label = "Pairwise genetic distances", 
                                       x_label = "Pairwise temporal distances (weeks)",
                                       plot_title = "Distribution of pairwise distances"){
     if(! all(c(snp_column, temporal_dist_column) %in% colnames(distance_data)) ) {
@@ -206,9 +206,9 @@ plot_clusters2 <- function(clusters_data, min_cluster_size = 2, color_column = '
 #### Sensitivity -------------
 
 plot_sensitivity_linegraph <- function(cluster_and_transmission_sensitivity_df,
-                                       y_var="cluster_prop", x_var = "snp_threshold",
+                                       y_var="cluster_prop", x_var = "distance_threshold",
                                        color_var="temporal_threshold", color_title = "TempDist (weeks)",
-                                       x_title="SNP threshold", y_title="Cluster proportion",
+                                       x_title="Genetic distance threshold", y_title="Cluster proportion",
                                        plot_title="Cluster proportion at different temporal dist thresholds"){
     cluster_and_transmission_sensitivity_df %>% 
         ggplot2::ggplot(aes(x=!!sym(x_var), y=!!sym(y_var),
@@ -226,12 +226,12 @@ plot_sensitivity_heatmap <- function(cluster_and_transmission_sensitivity_df,
     mid_range <- mean(c(max(cluster_and_transmission_sensitivity_df[[prop_var]]), 
                         min(cluster_and_transmission_sensitivity_df[[prop_var]])) )
     cluster_and_transmission_sensitivity_df %>% 
-        ggplot2::ggplot(aes(x = temporal_threshold, y = snp_threshold,
+        ggplot2::ggplot(aes(x = temporal_threshold, y = distance_threshold,
                             fill = !!rlang::sym(prop_var))) +
         ggplot2::geom_tile() +
         ggplot2::scale_fill_gradient2(low = "#0571B0", mid = "#F7F7F7", high = "#CA0020", 
                                       midpoint = mid_range, space = "Lab") +
-        ggplot2::labs(x = "Max temporal distance threshold (weeks)", y = "Max SNP threshold",
+        ggplot2::labs(x = "Max temporal distance threshold (weeks)", y = "Max genetic distance threshold",
                       fill = "Proportion", title = plot_title) +
         ggplot2::theme_minimal() +
         custom_plots_theme
@@ -243,26 +243,26 @@ plot_sensitivity_SNP_vs_temp_range <- function(
         prop_var = 'cluster_prop', y_title = "Proportion in clusters",
         plot_title = NULL){
     # Use intuitive var names for interactive plot
-    y_vars <- paste0(prop_var, " at ", temp_dist_vals, " weeks threshold") 
+    y_vars <- paste0(prop_var, " at ", temp_dist_vals, " week(s) threshold") 
     # wrangle and plot
     cluster_and_transmission_sensitivity_df %>% 
         dplyr::filter(temporal_threshold %in% temp_dist_vals) %>% 
         unique() %>% 
-        dplyr::select(snp_threshold, temporal_threshold, !!rlang::sym(prop_var)) %>% 
-        tidyr::pivot_wider(id_cols = snp_threshold, 
+        dplyr::select(distance_threshold, temporal_threshold, !!rlang::sym(prop_var)) %>% 
+        tidyr::pivot_wider(id_cols = distance_threshold, 
                            names_from = temporal_threshold, values_from = !!rlang::sym(prop_var)) %>% 
         dplyr::rename_at(vars(as.character(temp_dist_vals)), 
                          ~tidyselect::all_of(y_vars)) %>% 
-        ggplot2::ggplot(aes(x = snp_threshold)) +
+        ggplot2::ggplot(aes(x = distance_threshold)) +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]], 
-                                 x = snp_threshold), fill = "#8b0000") +
+                                 x = distance_threshold), fill = "#8b0000") +
         ggplot2::geom_line(aes(y = .data[[y_vars[3]]]), colour = "white") +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[2]]]), 
                              fill = "#ffc1c1", alpha = 0.75) +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[4]]], ymax = .data[[y_vars[5]]]), 
                              fill = "#ffc1c1", alpha = 0.75) +
         ggplot2::theme_minimal() + ggplot2::ylim(0, 1) + 
-        ggplot2::labs(x = "SNP threshold", y = y_title, title = plot_title) +
+        ggplot2::labs(x = "Genetic distance threshold", y = y_title, title = plot_title) +
         custom_plots_theme 
 }
 
@@ -272,15 +272,15 @@ plot_sensitivity_temp_dist_vs_snp_range <- function(
         prop_var = 'cluster_prop', y_title = "Proportion in clusters",
         plot_title = NULL){
     # Use intuitive var names for interactive plot
-    y_vars <- paste0(prop_var, " at ", snp_range_vals, " SNPs threshold")
+    y_vars <- paste0(prop_var, " at ", snp_range_vals, " genetic distance threshold")
     
     # wrangle and plot
     cluster_and_transmission_sensitivity_df %>% 
-        dplyr::filter(snp_threshold %in% snp_range_vals) %>% 
+        dplyr::filter(distance_threshold %in% snp_range_vals) %>% 
         unique() %>% 
-        dplyr::select(snp_threshold, temporal_threshold, !!rlang::sym(prop_var)) %>% 
+        dplyr::select(distance_threshold, temporal_threshold, !!rlang::sym(prop_var)) %>% 
         tidyr::pivot_wider(id_cols = temporal_threshold, 
-                           names_from = snp_threshold, values_from = !!rlang::sym(prop_var)) %>% 
+                           names_from = distance_threshold, values_from = !!rlang::sym(prop_var)) %>% 
         dplyr::rename_at(vars(as.character(snp_range_vals)), 
                          ~tidyselect::all_of(y_vars)) %>% 
         ggplot2::ggplot(aes(x = temporal_threshold)) +
@@ -318,10 +318,10 @@ plot_comparisons <- function(
     y_vars <- paste0(prop_var, " at ", temp_dist_vals, " week(s) threshold") 
     # plot data
     d_plot <- d %>% 
-        filter(snp_threshold == snp_val, temporal_threshold %in% temp_dist_vals) %>% 
-        select(snp_threshold, temporal_threshold, data_source, Group, all_of(c(prop_var))) %>% 
+        filter(distance_threshold == snp_val, temporal_threshold %in% temp_dist_vals) %>% 
+        select(distance_threshold, temporal_threshold, data_source, Group, all_of(c(prop_var))) %>% 
         dplyr::mutate(Group = factor(Group, levels = ordered_d$Group)) %>% 
-        pivot_wider(id_cols = c(snp_threshold, data_source, Group), 
+        pivot_wider(id_cols = c(distance_threshold, data_source, Group), 
                     names_from = temporal_threshold, values_from = all_of(c(prop_var))) %>% 
         rename_at(vars(as.character(temp_dist_vals)), list(~y_vars)) 
     # plot

@@ -95,7 +95,7 @@ output$download_sensitivity_data <- shiny::downloadHandler(
     content = function(file) {
         d <- sensitivity_df() %>% 
             dplyr::rename(
-                "SNP threshold" = "snp_threshold",
+                "Genetic distance threshold" = "distance_threshold",
                 "Temporal threshold (weeks)" = "temporal_threshold",
                 "Proportion of isolates in clusters" = "cluster_prop",
                 "Proportion attributable to transmission" = "transmission_prop"
@@ -158,7 +158,7 @@ output$download_comparison_data <- shiny::downloadHandler(
             dplyr::select(comparison_group, tidyselect::everything()) %>% 
             dplyr::rename(
                 "Comparison group" = "comparison_group",
-                "SNP threshold" = "snp_threshold",
+                "Genetic distance threshold" = "distance_threshold",
                 "Temporal threshold (weeks)" = "temporal_threshold",
                 "Proportion of isolates in clusters" = "cluster_prop",
                 "Proportion attributable to transmission" = "transmission_prop"
