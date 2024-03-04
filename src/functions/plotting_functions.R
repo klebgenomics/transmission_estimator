@@ -3,7 +3,9 @@ library(ggplot2)
 library(ggExtra)
 library(ggpubr)
 library(plotly)
+library(Polychrome)
 
+# Helpers
 custom_plots_theme <- ggplot2::theme(
     axis.text = ggplot2::element_text(size = 12),
     axis.title = ggplot2::element_text(size = 14),
@@ -44,6 +46,20 @@ rename_vars_for_plotting <- function(d, column){
     }
     return(d)
 }
+
+get_colours <- function(column_values, seedcolors = c("#ff0000", "#00ff00", "#0000ff")){
+    if(length(unique(column_values)) > 3) {
+        colours <- setNames(Polychrome::createPalette(length(unique(column_values)), 
+                                                      seedcolors=seedcolors),
+                            sort(unique(column_values)))
+    } else {
+        colours <- setNames(palette()[1:length(unique(column_values))],
+                            sort(unique(column_values)))
+    }
+    return(colours)
+}
+
+# Distribution
 
 plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwise distance", 
                                    plot_title = NULL, binwidth = 10, transform_y = F, 
@@ -182,28 +198,33 @@ plot_clusters2 <- function(clusters_data, min_cluster_size = 2, color_column = '
     clusters_data %<>% dplyr::left_join(size_scale_factor, by = c("Cluster", "formatted_date")) %>% 
         dplyr::select(-any_of("Date")) %>% # remove Date column if exists
         dplyr::rename("Date" = "formatted_date") %>% 
-        dplyr::mutate(Cluster = fct_reorder(Cluster, desc(ST)))
-    
+        dplyr::mutate(Cluster = fct_reorder(Cluster, desc(ST))) %>% 
+        dplyr::mutate(text = glue::glue("Date: {Date}\nST: {ST}\nCluster: {Cluster}\nCases: {Cases}"))
+    # colors
+    my_colours <- get_colours(clusters_data[[color_column]], c("#0571B0", "#CA0020", "#FFBF00"))
     # plot
     plot <- clusters_data %>% 
-        ggplot(aes(x = Date, y = ST, group = Cluster)) +
+        ggplot(aes(x = Date, y = ST, group = Cluster, text = text)) +
         ggplot2::geom_point(aes(size = Cases, color = !!sym(color_column)),
                             position=ggstance::position_dodgev(height = 1)) +
-        ggplot2::scale_size_continuous(name = "Cases") +
+        ggplot2::scale_size_continuous(
+            name = "Cases", breaks=function(x) unique(floor(pretty(seq(min(x), (max(x) + 1) * 1.1))))
+        ) +
         ggplot2::geom_line(aes(group = Cluster, alpha = 0.25), color = "grey50", linewidth = 0.8, 
                            position=ggstance::position_dodgev(height = 1)) +
+        scale_color_manual(values = my_colours) +
         ggplot2::theme_bw() +
         ggplot2::labs(x = "Isolation date", y = "Sequence type") +
         ggplot2::scale_x_date(labels = scales::date_format("%Y-%m"), 
                               breaks = scales::breaks_pretty(n = 6)) +
         custom_plots_theme +
-        ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-        ggplot2::guides(fill = "none", colour = "none", alpha = "none")
+        ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+        ggplot2::guides(fill = "none", alpha = "none")
     
     return(plot)
 }
 
-#### Sensitivity -------------
+### Sensitivity -------------
 
 plot_sensitivity_linegraph <- function(cluster_and_transmission_sensitivity_df,
                                        y_var="cluster_prop", x_var = "distance_threshold",
