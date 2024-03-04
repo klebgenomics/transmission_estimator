@@ -20,9 +20,9 @@ shiny::fluidPage(
     theme = shinythemes::shinytheme("cerulean"),
     shiny::titlePanel(
         shiny::fluidRow(
-            shiny::column(width = 9, p("[App name]"))
+            shiny::column(width = 9, p("Transmission Estimator"))
         ),
-        windowTitle = "[App name]"
+        windowTitle = "Transmission Estimator"
     ),
     shiny::tags$head(
         shiny::tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"),

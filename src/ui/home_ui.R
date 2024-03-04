@@ -4,7 +4,7 @@ library(DT)
 
 home_ui <- shiny::tabPanel(
     title = "Home",
-    h2("[App name]", align = "center", style = "margin-top: 60px"),
+    h2("Transmission Estimator", align = "center", style = "margin-top: 60px"),
     shiny::fluidRow(
         # style = "margin-top: 40px;",
         shiny::column(
