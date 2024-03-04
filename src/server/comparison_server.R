@@ -52,7 +52,7 @@ all_comparison_data <- shiny::reactive({
 # Cluster proportions
 cluster_comparison_plot <- shiny::reactive({
     shiny::req(all_comparison_data())
-    p <- plot_comparisons(
+    plot_comparisons(
         all_comparison_data(), input$snp_threshold,
         sensitivity_temp_dist_vals(), comparison_var = "comparison_group",
         prop_var = 'cluster_prop', y_title = "Proportion in clusters",
@@ -60,15 +60,16 @@ cluster_comparison_plot <- shiny::reactive({
                            glue("estimates per {input$comparison_var_picker} (Distance: {input$snp_threshold})"),
                            sep = "\n")
     )
-    plotly::ggplotly(p, height = 400) # %>% 
-    # plotly::layout(yaxis = list(title = list(standoff = 30L)), title = list(x = 0))
 })
-output$cluster_comparison_plot <- plotly::renderPlotly(cluster_comparison_plot())
+output$cluster_comparison_plot <- plotly::renderPlotly({
+    plotly::ggplotly(cluster_comparison_plot(), height = 400) # %>% 
+        # plotly::layout(yaxis = list(title = list(standoff = 30L)), title = list(x = 0))
+})
 
 # Transmission proportions
 transmission_comparison_plot <- shiny::reactive({
     shiny::req(all_comparison_data())
-    p <- plot_comparisons(
+    plot_comparisons(
         all_comparison_data(), input$snp_threshold,
         sensitivity_temp_dist_vals(),
         prop_var = 'transmission_prop', comparison_var = "comparison_group",
@@ -77,10 +78,11 @@ transmission_comparison_plot <- shiny::reactive({
                            glue("estimates per {input$comparison_var_picker} (Distance: {input$snp_threshold})"),
                            sep = "\n")
     )
-    plotly::ggplotly(p, height = 400) # %>% 
-    # plotly::layout(yaxis = list(title = list(standoff = 30L)), title = list(x = 0))
 })
-output$transmission_comparison_plot <- plotly::renderPlotly(transmission_comparison_plot())
+output$transmission_comparison_plot <- plotly::renderPlotly({
+    plotly::ggplotly(transmission_comparison_plot(), height = 400) # %>% 
+        # plotly::layout(yaxis = list(title = list(standoff = 30L)), title = list(x = 0))
+})
 
 # Public data sources
 output$public_data_sources <- shiny::renderUI({

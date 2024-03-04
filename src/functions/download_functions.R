@@ -48,8 +48,9 @@ DownloadModal <- function(download_button, m.title = 'Download plot (PNG)') {
     )
 }
 # download plot
-download_plot <- function(plot, s.filename, width, height, scale = 5) {
-    reticulate::py_run_string("import sys") # needed to fix kaleido bug
-    plotly::save_image(plot, s.filename, width=width,
-                       height=height, scale = scale)
+download_plot <- function(plot, s.filename, width=1000, height=600, scale=4) {
+    ggsave(s.filename, plot=plot, width=width, height=height, 
+           scale=scale, units='px', bg='white')
 }
+
+

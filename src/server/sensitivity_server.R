@@ -98,14 +98,14 @@ cluster_sensitivity_plot <- shiny::reactive({
                sensitivity_temp_dist_vals(),
                !any(is.na(sensitivity_temp_dist_vals())),
                !any(duplicated(sensitivity_temp_dist_vals())))
-    p <- plot_sensitivity_SNP_vs_temp_range(sensitivity_df(), 
-                                            temp_dist_vals = sensitivity_temp_dist_vals(),
-                                            prop_var = "cluster_prop", 
-                                            y_title = "Proportion in clusters",
-                                            plot_title = "Proportion in clusters")
-    plotly::ggplotly(p, height = 400)
+    plot_sensitivity_SNP_vs_temp_range(
+        sensitivity_df(), temp_dist_vals = sensitivity_temp_dist_vals(), 
+        prop_var = "cluster_prop", y_title = "Proportion in clusters",
+        plot_title = "Proportion in clusters")
 })
-output$cluster_sensitivity_plot <- plotly::renderPlotly(cluster_sensitivity_plot())
+output$cluster_sensitivity_plot <- plotly::renderPlotly({
+    plotly::ggplotly(cluster_sensitivity_plot(), height = 400)
+})
 
 # Proportion of cases due to transmission by SNP threshold, for range of temporal thresholds
 transmission_sensitivity_plot <- shiny::reactive({
@@ -113,14 +113,14 @@ transmission_sensitivity_plot <- shiny::reactive({
                sensitivity_temp_dist_vals(),
                !any(is.na(sensitivity_temp_dist_vals())),
                !any(duplicated(sensitivity_temp_dist_vals())))
-    p <- plot_sensitivity_SNP_vs_temp_range(sensitivity_df(), 
-                                            temp_dist_vals = sensitivity_temp_dist_vals(),
-                                            prop_var = "transmission_prop", 
-                                            y_title = "Proportion due to transmission",
-                                            plot_title = "Proportion due to transmission")
-    plotly::ggplotly(p, height = 400)
+    plot_sensitivity_SNP_vs_temp_range(
+        sensitivity_df(), temp_dist_vals = sensitivity_temp_dist_vals(), 
+        prop_var = "transmission_prop", y_title = "Proportion due to transmission",
+        plot_title = "Proportion due to transmission")
 })
-output$transmission_sensitivity_plot <- plotly::renderPlotly(transmission_sensitivity_plot())
+output$transmission_sensitivity_plot <- plotly::renderPlotly({
+    plotly::ggplotly(transmission_sensitivity_plot(), height = 400)
+})
 
 
 

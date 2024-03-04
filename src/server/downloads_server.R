@@ -109,9 +109,9 @@ output$download_sensitivity_plots <- shiny::downloadHandler(
         paste("sensitivity_plots_", Sys.Date(), ".zip", sep = "")
     }),
     content = function(file){
+        # save each plot to temp dir
         temp_directory <- file.path(tempdir(), as.integer(Sys.time()))
         dir.create(temp_directory)
-        # save each plot to temp dir
         download_plot(cluster_sensitivity_plot(), 
                       s.filename = file.path(temp_directory, "cluster_sensitivity_plot.png"),
                       width = input$plot_dl_width, height = input$plot_dl_height)
@@ -172,9 +172,9 @@ output$download_comparison_plots <- shiny::downloadHandler(
         paste("comparison_plots_", Sys.Date(), ".zip", sep = "")
     }),
     content = function(file){
+        # save each plot to temp dir
         temp_directory <- file.path(tempdir(), as.integer(Sys.time()))
         dir.create(temp_directory)
-        # save each plot to temp dir
         download_plot(cluster_comparison_plot(), 
                       s.filename = file.path(temp_directory, "cluster_comparison_plot.png"),
                       width = input$plot_dl_width, height = input$plot_dl_height)

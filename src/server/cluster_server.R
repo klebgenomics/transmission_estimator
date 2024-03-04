@@ -160,13 +160,15 @@ clusters_plot <- shiny::reactive({
     shiny::req(clusters_exist(), epi_snp_clusters(), 
                input$min_cluster_size, input$clusters_plot_colour_var)
     d <- rename_vars_for_plotting(epi_snp_clusters(), input$clusters_plot_colour_var)
-    clusters_plot <- plot_clusters2(d, min_cluster_size = input$min_cluster_size,
-                                    color_column = input$clusters_plot_colour_var)
-    clusters_plot <- clusters_plot + ggplot2::guides(fill = "none", size = "none", color = "none")
-    plotly::ggplotly(clusters_plot, height = 600, tooltip = c("x", "y", "colour", "size")) %>% 
-        plotly::layout(yaxis = list(title = list(standoff = 30L)))
+    p <- plot_clusters2(d, min_cluster_size = input$min_cluster_size,
+                        color_column = input$clusters_plot_colour_var) +
+        ggplot2::guides(fill = "none")
 })
-output$clusters_plot <- plotly::renderPlotly(clusters_plot())
+output$clusters_plot <- plotly::renderPlotly({
+    p <- clusters_plot() + ggplot2::guides(fill = "none", colour = "none", size = "none")
+    plotly::ggplotly(p, height = 600, tooltip = c("text", "colour")) %>% 
+        plotly::layout(yaxis = list(title = list(standoff = 30L)))
+    })
 
 # Cluster stats by grouping variable
 clusters_by_group <- shiny::reactive({
@@ -176,8 +178,11 @@ clusters_by_group <- shiny::reactive({
 })
 clusters_by_group_plot <- shiny::reactive({
     shiny::req(clusters_by_group())
-    p <- clusters_by_group()$plot 
-    plotly::ggplotly(p, height = 600, tooltip = c("x", "y", "fill")) %>%
+    clusters_by_group()$plot 
+})
+output$clusters_by_group_plot <- plotly::renderPlotly({
+    plotly::ggplotly(clusters_by_group_plot(), height = 600, 
+                     tooltip = c("x", "y", "fill")) %>%
         plotly::style(hoverinfo = "none", traces = c(4:6), 
                       textposition = "right", cliponaxis = FALSE) %>% 
         plotly::layout(yaxis = list(title = list(standoff = 30L)),
@@ -185,10 +190,9 @@ clusters_by_group_plot <- shiny::reactive({
                        legend=list(x=0, y = -.15,
                                    orientation='h'))
 })
-output$clusters_by_group_plot <- plotly::renderPlotly(clusters_by_group_plot())
 
 
-# Transmission graphs plot
+# Transmission graph plot
 transmission_graph <- shiny::reactive({
     shiny::req(clusters_exist(), epi_snp_graph(), kleborate_data())
     user_network <- ggnetwork::ggnetwork(epi_snp_graph())
