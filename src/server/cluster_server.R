@@ -104,9 +104,7 @@ clusters_exist <- shiny::reactive({
     return(clusters_exist)
 })
 # Clusters exist ? - Boolean to UI
-output$clusters_exist <- shiny::reactive({
-    clusters_exist()
-})
+output$clusters_exist <- shiny::reactive(clusters_exist())
 shiny::outputOptions(output, "clusters_exist", suspendWhenHidden = FALSE)
 
 
