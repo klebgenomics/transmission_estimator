@@ -24,6 +24,9 @@ shiny::observeEvent(req(input$temporal_threshold), {
 # Column in metadata to use for spatial clustering
 output$geo_column_picker <- shiny::renderUI({
     choices <- select_metadata_and_kleborate_var_choices(metadata())
+    # Filter choices to appropriate variables
+    spatial_var_patterns <- c("*Site*", "*Ward*", "*Unit*", "*Hospital*", "*Wing*")
+    choices <- choices[grepl(paste(spatial_var_patterns, collapse='|'), choices, ignore.case=TRUE)]
     shiny::selectInput(inputId = "geo_column_picker", 
                        label = "Spatial clustering variable", 
                        choices = choices,
