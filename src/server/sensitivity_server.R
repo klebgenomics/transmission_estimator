@@ -5,7 +5,7 @@ library(plotly)
 ### SENSITIVITY OPTIONS ----------------------------------------------
 
 # Threshold values for sensitivity calculation; all combinations are pre-calculated
-snp_range <- seq(1, 25, by = 1)
+snp_range <- seq(0, 25, by = 5)
 date_range <- seq(1, 52, by = 1) # weeks
 
 # tab help info
