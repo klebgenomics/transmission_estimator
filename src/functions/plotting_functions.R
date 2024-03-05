@@ -274,13 +274,11 @@ plot_sensitivity_SNP_vs_temp_range <- function(
                            names_from = temporal_threshold, values_from = !!sym(prop_var)) %>% 
         dplyr::rename_at(vars(as.character(temp_dist_vals)), list(~y_vars)) %>% 
         ggplot2::ggplot(aes(x = distance_threshold)) +
+        ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[5]]]), 
+                             fill = "#ffc1c1", alpha = 0.75) +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]], 
                                  x = distance_threshold), fill = "#8b0000") +
         ggplot2::geom_line(aes(y = .data[[y_vars[3]]]), colour = "white") +
-        ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[2]]]), 
-                             fill = "#ffc1c1", alpha = 0.75) +
-        ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[4]]], ymax = .data[[y_vars[5]]]), 
-                             fill = "#ffc1c1", alpha = 0.75) +
         ggplot2::theme_minimal() + ggplot2::ylim(0, 1) + 
         ggplot2::labs(x = "Genetic distance threshold", y = y_title, title = plot_title) +
         custom_plots_theme 
@@ -303,13 +301,11 @@ plot_sensitivity_temp_dist_vs_snp_range <- function(
                            names_from = distance_threshold, values_from = !!sym(prop_var)) %>% 
         dplyr::rename_at(vars(as.character(snp_range_vals)), list(~y_vars)) %>% 
         ggplot2::ggplot(aes(x = temporal_threshold)) +
+        ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[5]]]), 
+                             fill = "#ffc1c1", alpha = 0.75) +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]], 
                                  x = temporal_threshold), fill = "#8b0000") +
         ggplot2::geom_line(aes(y = .data[[y_vars[3]]]), colour = "white") +
-        ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[2]]]), 
-                             fill = "#ffc1c1", alpha = 0.75) +
-        ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[4]]], ymax = .data[[y_vars[5]]]), 
-                             fill = "#ffc1c1", alpha = 0.75) +
         ggplot2::theme_minimal() + ggplot2::ylim(0, 1) +
         ggplot2::labs(x = "Temporal distance threshold (weeks)", y = y_title,
                       title = plot_title) +
@@ -366,7 +362,7 @@ plot_comparisons <- function(
     p <- p + ggplot2::theme_minimal() + ggplot2::ylim(0, 1) + 
         ggplot2::labs(x = NULL, y = y_title) +
         custom_plots_theme +
-        ggplot2::theme(plot.title = element_text(face = 'bold', size = 12),
+        ggplot2::theme(plot.title = element_text(size = 12),
                        axis.text = element_text(size = 10),
                        axis.title = element_text(size = 12)) +
         ggplot2::coord_flip() +
