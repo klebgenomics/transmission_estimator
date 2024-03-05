@@ -1,4 +1,11 @@
 
+# tab help info
+output$compare_estimates_tab_info <- renderText({
+    glue::glue("Compare the sensitivity estimates across different groups. For each group, clustering is calculated for a 
+    range of temporal thresholds (adjustable above) using the genetic distance threshold ({input$snp_threshold}) 
+    and spatial clustering variable ('{input$geo_column_picker}') selected in the Clusters tab.")
+})
+
 ### GET CLUSTER/TRANSMISSION PROPORTION FOR DIFFERENT SITES --------------
 
 # Comparison variable picker
@@ -57,8 +64,8 @@ cluster_comparison_plot <- shiny::reactive({
         sensitivity_temp_dist_vals(), comparison_var = "comparison_group",
         prop_var = 'cluster_prop', y_title = "Proportion in clusters",
         plot_title = paste("Cluster proportion",
-                           glue("estimates per {input$comparison_var_picker} (Distance: {input$snp_threshold})"),
-                           sep = "\n")
+            glue("estimates per {input$comparison_var_picker} (Distance={input$snp_threshold})"),
+            sep = "\n")
     )
 })
 output$cluster_comparison_plot <- plotly::renderPlotly({
@@ -75,8 +82,8 @@ transmission_comparison_plot <- shiny::reactive({
         prop_var = 'transmission_prop', comparison_var = "comparison_group",
         y_title = "Proportion due to transmission", 
         plot_title = paste("Transmission proportion",
-                           glue("estimates per {input$comparison_var_picker} (Distance: {input$snp_threshold})"),
-                           sep = "\n")
+            glue("estimates per {input$comparison_var_picker} (Distance={input$snp_threshold})"),
+            sep = "\n")
     )
 })
 output$transmission_comparison_plot <- plotly::renderPlotly({

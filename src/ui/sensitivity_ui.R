@@ -11,7 +11,6 @@ sensitivity_ui <- shiny::tabPanel(
         shinydashboard::box(
             id = "sensitivity_options_box", width = 12,
             shiny::fluidRow(
-                style='margin-top: 18px;',
                 align = 'center',
                 shiny::column(
                     width = 4,
@@ -40,16 +39,18 @@ sensitivity_ui <- shiny::tabPanel(
             title = "Estimates", icon = icon("chart-line"),
             # ribbon graphs
             shiny::fluidRow(
-                style='margin-top: 50px;',
+                column(width = 12, class = 'text-muted',
+                       p(textOutput('estimates_tab_info')),
+                ),
                 shiny::column(
                     width = 6,
-                    style='margin-bottom: 50px;',
+                    style='margin-bottom: 40px;',
                     plotly::plotlyOutput("cluster_sensitivity_plot", height = "400px") %>%
                         shinycssloaders::withSpinner()
                 ),
                 shiny::column(
                     width = 6,
-                    style='margin-bottom: 50px;',
+                    style='margin-bottom: 40px;',
                     plotly::plotlyOutput("transmission_sensitivity_plot", height = "400px") %>%
                         shinycssloaders::withSpinner()
                 ),
@@ -65,9 +66,14 @@ sensitivity_ui <- shiny::tabPanel(
         # Compare estimates sub-tab
         shiny::tabPanel(
             title = "Compare estimates", icon = icon("balance-scale"),
+            shiny::fluidRow(
+                column(width = 12, class = 'text-muted',
+                       p(textOutput('compare_estimates_tab_info')),
+                ),
+            ),
             # comparison options
             shiny::fluidRow(
-                style='margin-top: 18px;',
+                # style='margin-top: 18px;',
                 shiny::column(
                     width=3,
                     shiny::uiOutput("comparison_var")

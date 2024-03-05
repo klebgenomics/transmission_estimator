@@ -4,10 +4,17 @@ library(plotly)
 
 ### SENSITIVITY OPTIONS ----------------------------------------------
 
-# Threshold values for sensitivity calculation 
-# All combinations are pre-calculated
-snp_range <- seq(1, 25, by = 1) 
+# Threshold values for sensitivity calculation; all combinations are pre-calculated
+snp_range <- seq(1, 25, by = 1)
 date_range <- seq(1, 52, by = 1) # weeks
+
+# tab help info
+output$estimates_tab_info <- renderText({
+    glue::glue("Explore the sensitivity of the transmission estimates to the choice of 
+    temporal and genetic distance thresholds. Clustering is calculated for a range of temporal 
+    (adjustable above) and genetic distance ({paste(range(snp_range),collapse=' - ')}) thresholds using 
+    the spatial clustering variable ('{input$geo_column_picker}') selected in the Clusters tab.")
+})
 
 # User-set thresholds for sensitivity plots
 output$date_threshold <- shiny::renderUI({
