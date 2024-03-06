@@ -320,43 +320,33 @@ plot_comparisons <- function(
         plot_title = NULL){
     stopifnot(length(snp_val) == 1, length(temp_dist_vals) == 5)
     d <- comparison_data %>% dplyr::rename('Group' := !!sym(comparison_var))
-    # delineate public data if included
-    if ('study_SN' %in% names(d)) {
-        d %<>% dplyr::mutate(Group = if_else(data_source == "Preloaded public data",
-                                             paste0(study_SN, " - ", Group), Group))
-    }
     # arrange sites by prop_var at midpoint temp_dist
     ordered_d <- d %>% 
         dplyr::filter(temporal_threshold == temp_dist_vals[3]) %>%
-        dplyr::arrange(data_source, desc(.data[[prop_var]]))
+        dplyr::mutate(pub_data_sn = as.numeric(str_extract(Group, "\\d+?(?= -)"))) %>% 
+        dplyr::arrange(data_source, pub_data_sn, desc(.data[[prop_var]]))
     # Use intuitive var names for interactive plot
     y_vars <- paste0(prop_var, " at ", temp_dist_vals, " week(s) threshold") 
     # plot data
     d_plot <- d %>% 
-        filter(distance_threshold == snp_val, temporal_threshold %in% temp_dist_vals) %>% 
-        select(distance_threshold, temporal_threshold, data_source, Group, all_of(c(prop_var))) %>% 
+        dplyr::filter(distance_threshold == snp_val, temporal_threshold %in% temp_dist_vals) %>% 
+        dplyr::select(distance_threshold, temporal_threshold, data_source, Group, all_of(c(prop_var))) %>% 
         dplyr::mutate(Group = factor(Group, levels = ordered_d$Group)) %>% 
-        pivot_wider(id_cols = c(distance_threshold, data_source, Group), 
+        tidyr::pivot_wider(id_cols = c(distance_threshold, data_source, Group), 
                     names_from = temporal_threshold, values_from = all_of(c(prop_var))) %>% 
-        rename_at(vars(as.character(temp_dist_vals)), list(~y_vars)) 
+        dplyr::rename_at(vars(as.character(temp_dist_vals)), list(~y_vars)) 
     # plot
     p <- d_plot %>% ggplot(aes(x = Group)) +
-        geom_linerange(aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[5]]]), 
-                       col = "#ffc1c1", lwd = 4) +
-        geom_linerange(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]]), 
-                       col = "#8b0000", lwd = 2.5) +
-        geom_point(aes(y = .data[[y_vars[3]]]), shape = 22, 
-                   color = "#8b0000", fill = "white", size = 2)
+        geom_linerange(aes(ymin=.data[[y_vars[1]]], ymax=.data[[y_vars[5]]]), col="#ffc1c1", lwd=4) +
+        geom_linerange(aes(ymin=.data[[y_vars[2]]], ymax=.data[[y_vars[4]]]), col="#8b0000", lwd=2.5) +
+        geom_point(aes(y=.data[[y_vars[3]]]), shape=22, color="#8b0000", fill="white", size=2)
     # Plot public data in diff colours if exist
     d_pub <- d_plot %>% filter(data_source == "Preloaded public data")
     if (nrow(d_pub) > 0) {
         p <- p + 
-            geom_linerange(data = d_pub, aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[5]]]), 
-                           col = "lightblue", lwd = 4) +
-            geom_linerange(data = d_pub, aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]]), 
-                           col = "navyblue", lwd = 2.5) +
-            geom_point(data = d_pub, aes(y = .data[[y_vars[3]]]), shape = 22, 
-                       color = "navyblue", fill = "white", size = 2)
+            geom_linerange(data=d_pub, aes(ymin=.data[[y_vars[1]]], ymax=.data[[y_vars[5]]]), col="lightblue", lwd=4) +
+            geom_linerange(data=d_pub, aes(ymin=.data[[y_vars[2]]], ymax=.data[[y_vars[4]]]), col="navyblue", lwd=2.5) +
+            geom_point(data=d_pub, aes(y=.data[[y_vars[3]]]), shape=22, color="navyblue", fill="white", size=2)
     }
     # Finish plot
     p <- p + ggplot2::theme_minimal() + ggplot2::ylim(0, 1) + 

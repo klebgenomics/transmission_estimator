@@ -75,15 +75,9 @@ MAX_TEMP_DIST <- 52 # weeks
 PUBLIC_COMP_SNP_AND_EPI_DATA <- dir_ls("data/public_comparison_data/", 
                                        recurse = T, glob = "*_snp_and_epi_data.csv") %>% 
     purrr::map_dfr(readr::read_csv, show_col_types = F)
+# Study column identifies unique studies
 PUBLIC_COMP_METADATA <- fs::dir_ls("data/public_comparison_data/", 
                                    recurse = T, glob = "*_metadata.csv") %>% 
     purrr::map_dfr(readr::read_csv, show_col_types = F)
-PUBLIC_COMP_STUDY_DETAILS <- PUBLIC_COMP_METADATA %>% 
-    select(Study, study_SN, study_publication) %>% unique()
-
-
-
-
-
 
 

@@ -33,13 +33,18 @@ user_comparison_data <- shiny::reactive({
 preloaded_comparison_data <- shiny::reactive({
     shiny::req(PUBLIC_COMP_METADATA, PUBLIC_COMP_SNP_AND_EPI_DATA, PUBLIC_COMP_STUDY_DETAILS,
                sensitivity_temp_dist_vals(), input$snp_threshold)
-    d <- compare_estimates_by_group(PUBLIC_COMP_METADATA, PUBLIC_COMP_SNP_AND_EPI_DATA,
-                               "Study", 
-                               snp_range = input$snp_threshold, # selected value in cluster tab
-                               date_range = sensitivity_temp_dist_vals()) # selected range in sensitivity tab
-    d %>%
-        dplyr::left_join(PUBLIC_COMP_STUDY_DETAILS, by = c("comparison_group" = "Study")) %>% 
-        dplyr::mutate(data_source = "Preloaded public data")
+    # Stratify data by comparison group if selected stratifying var exists
+    # else compute estimates per study
+    if (input$comparison_var_picker %in% names(PUBLIC_COMP_METADATA)) {
+        comparison_var <- input$comparison_var_picker
+    } else {comparison_var <- "Study"}
+    # delineate comparison groups (add study serial number)
+    PUBLIC_COMP_METADATA %<>% mutate(comparison_column = paste0(study_SN, ' - ', !!sym(comparison_var)))
+    compare_estimates_by_group(
+        PUBLIC_COMP_METADATA, PUBLIC_COMP_SNP_AND_EPI_DATA, 'comparison_column', 
+        snp_range = input$snp_threshold, # selected value in cluster tab
+        date_range = sensitivity_temp_dist_vals() # selected range in sensitivity tab
+    ) %>% dplyr::mutate(data_source = "Preloaded public data")
 })
 
 # final comparison data
@@ -69,7 +74,7 @@ cluster_comparison_plot <- shiny::reactive({
     )
 })
 output$cluster_comparison_plot <- plotly::renderPlotly({
-    plotly::ggplotly(cluster_comparison_plot(), height = 400) # %>% 
+    plotly::ggplotly(cluster_comparison_plot(), height = 500) # %>% 
         # plotly::layout(yaxis = list(title = list(standoff = 30L)), title = list(x = 0))
 })
 
@@ -87,14 +92,14 @@ transmission_comparison_plot <- shiny::reactive({
     )
 })
 output$transmission_comparison_plot <- plotly::renderPlotly({
-    plotly::ggplotly(transmission_comparison_plot(), height = 400) # %>% 
+    plotly::ggplotly(transmission_comparison_plot(), height = 500) # %>% 
         # plotly::layout(yaxis = list(title = list(standoff = 30L)), title = list(x = 0))
 })
 
 # Public data sources
 output$public_data_sources <- shiny::renderUI({
     shiny::req(input$add_public_data_toggle)
-    p.sources <-  PUBLIC_COMP_STUDY_DETAILS %>% dplyr::arrange(study_SN) %>% 
+    p.sources <-  PUBLIC_COMP_METADATA %>% dplyr::arrange(study_SN) %>% 
         dplyr::pull(study_publication) %>% unique()
     public_data_sources <- list()
     for (i in seq(length(p.sources))){
