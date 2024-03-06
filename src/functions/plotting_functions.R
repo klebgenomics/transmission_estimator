@@ -205,13 +205,13 @@ plot_clusters2 <- function(clusters_data, min_cluster_size = 2, color_column = '
     # plot
     plot <- clusters_data %>% 
         ggplot(aes(x = Date, y = ST, group = Cluster, text = text)) +
+        ggplot2::geom_line(aes(group = Cluster, alpha = 0.25), color = "grey50", linewidth = 0.8, 
+                           position=ggstance::position_dodgev(height = 1)) +
         ggplot2::geom_point(aes(size = Cases, color = !!sym(color_column)),
                             position=ggstance::position_dodgev(height = 1)) +
         ggplot2::scale_size_continuous(
             name = "Cases", breaks=function(x) unique(floor(pretty(seq(min(x), (max(x) + 1) * 1.1))))
         ) +
-        ggplot2::geom_line(aes(group = Cluster, alpha = 0.25), color = "grey50", linewidth = 0.8, 
-                           position=ggstance::position_dodgev(height = 1)) +
         scale_color_manual(values = my_colours) +
         ggplot2::theme_bw() +
         ggplot2::labs(x = "Isolation date", y = "Sequence type") +
