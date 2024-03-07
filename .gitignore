@@ -9,6 +9,7 @@ private_data
 
 # deploy
 .rscignore
+rsconnect
 manifest.json
 requirements.txt
 
