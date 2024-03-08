@@ -6,11 +6,10 @@ function(input, output, session) {
     dataset <- reactiveValues(
         snp_data = NULL,
         metadata = NULL,
-        kleborate_data = NULL
     )
     final_data <- reactiveValues(
         snp_data = NULL,
-        metadata_and_kleborate = NULL,
+        metadata = NULL,
     )
     
     ### LOAD DATA ----------------

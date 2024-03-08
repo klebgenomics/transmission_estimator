@@ -23,7 +23,7 @@ shiny::observeEvent(req(input$temporal_threshold), {
 
 # Column in metadata to use for spatial clustering
 output$geo_column_picker <- shiny::renderUI({
-    choices <- select_metadata_and_kleborate_var_choices(metadata())
+    choices <- get_variable_choices(metadata())
     # Filter choices to appropriate variables
     spatial_var_patterns <- c("*Site*", "*Ward*", "*Unit*", "*Hospital*", "*Wing*")
     choices <- choices[grepl(paste(spatial_var_patterns, collapse='|'), choices, ignore.case=TRUE)]
@@ -38,7 +38,7 @@ shiny::outputOptions(output, "geo_column_picker", suspendWhenHidden = FALSE)
 # Column in metadata data to use for colouring clusters plot
 output$clusters_plot_colour_var <- shiny::renderUI({
     shiny::req(epi_snp_clusters(), metadata())
-    choices <- select_metadata_and_kleborate_var_choices(
+    choices <- get_variable_choices(
         metadata(), epi_snp_clusters()
     )
     shiny::selectInput(inputId = "clusters_plot_colour_var", 
@@ -50,7 +50,7 @@ output$clusters_plot_colour_var <- shiny::renderUI({
 # Column in metadata data to use for stratifying cluster stats
 output$cluster_stats_grouping_var <- shiny::renderUI({
     shiny::req(epi_snp_clusters(), metadata())
-    choices <- select_metadata_and_kleborate_var_choices(
+    choices <- get_variable_choices(
         metadata(), epi_snp_clusters()
     )
     shiny::selectInput(inputId = "cluster_stats_grouping_var", 
@@ -84,13 +84,12 @@ epi_snp_graph <- shiny::reactive({
                                           input$temporal_threshold),
                       pair_location_column = "pair_location")
 })
-# Get clusters; Rejoin to metadata and kleborate data
+# Get clusters; Rejoin to metadata
 epi_snp_clusters <- shiny::reactive({
-    shiny::req(metadata(), kleborate_data(), sample_dates(), epi_snp_graph())
+    shiny::req(metadata(), sample_dates(), epi_snp_graph())
     get_cluster_membership_from_graph(epi_snp_graph()) %>% 
         dplyr::right_join(metadata(), by = 'id') %>% 
-        dplyr::left_join(sample_dates(), by = 'id') %>% 
-        dplyr::left_join(kleborate_data(), by = c('id' = 'Genome Name'))
+        dplyr::left_join(sample_dates(), by = 'id')
 })
 
 
@@ -119,17 +118,21 @@ output$clusters_summary <- shiny::renderTable({
 colnames = FALSE, align = 'l')
 
 # Proportion of cases part of a cluster
-output$cluster_proportion <- shiny::renderText({
+cluster_proportion <- shiny::reactive({
     shiny::req(epi_snp_clusters())
-    cluster_proportion <- calculate_cluster_proportion(epi_snp_clusters())
-    glue::glue("Proportion of cases part of a transmission cluster = {cluster_proportion}")
+    calculate_cluster_proportion(epi_snp_clusters())
+})
+output$cluster_proportion <- shiny::renderText({
+    glue::glue("Proportion of cases part of a transmission cluster = {cluster_proportion()}")
 })
 
 # Proportion of cases due to transmission
-output$transmission_proportion <- shiny::renderText({
+transmission_proportion <- shiny::reactive({
     shiny::req(epi_snp_clusters())
-    transmission_proportion <- calc_prop_samples_due_to_transmission(epi_snp_clusters())
-    glue::glue("Proportion of cases due to transmission = {transmission_proportion}")
+    calc_prop_samples_due_to_transmission(epi_snp_clusters())
+})
+output$transmission_proportion <- shiny::renderText({
+    glue::glue("Proportion of cases due to transmission = {transmission_proportion()}")
 })
 
 # SNP distance distribution plot
@@ -164,8 +167,10 @@ clusters_plot <- shiny::reactive({
     p <- plot_clusters2(d, min_cluster_size = input$min_cluster_size,
                         color_column = input$clusters_plot_colour_var) +
         ggplot2::guides(fill = "none")
+    return(p)
 })
 output$clusters_plot <- plotly::renderPlotly({
+    shiny::req(clusters_plot())
     p <- clusters_plot() + ggplot2::guides(fill = "none", colour = "none", size = "none")
     plotly::ggplotly(p, height = 600, tooltip = c("text", "colour")) %>% 
         plotly::layout(yaxis = list(title = list(standoff = 30L)))
@@ -195,9 +200,9 @@ output$clusters_by_group_plot <- plotly::renderPlotly({
 
 # Transmission graph plot
 transmission_graph <- shiny::reactive({
-    shiny::req(clusters_exist(), epi_snp_graph(), kleborate_data())
-    user_network <- ggnetwork::ggnetwork(epi_snp_graph())
-    transmission_plot <- plot_transmission_network(user_network, kleborate_data(), "ST")
+    shiny::req(clusters_exist(), epi_snp_graph(), metadata())
+    network <- ggnetwork::ggnetwork(epi_snp_graph())
+    transmission_plot <- plot_transmission_network(network, metadata(), "ST")
     plotly::ggplotly(transmission_plot,
                      height = 600)
 })

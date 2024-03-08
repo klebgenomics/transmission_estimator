@@ -1,259 +1,259 @@
-id,Study,Country,Region,Site,Age group,neonatal,Year,Month,Day
-ERR4920372,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,2,26
-ERR4920384,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,11,24
-ERR4920373,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,4,5
-ERR4920374,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,5,5
-ERR4920375,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,5,11
-ERR4920376,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,6,3
-ERR4920377,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,11,21
-ERR4920378,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,6,11
-ERR4920379,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,7,17
-ERR4920380,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,8,10
-ERR4920381,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,10,22
-ERR4920382,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,11,2
-ERR4920383,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,11,16
-ERR4920386,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,12,2
-ERR4920387,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,12,23
-ERR4920385,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,3,7
-ERR4920388,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,1,28
-ERR4920389,BARNARDS,Bangladesh,Southern Asia,BABK,0-30 days,neonate,2016,3,18
-ERR4920390,BARNARDS,Bangladesh,Southern Asia,BABK,0-30 days,neonate,2016,4,23
-ERR4920391,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,3,25
-ERR4920392,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,7,7
-ERR4920432,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,5,6
-ERR4920433,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,5,11
-ERR4920393,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,7
-ERR4920440,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,7,30
-ERR4920394,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,4
-ERR4920396,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,28
-ERR4920404,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,17
-ERR4920406,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,9
-ERR4920407,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,23
-ERR4920408,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,27
-ERR4920409,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,27
-ERR4920411,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,31
-ERR4920412,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,1
-ERR4920413,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,18
-ERR4920414,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,20
-ERR4920415,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,28
-ERR4920421,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,7
-ERR4920422,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,25
-ERR4920423,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,26
-ERR4920424,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,28
-ERR4920444,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,14
-ERR4920453,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,5
-ERR4920461,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,20
-ERR4920463,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,24
-ERR4920464,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,25
-ERR4920465,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,25
-ERR4920466,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,26
-ERR4920468,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,31
-ERR4920469,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,1
-ERR4920470,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,1
-ERR4920471,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,14
-ERR4920473,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,19
-ERR4920475,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,22
-ERR4920395,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,22
-ERR4920420,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,21
-ERR4920435,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,5,28
-ERR4920436,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,6,1
-ERR4920443,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,8
-ERR4920445,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,22
-ERR4920447,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,26
-ERR4920448,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,9,24
-ERR4920451,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,9,29
-ERR4920397,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,9,1
-ERR4920398,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,9,27
-ERR4920399,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,8
-ERR4920401,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,5
-ERR4920441,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,7,31
-ERR4920449,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,9,24
-ERR4920452,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,4
-ERR4920454,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,8
-ERR4920400,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,11
-ERR4920402,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,11
-ERR4920403,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,16
-ERR4920405,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,17
-ERR4920410,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,31
-ERR4920416,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,8
-ERR4920417,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,19
-ERR4920418,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,19
-ERR4920419,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,5,10
-ERR4920425,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,28
-ERR4920426,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,7
-ERR4920427,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,3
-ERR4920428,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,11
-ERR4920429,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,17
-ERR4920430,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,20
-ERR4920431,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,3,29
-ERR4920437,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,6,9
-ERR4920438,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,6,9
-ERR4920439,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,6,11
-ERR4920442,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,2
-ERR4920455,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,9
-ERR4920456,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,12
-ERR4920457,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,12
-ERR4920458,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,14
-ERR4920459,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,15
-ERR4920460,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,17
-ERR4920462,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,20
-ERR4920467,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,30
-ERR4920472,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,16
-ERR4920474,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,20
-ERR4920476,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,1
-ERR4920477,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,4
-ERR4920478,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,6
-ERR4920480,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,15
-ERR4920482,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,20
-ERR4920483,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,22
-ERR4920484,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,22
-ERR4920485,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,25
-ERR4920434,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,5,16
-ERR4920446,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,26
-ERR4920479,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,6
-ERR4920481,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,15
-ERR4920486,BARNARDS,India,Southern Asia,BAIN,0-30 days,neonate,2017,7,7
-ERR4920487,BARNARDS,India,Southern Asia,BAIN,31-60 days,other,2017,7,18
-ERR4920488,BARNARDS,India,Southern Asia,BAIN,0-30 days,neonate,2017,9,10
-ERR4920489,BARNARDS,India,Southern Asia,BAIN,0-30 days,neonate,2017,10,4
-ERR4920490,BARNARDS,India,Southern Asia,BAIN,31-60 days,other,2017,10,3
-ERR4920492,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,2,10
-ERR4920496,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,2,10
-ERR4920491,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,2,3
-ERR4920493,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,1,30
-ERR4920494,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,2,6
-ERR4920495,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,2,9
-ERR4920497,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,4,22
-ERR4920498,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,5,30
-ERR4920499,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,6,2
-ERR4920500,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,6,19
-ERR4920501,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,7,27
-ERR4920502,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,9,18
-ERR4920503,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,10,11
-ERR4920504,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,10,17
-ERR4920505,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,10,20
-ERR4920506,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,11,16
-ERR4920507,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,1,12
-ERR4920508,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,1,20
-ERR4920509,BARNARDS,Nigeria,Western Africa,BANN,31-60 days,other,2016,2,12
-ERR4920510,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,2,26
-ERR4920521,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,3,18
-ERR4920531,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,2,22
-ERR4920539,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,4,29
-ERR4920511,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,2,7
-ERR4920512,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,2,11
-ERR4920513,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,2,13
-ERR4920537,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,11,20
-ERR4920514,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,2,27
-ERR4920515,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,3,7
-ERR4920517,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,3,15
-ERR4920516,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,4,22
-ERR4920518,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,3,16
-ERR4920519,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,5,21
-ERR4920520,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,6,5
-ERR4920523,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,6,30
-ERR4920524,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,6,30
-ERR4920525,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,3,28
-ERR4920526,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,3,28
-ERR4920527,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,7,30
-ERR4920529,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,11,15
-ERR4920528,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,8,21
-ERR4920530,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,4,29
-ERR4920532,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,5,11
-ERR4920533,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,5,30
-ERR4920534,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,6,7
-ERR4920540,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,6,11
-ERR4920541,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,8,5
-ERR4920542,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,8,28
-ERR4920543,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,11,9
-ERR4920535,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,7,11
-ERR4920538,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,11,20
-ERR4920544,BARNARDS,Nigeria,Western Africa,BANW,0-30 days,neonate,2017,3,1
-ERR4920545,BARNARDS,Nigeria,Western Africa,BANW,0-30 days,neonate,2016,11,5
-ERR4920546,BARNARDS,Nigeria,Western Africa,BANW,0-30 days,neonate,2017,10,10
-ERR4920547,BARNARDS,Nigeria,Western Africa,BANW,0-30 days,neonate,2016,9,26
-ERR4920548,BARNARDS,Pakistan,Southern Asia,BAPC,0-30 days,neonate,2016,12,15
-ERR4920549,BARNARDS,Pakistan,Southern Asia,BAPC,31-60 days,other,2017,9,17
-ERR4920550,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,5,4
-ERR4920551,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,5,20
-ERR4920552,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,6,13
-ERR4920554,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,6,15
-ERR4920553,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,6,15
-ERR4920556,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,7,1
-ERR4920557,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,7,11
-ERR4920558,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,7,20
-ERR4920560,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,7,26
-ERR4920561,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,8,6
-ERR4920564,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,8,17
-ERR4920578,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,2,6
-ERR4920580,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,4,23
-ERR4920555,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,6,23
-ERR4920559,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,7,23
-ERR4920562,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,8,8
-ERR4920563,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,8,12
-ERR4920566,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,8,23
-ERR4920567,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,8,23
-ERR4920584,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,5,28
-ERR4920568,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,10,4
-ERR4920570,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,10,13
-ERR4920572,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,10,24
-ERR4920582,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,5,4
-ERR4920571,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,10,20
-ERR4920576,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,12,19
-ERR4920591,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,11,22
-ERR4920579,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,3,16
-ERR4920585,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,6,4
-ERR4920588,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,8,9
-ERR4920592,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2017,3,16
-ERR4920593,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2017,3,28
-ERR4920594,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2017,8,9
-ERR4920595,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,8,25
-ERR4920596,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,8,30
-ERR4920603,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,12,5
-ERR4920606,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,4,4
-ERR4920597,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,2,1
-ERR4920598,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,2,29
-ERR4920604,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2017,1,22
-ERR4920605,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2017,1,26
-ERR4920599,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,10,11
-ERR4920600,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,10,11
-ERR4920602,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,10,22
-ERR4920601,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,10,18
-ERR4920607,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2016,7,5
-ERR4920608,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2016,8,18
-ERR4920609,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2016,8,18
-ERR4920610,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2016,10,12
-ERR4920611,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2017,3,3
-ERR4920612,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2017,4,4
-ERR4920614,BARNARDS,South Africa,Southern Africa,BAZAT,31-60 days,other,2016,4,29
-ERR4920613,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2016,5,26
-ERR4920615,BARNARDS,South Africa,Southern Africa,BAZAT,31-60 days,other,2017,2,13
-ERR4920616,BARNARDS,South Africa,Southern Africa,BAZAT,31-60 days,other,2017,2,13
-ERR4920622,BARNARDS,South Africa,Southern Africa,BAZAT,31-60 days,other,2017,3,17
-ERR4920617,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2017,2,3
-ERR4920618,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,2,1
-ERR4920620,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,5,21
-ERR4920624,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,6,21
-ERR4920619,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,5,21
-ERR4920621,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2017,3,8
-ERR4920623,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,6,29
-ERR4920625,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2017,7,19
-ERR4920627,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,7,20
-ERR4920626,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2017,7,26
-ERR4920628,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,8,30
-ERR4920629,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,10,5
-ERR4920574,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,
-ERR4920573,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,
-ERR4920583,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,
-ERR4920587,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,
-ERR4920536,BARNARDS,Nigeria,Western Africa,BANN,unknown,other,,,
-ERR4920590,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,
-ERR4920581,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,
-ERR4920569,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,
-ERR4920577,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,
-ERR4920575,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,
-ERR4920522,BARNARDS,Nigeria,Western Africa,BANN,unknown,other,,,
-ERR4920586,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,
-ERR4920589,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,
-ERR4920450,BARNARDS,Ethiopia,Eastern Africa,BAES,unknown,other,,,
-ERR4920565,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,
+id,Study,Country,Region,Site,Age group,neonatal,Year,Month,Day,ST
+ERR4920372,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,2,26,ST147
+ERR4920384,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,11,24,ST147
+ERR4920373,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,4,5,ST17
+ERR4920374,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,5,5,ST39
+ERR4920375,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,5,11,ST292
+ERR4920376,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,6,3,ST340
+ERR4920377,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,11,21,ST15
+ERR4920378,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,6,11,ST105
+ERR4920379,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,7,17,ST17
+ERR4920380,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,8,10,ST17
+ERR4920381,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,10,22,ST1855
+ERR4920382,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,11,2,ST14
+ERR4920383,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,11,16,ST14
+ERR4920386,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,12,2,ST14
+ERR4920387,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,12,23,ST14
+ERR4920385,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2016,3,7,ST101
+ERR4920388,BARNARDS,Bangladesh,Southern Asia,BABC,0-30 days,neonate,2017,1,28,ST147
+ERR4920389,BARNARDS,Bangladesh,Southern Asia,BABK,0-30 days,neonate,2016,3,18,ST1322
+ERR4920390,BARNARDS,Bangladesh,Southern Asia,BABK,0-30 days,neonate,2016,4,23,ST11
+ERR4920391,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,3,25,ST711
+ERR4920392,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,7,7,ST45
+ERR4920432,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,5,6,ST45
+ERR4920433,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,5,11,ST45
+ERR4920393,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,7,ST39
+ERR4920440,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,7,30,ST39
+ERR4920394,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,4,ST37
+ERR4920396,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,28,ST37
+ERR4920404,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,17,ST37
+ERR4920406,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,9,ST37
+ERR4920407,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,23,ST37
+ERR4920408,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,27,ST37
+ERR4920409,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,27,ST37
+ERR4920411,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,31,ST37
+ERR4920412,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,1,ST37
+ERR4920413,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,18,ST37
+ERR4920414,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,20,ST37
+ERR4920415,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,28,ST37
+ERR4920421,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,7,ST37
+ERR4920422,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,25,ST37
+ERR4920423,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,26,ST37
+ERR4920424,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,28,ST37
+ERR4920444,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,14,ST37
+ERR4920453,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,5,ST37
+ERR4920461,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,20,ST37
+ERR4920463,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,24,ST37
+ERR4920464,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,25,ST37
+ERR4920465,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,25,ST37
+ERR4920466,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,26,ST37
+ERR4920468,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,31,ST37
+ERR4920469,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,1,ST37
+ERR4920470,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,1,ST37
+ERR4920471,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,14,ST37
+ERR4920473,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,19,ST37
+ERR4920475,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,22,ST37
+ERR4920395,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,22,ST218
+ERR4920420,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,21,ST218
+ERR4920435,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,5,28,ST218
+ERR4920436,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,6,1,ST218
+ERR4920443,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,8,ST218
+ERR4920445,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,22,ST218
+ERR4920447,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,26,ST218
+ERR4920448,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,9,24,ST218
+ERR4920451,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,9,29,ST218
+ERR4920397,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,9,1,ST985
+ERR4920398,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,9,27,ST985
+ERR4920399,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,8,ST985
+ERR4920401,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,5,ST985
+ERR4920441,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,7,31,ST985
+ERR4920449,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,9,24,ST985
+ERR4920452,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,4,ST985
+ERR4920454,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,8,ST985
+ERR4920400,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,11,ST35
+ERR4920402,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,11,ST35
+ERR4920403,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,16,ST35
+ERR4920405,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,17,ST35
+ERR4920410,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,31,ST35
+ERR4920416,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,8,ST35
+ERR4920417,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,19,ST35
+ERR4920418,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,19,ST35
+ERR4920419,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,5,10,ST35
+ERR4920425,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,28,ST35
+ERR4920426,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,7,ST35
+ERR4920427,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,3,ST35
+ERR4920428,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,11,ST35
+ERR4920429,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,17,ST35
+ERR4920430,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,20,ST35
+ERR4920431,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,3,29,ST35
+ERR4920437,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,6,9,ST35
+ERR4920438,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,6,9,ST35
+ERR4920439,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,6,11,ST35
+ERR4920442,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,2,ST35
+ERR4920455,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,9,ST35
+ERR4920456,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,12,ST35
+ERR4920457,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,12,ST35
+ERR4920458,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,14,ST35
+ERR4920459,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,15,ST35
+ERR4920460,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,17,ST35
+ERR4920462,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,20,ST35
+ERR4920467,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,10,30,ST35
+ERR4920472,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,16,ST35
+ERR4920474,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,11,20,ST35
+ERR4920476,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,1,ST35
+ERR4920477,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,4,ST35
+ERR4920478,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,6,ST35
+ERR4920480,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,15,ST35
+ERR4920482,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,20,ST35
+ERR4920483,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,22,ST35
+ERR4920484,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,22,ST35
+ERR4920485,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,25,ST35
+ERR4920434,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,5,16,ST101-1LV
+ERR4920446,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,8,26,ST391
+ERR4920479,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,6,ST25
+ERR4920481,BARNARDS,Ethiopia,Eastern Africa,BAES,0-30 days,neonate,2017,12,15,ST17
+ERR4920486,BARNARDS,India,Southern Asia,BAIN,0-30 days,neonate,2017,7,7,ST967
+ERR4920487,BARNARDS,India,Southern Asia,BAIN,31-60 days,other,2017,7,18,ST967
+ERR4920488,BARNARDS,India,Southern Asia,BAIN,0-30 days,neonate,2017,9,10,ST25
+ERR4920489,BARNARDS,India,Southern Asia,BAIN,0-30 days,neonate,2017,10,4,ST15
+ERR4920490,BARNARDS,India,Southern Asia,BAIN,31-60 days,other,2017,10,3,ST2534
+ERR4920492,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,2,10,ST45
+ERR4920496,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,2,10,ST45
+ERR4920491,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,2,3,ST340
+ERR4920493,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,1,30,ST4410
+ERR4920494,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,2,6,ST76
+ERR4920495,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,2,9,ST76
+ERR4920497,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,4,22,ST4408
+ERR4920498,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,5,30,ST307
+ERR4920499,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,6,2,ST1035
+ERR4920500,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,6,19,ST815
+ERR4920501,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,7,27,ST11
+ERR4920502,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,9,18,ST133
+ERR4920503,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,10,11,ST592
+ERR4920504,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,10,17,ST592
+ERR4920505,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,10,20,ST39
+ERR4920506,BARNARDS,Nigeria,Western Africa,BANK,0-30 days,neonate,2017,11,16,ST4074
+ERR4920507,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,1,12,ST464
+ERR4920508,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,1,20,ST464
+ERR4920509,BARNARDS,Nigeria,Western Africa,BANN,31-60 days,other,2016,2,12,ST464
+ERR4920510,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,2,26,ST464
+ERR4920521,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,3,18,ST464
+ERR4920531,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,2,22,ST464
+ERR4920539,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,4,29,ST464
+ERR4920511,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,2,7,ST39
+ERR4920512,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,2,11,ST20
+ERR4920513,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,2,13,ST20
+ERR4920537,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,11,20,ST20
+ERR4920514,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,2,27,ST39
+ERR4920515,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,3,7,ST133
+ERR4920517,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,3,15,ST377
+ERR4920516,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,4,22,ST15
+ERR4920518,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,3,16,ST464
+ERR4920519,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,5,21,ST39
+ERR4920520,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,6,5,ST73
+ERR4920523,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,6,30,ST4410
+ERR4920524,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,6,30,ST4410
+ERR4920525,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,3,28,ST17
+ERR4920526,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,3,28,ST464-1LV
+ERR4920527,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,7,30,ST40
+ERR4920529,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,11,15,ST307
+ERR4920528,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2017,8,21,ST985
+ERR4920530,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,4,29,ST48
+ERR4920532,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,5,11,ST39
+ERR4920533,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,5,30,ST442
+ERR4920534,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,6,7,ST442
+ERR4920540,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,6,11,ST442
+ERR4920541,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,8,5,ST442
+ERR4920542,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,8,28,ST442
+ERR4920543,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,11,9,ST442
+ERR4920535,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,7,11,ST395
+ERR4920538,BARNARDS,Nigeria,Western Africa,BANN,0-30 days,neonate,2016,11,20,ST3248
+ERR4920544,BARNARDS,Nigeria,Western Africa,BANW,0-30 days,neonate,2017,3,1,ST348
+ERR4920545,BARNARDS,Nigeria,Western Africa,BANW,0-30 days,neonate,2016,11,5,ST170
+ERR4920546,BARNARDS,Nigeria,Western Africa,BANW,0-30 days,neonate,2017,10,10,ST530
+ERR4920547,BARNARDS,Nigeria,Western Africa,BANW,0-30 days,neonate,2016,9,26,ST76
+ERR4920548,BARNARDS,Pakistan,Southern Asia,BAPC,0-30 days,neonate,2016,12,15,ST15
+ERR4920549,BARNARDS,Pakistan,Southern Asia,BAPC,31-60 days,other,2017,9,17,ST133
+ERR4920550,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,5,4,ST15
+ERR4920551,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,5,20,ST15
+ERR4920552,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,6,13,ST4411
+ERR4920554,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,6,15,ST15
+ERR4920553,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,6,15,ST15
+ERR4920556,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,7,1,ST15
+ERR4920557,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,7,11,ST15
+ERR4920558,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,7,20,ST15
+ERR4920560,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,7,26,ST15
+ERR4920561,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,8,6,ST15
+ERR4920564,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,8,17,ST15
+ERR4920578,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,2,6,ST15
+ERR4920580,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,4,23,ST15
+ERR4920555,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,6,23,ST15
+ERR4920559,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,7,23,ST15
+ERR4920562,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,8,8,ST611
+ERR4920563,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,8,12,ST611
+ERR4920566,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,8,23,ST70
+ERR4920567,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,8,23,ST70
+ERR4920584,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,5,28,ST70
+ERR4920568,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,10,4,ST995
+ERR4920570,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,10,13,ST995
+ERR4920572,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,10,24,ST995
+ERR4920582,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,5,4,ST995
+ERR4920571,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,10,20,ST11
+ERR4920576,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2016,12,19,ST76
+ERR4920591,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,11,22,ST15
+ERR4920579,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,3,16,ST15
+ERR4920585,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,6,4,ST20
+ERR4920588,BARNARDS,Pakistan,Southern Asia,BAPP,0-30 days,neonate,2017,8,9,ST1877
+ERR4920592,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2017,3,16,ST14
+ERR4920593,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2017,3,28,ST14
+ERR4920594,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2017,8,9,ST39
+ERR4920595,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,8,25,ST307
+ERR4920596,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,8,30,ST307
+ERR4920603,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,12,5,ST307
+ERR4920606,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,4,4,ST307
+ERR4920597,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,2,1,ST607
+ERR4920598,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,2,29,ST2986
+ERR4920604,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2017,1,22,ST2986
+ERR4920605,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2017,1,26,ST2986
+ERR4920599,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,10,11,ST17
+ERR4920600,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,10,11,ST17
+ERR4920602,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,10,22,ST48
+ERR4920601,BARNARDS,Rwanda,Eastern Africa,BARK,0-30 days,neonate,2016,10,18,ST48
+ERR4920607,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2016,7,5,ST307
+ERR4920608,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2016,8,18,ST307
+ERR4920609,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2016,8,18,ST307
+ERR4920610,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2016,10,12,ST2986
+ERR4920611,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2017,3,3,ST35
+ERR4920612,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2017,4,4,ST48
+ERR4920614,BARNARDS,South Africa,Southern Africa,BAZAT,31-60 days,other,2016,4,29,ST36
+ERR4920613,BARNARDS,Rwanda,Eastern Africa,BARU,0-30 days,neonate,2016,5,26,ST70
+ERR4920615,BARNARDS,South Africa,Southern Africa,BAZAT,31-60 days,other,2017,2,13,ST348
+ERR4920616,BARNARDS,South Africa,Southern Africa,BAZAT,31-60 days,other,2017,2,13,ST348
+ERR4920622,BARNARDS,South Africa,Southern Africa,BAZAT,31-60 days,other,2017,3,17,ST348
+ERR4920617,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2017,2,3,ST22
+ERR4920618,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,2,1,ST348
+ERR4920620,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,5,21,ST348
+ERR4920624,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,6,21,ST348
+ERR4920619,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,5,21,ST348
+ERR4920621,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2017,3,8,ST163
+ERR4920623,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,6,29,ST17
+ERR4920625,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2017,7,19,ST29
+ERR4920627,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,7,20,ST1414
+ERR4920626,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2017,7,26,ST37
+ERR4920628,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,8,30,ST39
+ERR4920629,BARNARDS,South Africa,Southern Africa,BAZAT,0-30 days,neonate,2016,10,5,ST39
+ERR4920574,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,,ST611
+ERR4920573,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,,ST87-1LV
+ERR4920583,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,,ST15
+ERR4920587,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,,ST15
+ERR4920536,BARNARDS,Nigeria,Western Africa,BANN,unknown,other,,,,ST395
+ERR4920590,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,,ST15
+ERR4920581,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,,ST995
+ERR4920569,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,,ST15
+ERR4920577,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,,ST15
+ERR4920575,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,,ST611
+ERR4920522,BARNARDS,Nigeria,Western Africa,BANN,unknown,other,,,,ST13
+ERR4920586,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,,ST1741
+ERR4920589,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,,ST15
+ERR4920450,BARNARDS,Ethiopia,Eastern Africa,BAES,unknown,other,,,,ST218
+ERR4920565,BARNARDS,Pakistan,Southern Asia,BAPP,unknown,other,,,,ST12

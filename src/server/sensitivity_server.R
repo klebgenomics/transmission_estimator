@@ -15,6 +15,8 @@ output$estimates_tab_info <- renderText({
     (adjustable above) and genetic distance ({paste(range(snp_range),collapse=' - ')}) thresholds using 
     the spatial clustering variable ('{input$geo_column_picker}') selected in the Clusters tab.")
 })
+shiny::outputOptions(output, "estimates_tab_info", suspendWhenHidden = FALSE)
+
 
 # User-set thresholds for sensitivity plots
 output$date_threshold <- shiny::renderUI({

@@ -10,17 +10,13 @@ observeEvent(input$data_option, {
         # TODO: remove redundant loading functions
         dataset$snp_data <- read_snp_csv(DEMO_SNP_DATA)
         dataset$metadata <- read_metadata_csv(DEMO_METADATA, REQUIRED_METADATA_COLS)
-        dataset$kleborate_data <- read_kleborate_data_csv(DEMO_KLEBORATE_DATA,
-                                                          REQUIRED_KLEBORATE_COLS)
-        
     } else if (input$data_option == "Upload dataset") {
         # Reset dataset values to NULL when 'Upload data' is selected
         dataset$snp_data <- NULL
         dataset$metadata <- NULL
-        dataset$kleborate_data <- NULL
+        # dataset$kleborate_data <- NULL
         shinyjs::reset('user_metadata')
         shinyjs::reset('user_distances')
-        shinyjs::reset('user_kleborate_data')
     }
 })
 
@@ -49,17 +45,14 @@ observeEvent(
             colnames(d)[col_inds] <- REQUIRED_METADATA_COLS
             # id column always character
             d %<>% dplyr::mutate(dplyr::across(.cols = c(id), as.character))
-            # Remove kleborate columns from metadata
         }
         shiny::showNotification('Successfully uploaded metadata file', 
                                 type = 'message', duration = 2)
-        dataset$metadata <- d %>% 
-            # remove required kleborate data cols from metadata if exists
-            dplyr::select(-any_of(REQUIRED_KLEBORATE_COLS)) 
+        dataset$metadata <- d 
     }
 )
 
-# Load pathogenwatch distance data
+# Load distance data
 observeEvent(
     input$user_distances,
     {
@@ -91,32 +84,6 @@ observeEvent(
             tidyr::pivot_longer(cols = !Name, values_to = 'dist', names_to = 'iso2') %>%
             dplyr::rename(iso1=Name) %>% 
             dplyr::mutate(dplyr::across(.cols = c(iso1, iso2), as.character))
-    }
-)
-
-# Load kleborate data
-observeEvent(
-    input$user_kleborate_data,
-    {
-        # Read in file and perform validation
-        d <- read_file(input$user_kleborate_data$datapath, 'Kleborate')
-        # Short circuit eval
-        if (is.null(d) || ! kleborate_validate(d, REQUIRED_KLEBORATE_COLS)) {
-            dataset$kleborate_data <- NULL
-            missing_kleborate_cols <- setdiff(REQUIRED_KLEBORATE_COLS, colnames(d))
-            showNotification(paste0('Input Kleborate file is invalid or did not contain required columns: ',
-                                    paste(missing_kleborate_cols, collapse = ',')),
-                             type='error', duration=10)
-            shinyjs::reset('user_kleborate_data')
-            return()
-        }
-        shiny::showNotification('Successfully uploaded kleborate data file', 
-                                type = 'message', duration = 2)
-        dataset$kleborate_data <- 
-            # clean kleborate columns
-            clean_kleborate(d) %>% 
-            # remove required metadata cols from kleborate df if exists
-            dplyr::select(-any_of(REQUIRED_METADATA_COLS)) 
     }
 )
 

@@ -5,13 +5,14 @@ output$compare_estimates_tab_info <- renderText({
     range of temporal thresholds (adjustable above) using the genetic distance threshold ({input$snp_threshold}) 
     and spatial clustering variable ('{input$geo_column_picker}') selected in the Clusters tab.")
 })
+shiny::outputOptions(output, "compare_estimates_tab_info", suspendWhenHidden = FALSE)
 
 ### GET CLUSTER/TRANSMISSION PROPORTION FOR DIFFERENT SITES --------------
 
 # Comparison variable picker
 output$comparison_var <- shiny::renderUI({
     shiny::req(metadata())
-    choices <- select_metadata_and_kleborate_var_choices(metadata())
+    choices <- get_variable_choices(metadata())
     shiny::selectInput(inputId = "comparison_var_picker", 
                        label = "Comparison variable:", 
                        choices = choices,

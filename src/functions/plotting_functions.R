@@ -132,17 +132,14 @@ plot_snp_vs_temporal_dist <- function(distance_data, snp_column = 'dist', tempor
 
 #### Clusters -------------
 
-plot_transmission_network <- function(snp_graph, kleborate_data, var1) {
+plot_transmission_network <- function(snp_graph, metadata, var1) {
     snp_graph %>% 
         dplyr::left_join(
-            kleborate_data %>% dplyr::select(all_of(c('Genome Name', var1))),
-            by=c('name'='Genome Name')) %>%
+            metadata %>% dplyr::select(all_of(c('id', var1))),
+            by=c('name'='id')) %>%
         ggplot2::ggplot(aes(x=x, y=y, xend=xend, yend=yend, label=name)) +
         ggnetwork::geom_edges() +
-        ggnetwork::geom_nodes(
-            aes(col=.data[[var1]]), 
-            size=3.5, shape=16, alpha=.5
-        ) +
+        ggnetwork::geom_nodes(aes(col=.data[[var1]]), size=3.5, shape=16, alpha=.5) +
         ggnetwork::theme_blank() +
         ggplot2::guides(col="none", fill="none")
 }
@@ -275,7 +272,7 @@ plot_sensitivity_SNP_vs_temp_range <- function(
         dplyr::rename_at(vars(as.character(temp_dist_vals)), list(~y_vars)) %>% 
         ggplot2::ggplot(aes(x = distance_threshold)) +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[5]]]), 
-                             fill = "#ffc1c1", alpha = 0.75) +
+                             fill = "#ffc1c1") +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]], 
                                  x = distance_threshold), fill = "#8b0000") +
         ggplot2::geom_line(aes(y = .data[[y_vars[3]]]), colour = "white") +
@@ -302,7 +299,7 @@ plot_sensitivity_temp_dist_vs_snp_range <- function(
         dplyr::rename_at(vars(as.character(snp_range_vals)), list(~y_vars)) %>% 
         ggplot2::ggplot(aes(x = temporal_threshold)) +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[5]]]), 
-                             fill = "#ffc1c1", alpha = 0.75) +
+                             fill = "#ffc1c1") +
         ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]], 
                                  x = temporal_threshold), fill = "#8b0000") +
         ggplot2::geom_line(aes(y = .data[[y_vars[3]]]), colour = "white") +

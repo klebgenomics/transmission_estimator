@@ -2,7 +2,6 @@ library(tidyverse)
 library(igraph)
 
 
-
 #' Create a graph from table with distances and a geographic column 
 #' @param distance_data A tibble with columns: 'iso1', 'iso2', 
 #' and one or more columns containing distances (e.g., SNPs)
@@ -44,8 +43,6 @@ get_cluster_graph <- function(snp_and_epi_data, dist_columns, dist_thresholds,
         igraph::graph_from_edgelist(., directed = directed)
 }
 
-
-
 # adapted from KleborateR function; removed dependency on kleborate data
 get_cluster_membership_from_graph <- function(cluster_graph) {
     if(!igraph::is_igraph(cluster_graph)){stop('cluster_graph is not an igraph')}
@@ -73,8 +70,6 @@ calc_prop_samples_due_to_transmission <- function(clusters_data){
         dplyr::pull(prop) %>% round(digits = 2)
 }
 
-
-
 summarise_cluster <- function(clusters_data) {
     summary <- tibble::tribble(
         ~name, ~value,
@@ -88,7 +83,6 @@ summarise_cluster <- function(clusters_data) {
             pull(ST) %>% n_distinct(na.rm = T)
     )
     return(summary)
-    
 }
 
 summarise_cluster2 <- function(clusters_data, snp_distance_threshold, temporal_distance_threshold) {
@@ -114,7 +108,6 @@ get_cluster_info <- function(clusters_data){
         dplyr::reframe(Site = paste0(sort(unique(Site)), collapse = '; '),
                        "N isolates" = n(),
                        ST = paste0(sort(unique(ST)), collapse = '; '),
-                       "Median resistance score" = median(resistance_score),
                        "Date first isolate" = min(formatted_date, na.rm = T),
                        "Date last isolate" = max(formatted_date, na.rm = T)
         ) %>% 
@@ -150,7 +143,7 @@ cluster_stats_by_variable <- function(clusters_data, grouping_var = "Country", g
         ggplot2::coord_flip(clip = 'off') + 
         ggplot2::geom_text(aes(label = paste("N=", n_isolates), hjust = 0, 
                                y = max(stats$`Cluster proportion`)+.1)) +
-        scale_y_continuous(breaks = seq(0, 1, 0.2)) +
+        scale_y_continuous(breaks = seq(0, 1, 0.2), limits = c(0,1.1)) +
         ggplot2::theme_minimal() + 
         ggplot2::labs(x = group_label, y = "Proportion") +
         ggplot2::theme(axis.text = element_text(size = 12),

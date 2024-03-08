@@ -34,10 +34,6 @@ sidebar_ui <- shiny::sidebarPanel(
                     inputId = "user_metadata", 
                     label = "Upload metadata (tsv/csv)"
                 ),
-                shiny::fileInput(
-                    inputId = "user_kleborate_data", 
-                    label = "Upload Kleborate data (tsv/csv)"
-                ),
             ),
         )
     ),
@@ -76,8 +72,8 @@ sidebar_ui <- shiny::sidebarPanel(
                 shiny::column(
                     width=12,
                     class = "text-danger",
-                    p("No samples with matching rows in the metadata, kleborate 
-                      data, and SNP data. Please check the following:"),
+                    p("No samples with matching rows in metadata, and SNP data. 
+                      Please check the following:"),
                     tags$ul(
                         tags$li("Confirm that the uploaded files contain 
                                 the expected data."),

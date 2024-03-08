@@ -13,7 +13,7 @@ home_ui <- shiny::tabPanel(
                 align = "center",
                 HTML("This tool is designed to identify transmission clusters among neonatal"), 
                 br(),
-                HTML("sepsis <i>Klebsiella pneumoniae</i> isolates using genomic (genetic distance)"), 
+                HTML("sepsis bacterial isolates using genomic (genetic distance)"), 
                 br(),
                 HTML("and epidemiological (spatiotemporal) data."),
                 br(), br(), br(), br(),
@@ -24,7 +24,7 @@ home_ui <- shiny::tabPanel(
                 br(),
                 HTML("'Upload dataset' on the left panel."),
                 br(),
-                HTML("Three input files (TSV or CSV format) are required."),
+                HTML("Two input files (TSV or CSV format) are required."),
             ),
         )
     ),
@@ -33,39 +33,25 @@ home_ui <- shiny::tabPanel(
     fluidRow(
       column( 
           width = 12,
-          div(
+          div(class = 'centered-items-row',
               align = "center",
               box(width = 4, class = 'shadow-border-box',
                   h4("Distance data"),
                   HTML("SNP distance matrix file. This can be generated using 
                        <a href='https://pathogen.watch/'>Pathogenwatch</a>"),
-                  div(
-                      style='margin-top: 6px;',
+                  div(style='margin-top: 6px;',
                       HTML("<b>Required format:</b>"),
                       br(),
                       HTML("Square matrix format with the first column labelled 'Name'."),
                   ),
-                  
               ),
               box(width = 4, class = 'shadow-border-box',
                   h4("Metadata"),
                   HTML("Metadata file containing epidemiological and other information on the isolates."),
-                  div(
-                      style='margin-top: 6px;',
+                  div(style='margin-top: 6px;',
                       HTML("<b>Required columns:</b>"), 
                       br(),
                       HTML(paste(REQUIRED_METADATA_COLS, collapse = ", "))
-                  ),
-              ),
-              box(width = 4, class = 'shadow-border-box',
-                  h4("Kleborate data"),
-                  HTML("<a href='https://github.com/katholt/Kleborate'>Kleborate</a> output file.
-                       This can also be generated using <a href='https://pathogen.watch/'>Pathogenwatch</a>"),
-                  div(
-                      style='margin-top: 6px;',
-                      HTML("<b>Required columns:</b>"),
-                      br(),
-                      HTML(paste(REQUIRED_KLEBORATE_COLS, collapse = ", "))
                   ),
               ),
           ),

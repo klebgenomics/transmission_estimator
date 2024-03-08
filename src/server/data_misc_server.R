@@ -3,22 +3,17 @@
 
 # check data loaded
 data_loaded <- shiny::reactive({
-    if (is.null(dataset$snp_data) ||
-        is.null(dataset$metadata) ||
-        is.null(dataset$kleborate_data)) {
+    if (is.null(dataset$snp_data) || is.null(dataset$metadata)){
         data_loaded <- FALSE
     } else {
         data_loaded <- TRUE
         final_data$snp_data <- dataset$snp_data
         final_data$metadata <- dataset$metadata
-        final_data$kleborate_data <- dataset$kleborate_data
     }
     return(data_loaded)
 })
 # Is data loaded? - Boolean to UI
-output$data_loaded <- shiny::reactive({
-    data_loaded()
-})
+output$data_loaded <- shiny::reactive(data_loaded())
 shiny::outputOptions(output, "data_loaded", suspendWhenHidden = FALSE)
 
 
@@ -29,13 +24,14 @@ output$filter_data_columns <- shiny::renderUI({
     shiny::req(dataset$metadata)
     d <- dataset$metadata %>% dplyr::select(-c(id, Day))
     choices <- d %>% names() %>% unique() %>% as.character()
-    shinyWidgets::pickerInput(inputId = "filter_data_columns",
-                              label= glue::glue("Filter data by: "),
-                              # selected = "Country", # Country is a mandatory metadata column
-                              multiple = TRUE,
-                              options = pickerOptions(actionsBox = TRUE,
-                                                      noneSelectedText = "No filter applied"),
-                              choices = choices) 
+    shinyWidgets::pickerInput(
+        inputId = "filter_data_columns",
+        label= glue::glue("Filter data by: "),
+        # selected = "Country", # Country is a mandatory metadata column
+        multiple = TRUE,
+        options = pickerOptions(actionsBox = TRUE,
+                                noneSelectedText = "No filter applied"),
+        choices = choices) 
 })
 output$filter_data_options <- shiny::renderUI({
     shiny::req(input$filter_data_columns, dataset$metadata)
@@ -72,7 +68,6 @@ shiny::observeEvent(input$apply_filters,{
     # reset final data
     final_data$snp_data <- dataset$snp_data
     final_data$metadata <- dataset$metadata
-    final_data$kleborate_data <- dataset$kleborate_data
     # apply filters
     for (filter_col in input$filter_data_columns){
         input_id <- paste0("filter_data_options_", filter_col)
@@ -86,7 +81,6 @@ shiny::observeEvent(input$clear_filters, {
     # reset final data
     final_data$snp_data <- dataset$snp_data
     final_data$metadata <- dataset$metadata
-    final_data$kleborate_data <- dataset$kleborate_data
     # clear filter options
     shinyWidgets::updatePickerInput(session, 'filter_data_columns', selected = character(0))
 })
@@ -94,33 +88,25 @@ shiny::observeEvent(input$clear_filters, {
 
 ### PREP FINAL DATA ------------------------------------------------
 
-# Only use data with matching IDs in SNP data, metadata, and kleborate data
+# Only use data with matching IDs in SNP data and metadata
 matching_ids <- shiny::reactive({
     shiny::req(final_data)
     s <- unique(c(final_data$snp_data$iso1, final_data$snp_data$iso2))
     m <- final_data$metadata$id
-    k <- final_data$kleborate_data$`Genome Name`
-    return(base::intersect(base::intersect(s,m),k))
+    return(base::intersect(s,m))
 })
 metadata <- shiny::reactive({
     shiny::req(final_data)
     # Report N samples used in final data
     if (length(matching_ids()) >= 1) {
         shiny::showNotification(glue::glue('Using {length(matching_ids())} samples 
-                                           with matching rows in metadata, 
-                                           kleborate data, and snp data'), 
+                                           with matching rows in metadata and distance data'), 
                                 type = 'message', duration = 3)
     } else {
-        shiny::showNotification('No samples with matching rows in the metadata, 
-                                kleborate data, and snp data', 
+        shiny::showNotification('No samples with matching rows in metadata and distance data', 
                                 type = 'error', duration = 5)
     }
-    
     final_data$metadata %>% dplyr::filter(id %in% matching_ids())
-})
-kleborate_data <- shiny::reactive({
-    shiny::req(final_data)
-    final_data$kleborate_data %>% dplyr::filter(`Genome Name` %in% matching_ids())
 })
 snp_data <- shiny::reactive({
     shiny::req(final_data)
@@ -139,9 +125,7 @@ data_empty <- shiny::reactive({
     return(data_empty)
 })
 # Is data empty? - Boolean to UI
-output$data_empty <- shiny::reactive({
-    data_empty()
-})
+output$data_empty <- shiny::reactive(data_empty())
 shiny::outputOptions(output, "data_empty", suspendWhenHidden = FALSE)
 
 
@@ -175,8 +159,8 @@ snp_and_epi_data <- shiny::reactive({
 })
 # Dataset summary
 data_summary <- shiny::reactive({
-    shiny::req(metadata(), kleborate_data())
-    summarise_dataset(metadata(), kleborate_data(), matching_ids())
+    shiny::req(metadata())
+    summarise_dataset(metadata(), matching_ids())
 })
 output$data_summary <- shiny::renderTable(data_summary(), colnames = FALSE, align = 'l')
 

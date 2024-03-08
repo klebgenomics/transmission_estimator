@@ -33,7 +33,6 @@ read_file <- function(fp, input_name) {
             type='error',
             duration=NULL
         )
-        kleborate_reset()
         return(NULL)
     }
     if (ncol(d) < 1) {
@@ -52,9 +51,7 @@ read_file <- function(fp, input_name) {
 kleborate_validate <- function(d, required_kleborate_cols) {
     if (! all(required_kleborate_cols %in% colnames(d)) ) {
         return(FALSE)
-    } else {
-        return(TRUE)
-    }
+    } else { return(TRUE) }
 }
 
 # clean values in selected kleborate data columns
@@ -195,46 +192,47 @@ get_snp_and_epi_data <- function(snp_data, sample_dates, metadata,
         dplyr::mutate(pairs = paste0(L1, "_", L2)) %>% 
         dplyr::distinct(pairs, .keep_all = TRUE) %>% dplyr::select(-c(L1, L2, pairs)) %>%
         # weeks between isolation
-        dplyr::left_join(sample_dates, by = c('iso1' = 'id')) %>% dplyr::rename('iso1_date' = 'formatted_date') %>% 
-        dplyr::left_join(sample_dates, by = c('iso2' = 'id')) %>% dplyr::rename('iso2_date' = 'formatted_date') %>% 
+        dplyr::left_join(sample_dates, by = c('iso1' = 'id')) %>% 
+        dplyr::rename('iso1_date' = 'formatted_date') %>% 
+        dplyr::left_join(sample_dates, by = c('iso2' = 'id')) %>% 
+        dplyr::rename('iso2_date' = 'formatted_date') %>% 
         dplyr::mutate(weeks = abs(floor(as.numeric(
             difftime(iso1_date, iso2_date, units = "weeks")
         )))) %>% 
         dplyr::select(-c(iso1_date, iso2_date)) %>% 
         # check isolates with same or different location
-        dplyr::left_join(geo_data, by = c('iso1' = 'id')) %>% dplyr::rename('geo1' = 'geo') %>% 
-        dplyr::left_join(geo_data, by = c('iso2' = 'id')) %>% dplyr::rename('geo2' = 'geo') %>% 
+        dplyr::left_join(geo_data, by = c('iso1' = 'id')) %>% 
+        dplyr::rename('geo1' = 'geo') %>% 
+        dplyr::left_join(geo_data, by = c('iso2' = 'id')) %>% 
+        dplyr::rename('geo2' = 'geo') %>% 
         dplyr::mutate(pair_location = if_else(geo1 == geo2, "Same", "Different")) %>% 
         dplyr::select(-c(geo1, geo2))
     return(snp_and_epi_data)
 }
 
 # Names to include in selectInput options (names from metadata and kleborate_data [optional]) 
-select_metadata_and_kleborate_var_choices <- function(metadata, kleborate_data = NULL){
-    EXCLUDE_VARS <- c('id', 'Day', 'Month', 'Year', 'Date', 'Cluster')
-    INCLUDE_VARS <- c('resistance_score', 'virulence_score', 'species', 
-                      'K_locus', 'O_locus', 'ST')
-    # select character vars from metadata
-    choices <-  metadata %>% dplyr::select(where(is.character)) %>% names()
-    if (!is.null(kleborate_data)){
-        # Only include selected vars from kleborate data
-        choices <- c(choices, kleborate_data %>% 
-                         dplyr::select(any_of(INCLUDE_VARS)) %>% names() 
-                     )
+get_variable_choices <- function(
+        df1, df2=NULL, exclude_vars=c('id','Day','Month','Year','Date','Cluster')){
+    
+    # select character vars from df1 and df2 (if provided)
+    choices <-  df1 %>% dplyr::select(where(is.character)) %>% names()
+    if (!is.null(df2)){
+        choices <- c(choices, 
+                     df2 %>% dplyr::select(where(is.character)) %>% names())
     }
     # Exclude vars (case insensitive)
-    choices <- choices[!tolower(choices) %in% tolower(EXCLUDE_VARS)] %>% 
+    choices <- choices[!tolower(choices) %in% tolower(exclude_vars)] %>% 
         unique() %>% as.character()
     return(choices)
 }
 
-summarise_dataset <- function(metadata, kleborate_data, matching_ids){
+summarise_dataset <- function(metadata, matching_ids){
     tibble::tribble(
         ~name, ~value,
         'N Samples', length(matching_ids) %>% as.character(),
         'N Countries', n_distinct(metadata$Country, na.rm = T) %>% as.character(),
         'N Sites', n_distinct(metadata$Site, na.rm = T) %>% as.character(),
-        'N STs', n_distinct(kleborate_data$ST, na.rm = T) %>% as.character(),
+        'N STs', n_distinct(metadata$ST, na.rm = T) %>% as.character(),
         'Years', if (all(is.na(metadata$Year))){NA_character_} else {
             metadata %>% 
                 reframe(years = paste0(range(Year, na.rm = T), 
