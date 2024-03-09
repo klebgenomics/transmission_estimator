@@ -1,9 +1,10 @@
 
 # tab help info
 output$compare_estimates_tab_info <- renderText({
-    glue::glue("Compare the sensitivity estimates across different groups. For each group, clustering is calculated for a 
-    range of temporal thresholds (adjustable above) using the genetic distance threshold ({input$snp_threshold}) 
-    and spatial clustering variable ('{input$geo_column_picker}') selected in the Clusters tab.")
+    glue::glue("Compare sensitivity estimates across different groups. For each group, 
+    clustering is calculated using unique combinations of temporal thresholds (adjust 
+    above), the genetic distance threshold ('{input$snp_threshold}' - adjust in the Clusters tab), 
+    and the spatial clustering variable ('{input$geo_column_picker}' - adjust in the Clusters tab).")
 })
 shiny::outputOptions(output, "compare_estimates_tab_info", suspendWhenHidden = FALSE)
 
@@ -23,28 +24,36 @@ output$comparison_var <- shiny::renderUI({
 user_comparison_data <- shiny::reactive({
     shiny::req(metadata(), snp_and_epi_data(), input$comparison_var_picker,
                sensitivity_temp_dist_vals(), input$snp_threshold)
-    compare_estimates_by_group(metadata(), snp_and_epi_data(), 
-                               input$comparison_var_picker, 
-                               snp_range = input$snp_threshold, # selected value in cluster tab
-                               date_range = sensitivity_temp_dist_vals()) %>% # selected range in sensitivity tab
-        dplyr::mutate(data_source = "User data")
+    compare_estimates_by_group(
+        metadata(), snp_and_epi_data(), 
+        comparison_column=input$comparison_var_picker,
+        snp_range=input$snp_threshold, date_range=sensitivity_temp_dist_vals()
+        ) %>% dplyr::mutate(data_source = "User data")
 })
 
 # get sensitivity data for each public dataset
 preloaded_comparison_data <- shiny::reactive({
-    shiny::req(PUBLIC_COMP_METADATA, PUBLIC_COMP_SNP_AND_EPI_DATA, PUBLIC_COMP_STUDY_DETAILS,
+    shiny::req(PUBLIC_COMP_METADATA, PUBLIC_COMP_SNP_AND_EPI_DATA,
                sensitivity_temp_dist_vals(), input$snp_threshold)
-    # Stratify data by comparison group if selected stratifying var exists
-    # else compute estimates per study
+    # Stratify data user input if var exists; else compute estimates per study
     if (input$comparison_var_picker %in% names(PUBLIC_COMP_METADATA)) {
-        comparison_var <- input$comparison_var_picker
-    } else {comparison_var <- "Study"}
-    # delineate comparison groups (add study serial number)
-    PUBLIC_COMP_METADATA %<>% mutate(comparison_column = paste0(study_SN, ' - ', !!sym(comparison_var)))
+        # choose comparison group based on availability per dataset
+        public_metadata <- get_comparison_group_per_dataset(
+            PUBLIC_COMP_METADATA, input$comparison_var_picker, 
+            dataset_id_col="Study")
+    } else {
+        public_metadata <- PUBLIC_COMP_METADATA %>% mutate(comparison_column=Study)
+        showNotification(
+            glue::glue('Selected stratification variable ({input$comparison_var_picker}) not 
+            available for the public dataset(s). Showing estimates for the entire dataset(s) instead.'),
+            type='message', duration=10)
+    }
+    # delineate public data comparison groups (add study serial number)
+    public_metadata %<>% mutate(comparison_column=paste0(study_SN,' - ',comparison_column))
     compare_estimates_by_group(
-        PUBLIC_COMP_METADATA, PUBLIC_COMP_SNP_AND_EPI_DATA, 'comparison_column', 
-        snp_range = input$snp_threshold, # selected value in cluster tab
-        date_range = sensitivity_temp_dist_vals() # selected range in sensitivity tab
+        public_metadata, PUBLIC_COMP_SNP_AND_EPI_DATA, 
+        comparison_column='comparison_column', 
+        snp_range=input$snp_threshold, date_range=sensitivity_temp_dist_vals()
     ) %>% dplyr::mutate(data_source = "Preloaded public data")
 })
 

@@ -11,9 +11,10 @@ date_range <- seq(1, 52, by = 1) # weeks
 # tab help info
 output$estimates_tab_info <- renderText({
     glue::glue("Explore the sensitivity of the transmission estimates to the choice of 
-    temporal and genetic distance thresholds. Clustering is calculated for a range of temporal 
-    (adjustable above) and genetic distance ({paste(range(snp_range),collapse=' - ')}) thresholds using 
-    the spatial clustering variable ('{input$geo_column_picker}') selected in the Clusters tab.")
+    temporal and genetic distance thresholds. Clustering is calculated using unique 
+    combinations of temporal thresholds (adjust above), genetic distance thresholds
+    ({paste(range(snp_range),collapse=' - ')}), and the spatial clustering variable 
+    ('{input$geo_column_picker}' - adjust in the Clusters tab).")
 })
 shiny::outputOptions(output, "estimates_tab_info", suspendWhenHidden = FALSE)
 
