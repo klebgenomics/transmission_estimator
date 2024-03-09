@@ -4,46 +4,44 @@ library(shiny)
 ### CLUSTERS TAB ---------------------------------------------------
 
 # CLUSTERS DATA
-observeEvent(epi_snp_clusters(), {
-    # Download clusters summary
-    output$download_clusters_summary_button <- shiny::renderUI({
-        shiny::req(epi_snp_clusters(), input$snp_threshold, input$temporal_threshold)
-        IconButton("download_clusters_summary", "data_dl")
-    })
-    output$download_clusters_summary <- shiny::downloadHandler(
-        filename = "clusters_summary.csv",
-        content = function(file) {
-            d <- summarise_cluster2(epi_snp_clusters(), input$snp_threshold, input$temporal_threshold)
-            write.table(d, file, row.names = FALSE, na = "", sep = ",")
-        }
-    )
-    # Download clusters info
-    output$download_clusters_info_button <- shiny::renderUI({
-        shiny::req(epi_snp_clusters())
-        shiny::downloadButton("download_clusters_info", "Info",
-                              icon = shiny::icon("table"))
-    })
-    output$download_clusters_info <- shiny::downloadHandler(
-        filename = "clusters_info.csv",
-        content = function(file) {
-            d <- get_cluster_info(epi_snp_clusters())
-            write.table(d, file, row.names = FALSE, na = "", sep = ",")
-        }
-    )
-    # Download full clusters data
-    output$download_clusters_data_button <- shiny::renderUI({
-        shiny::req(epi_snp_clusters())
-        shiny::downloadButton("download_clusters_data", "Full data",
-                              icon = shiny::icon("table"))
-    })
-    output$download_clusters_data <- shiny::downloadHandler(
-        filename = "clusters_data.csv",
-        content = function(file) {
-            d <- epi_snp_clusters() 
-            write.table(d, file, row.names = FALSE, na = "", sep = ",")
-        }
-    )
+# Download clusters summary
+output$download_clusters_summary_button <- shiny::renderUI({
+    shiny::req(epi_snp_clusters(), input$snp_threshold, input$temporal_threshold)
+    IconButton("download_clusters_summary", "data_dl")
 })
+output$download_clusters_summary <- shiny::downloadHandler(
+    filename = "clusters_summary.csv",
+    content = function(file) {
+        d <- summarise_cluster2(epi_snp_clusters(), input$snp_threshold, input$temporal_threshold)
+        write.table(d, file, row.names = FALSE, na = "", sep = ",")
+    }
+)
+# Download clusters info
+output$download_clusters_info_button <- shiny::renderUI({
+    shiny::req(epi_snp_clusters())
+    shiny::downloadButton("download_clusters_info", "Info",
+                          icon = shiny::icon("table"))
+})
+output$download_clusters_info <- shiny::downloadHandler(
+    filename = "clusters_info.csv",
+    content = function(file) {
+        d <- get_cluster_info(epi_snp_clusters())
+        write.table(d, file, row.names = FALSE, na = "", sep = ",")
+    }
+)
+# Download full clusters data
+output$download_clusters_data_button <- shiny::renderUI({
+    shiny::req(epi_snp_clusters())
+    shiny::downloadButton("download_clusters_data", "Full data",
+                          icon = shiny::icon("table"))
+})
+output$download_clusters_data <- shiny::downloadHandler(
+    filename = "clusters_data.csv",
+    content = function(file) {
+        d <- epi_snp_clusters()
+        write.table(d, file, row.names = FALSE, na = "", sep = ",")
+    }
+)
 
 # CLUSTERS PLOT
 output$download_clusters_plot <- downloadHandler(
