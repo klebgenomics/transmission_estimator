@@ -68,6 +68,10 @@ all_comparison_data <- shiny::reactive({
     }
 })
 
+comparison_plot_height <- shiny::reactive({
+    n_groups <- length(unique(all_comparison_data()$comparison_group))
+    calculate_plot_height(num_y_vars=n_groups)
+})
 
 ### PLOTS ---------------------------------------------------------------------
 
@@ -84,8 +88,11 @@ cluster_comparison_plot <- shiny::reactive({
     )
 })
 output$cluster_comparison_plot <- plotly::renderPlotly({
-    plotly::ggplotly(cluster_comparison_plot(), height = 500) # %>% 
-        # plotly::layout(yaxis = list(title = list(standoff = 30L)), title = list(x = 0))
+    plotly::ggplotly(cluster_comparison_plot(), height=comparison_plot_height())
+})
+# render plot UI here for dynamic height
+output$cluster_comparison_plot_ui <- shiny::renderUI({
+    plotlyOutput("cluster_comparison_plot", height=comparison_plot_height())
 })
 
 # Transmission proportions
@@ -102,8 +109,11 @@ transmission_comparison_plot <- shiny::reactive({
     )
 })
 output$transmission_comparison_plot <- plotly::renderPlotly({
-    plotly::ggplotly(transmission_comparison_plot(), height = 500) # %>% 
-        # plotly::layout(yaxis = list(title = list(standoff = 30L)), title = list(x = 0))
+    plotly::ggplotly(transmission_comparison_plot(), height=comparison_plot_height())
+})
+# render plot UI here for dynamic height
+output$transmission_comparison_plot_ui <- shiny::renderUI({
+    plotlyOutput("transmission_comparison_plot", height=comparison_plot_height())
 })
 
 # Public data sources

@@ -59,6 +59,12 @@ get_colours <- function(column_values, seedcolors = c("#ff0000", "#00ff00", "#00
     return(colours)
 }
 
+calculate_plot_height <- function(num_y_vars, base_threshold=15, base_height=400, increment=10) {
+    # Increment height for each var above the base_threshold
+    max_height <- base_height + max(0, num_y_vars - base_threshold) * increment
+    return(min(base_height + max_height, max_height))
+}
+
 # Distribution
 
 plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwise distance", 

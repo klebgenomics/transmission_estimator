@@ -91,13 +91,11 @@ sensitivity_ui <- shiny::tabPanel(
             shiny::fluidRow(
                 shiny::column(
                     width = 6,
-                    plotly::plotlyOutput("cluster_comparison_plot", height = "500px") %>%
-                        shinycssloaders::withSpinner()
+                    uiOutput("cluster_comparison_plot_ui") %>% withSpinner()
                 ),
                 shiny::column(
                     width = 6,
-                    plotly::plotlyOutput("transmission_comparison_plot", height = "500px") %>%
-                        shinycssloaders::withSpinner()
+                    uiOutput("transmission_comparison_plot_ui") %>% withSpinner()
                 ),
             ),
             br(),
