@@ -66,20 +66,29 @@ observeEvent(
         # check valid matrix
         if(nrow(d) + 1 != ncol(d)){
             shiny::showNotification('Number of rows and cols in snp data must be the same', 
-                             type='error', duration=10)
+                                    type='error', duration=10)
             dataset$snp_data <- NULL
             shinyjs::reset('user_distances')
             return()
         } 
-        if(!'Name' %in% names(d)){
-            shiny::showNotification('Name column not in snp_data, is it from Pathogenwatch?', 
-                             type='error', duration=NULL)
+        if(!names(d)[1] == "Name"){
+            shiny::showNotification('First column of the distance matrix must be labelled "Name"', 
+                                    type='error', duration=10)
+            dataset$snp_data <- NULL
+            shinyjs::reset('user_distances')
+            return()
+        }
+        if(!all(names(d)[-1] %in% d$Name)){
+            shiny::showNotification('Mismatched samples in rows and columns: 
+                                    Please ensure that all samples in the rows have a 
+                                    corresponding column in the distance matrix.', 
+                                    type='error', duration=10)
             dataset$snp_data <- NULL
             shinyjs::reset('user_distances')
             return()
         }
         shiny::showNotification('Successfully uploaded distances file', 
-                                type = 'message', duration = 2)
+                                type='message', duration=2)
         dataset$snp_data <- d %>% 
             tidyr::pivot_longer(cols = !Name, values_to = 'dist', names_to = 'iso2') %>%
             dplyr::rename(iso1=Name) %>% 

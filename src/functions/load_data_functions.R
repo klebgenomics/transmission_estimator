@@ -93,20 +93,24 @@ filter_data <- function(d, filter_column, filter_values){
 # Functions to load local data
 read_snp_csv <- function(distance_matrix_csv_path){
     tryCatch({
-        snp_data <- readr::read_csv(distance_matrix_csv_path, show_col_types = F)
+        d <- readr::read_csv(distance_matrix_csv_path, show_col_types = F)
     }, error = function(e) {
         stop("Error reading the SNP data file. Please check that it is a valid CSV file.")
     })
     # check valid matrix
-    if(nrow(snp_data) + 1 != ncol(snp_data)){
+    if(nrow(d) + 1 != ncol(d)){
         stop('Number of rows and cols in snp data must be the same')
     }
-    if(!'Name' %in% names(snp_data)){
-        stop('Name column not in snp_data, is it from Pathogenwatch?')
+    if(!names(d)[1] == "Name"){
+        stop('First column of the distance matrix must be labelled "Name"')
+    }
+    if(!all(names(d)[-1] %in% d$Name)){
+        stop('Mismatched samples in rows and columns: Please ensure that all samples 
+        in the rows have a corresponding column in the distance matrix.')
     }
     return(
-        snp_data %>% 
-            tidyr::pivot_longer(cols = !Name, values_to = 'dist', names_to = 'iso2') %>%
+        d %>%
+            tidyr::pivot_longer(cols = !Name, values_to='dist', names_to='iso2') %>%
             dplyr::rename(iso1=Name) %>% 
             dplyr::mutate(dplyr::across(.cols = c(iso1, iso2), as.character))
     )
