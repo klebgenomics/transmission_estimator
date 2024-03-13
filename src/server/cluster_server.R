@@ -25,8 +25,10 @@ shiny::observeEvent(req(input$temporal_threshold), {
 output$geo_column_picker <- shiny::renderUI({
     choices <- get_variable_choices(metadata())
     # Filter choices to appropriate variables
-    spatial_var_patterns <- c("*Site*", "*Ward*", "*Unit*", "*Hospital*", "*Wing*")
-    choices <- choices[grepl(paste(spatial_var_patterns, collapse='|'), choices, ignore.case=TRUE)]
+    spatial_var_patterns <- c("*Site*", "*Ward*", "*Unit*", "*Hospital*", 
+                              "*Wing*", "*City*", "*Region*", "*Country*")
+    choices <- choices[grepl(paste(spatial_var_patterns, collapse='|'), 
+                             choices, ignore.case=TRUE)]
     shiny::selectInput(inputId = "geo_column_picker", 
                        label = "Spatial clustering variable", 
                        choices = choices,
