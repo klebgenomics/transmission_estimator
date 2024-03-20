@@ -85,7 +85,8 @@ cluster_ui <- shiny::tabPanel(
                         ),
                     ),
                     # plot
-                    plotly::plotlyOutput("snp_distribution_plot") %>% shinycssloaders::withSpinner()
+                    plotly::plotlyOutput("snp_distribution_plot", height="450px") %>% 
+                        shinycssloaders::withSpinner()
                 ),
                 shiny::column(
                     width = 6,
@@ -109,7 +110,8 @@ cluster_ui <- shiny::tabPanel(
                         ),
                     ),
                     # plot
-                    plotly::plotlyOutput("temporal_distribution_plot") %>% shinycssloaders::withSpinner()
+                    plotly::plotlyOutput("temporal_distribution_plot", height="450px") %>% 
+                        shinycssloaders::withSpinner()
                 ),
             ),
         ),
