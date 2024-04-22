@@ -38,7 +38,7 @@ preloaded_comparison_data <- shiny::reactive({
     # Stratify data user input if var exists; else compute estimates per study
     if (input$comparison_var_picker %in% names(PUBLIC_COMP_METADATA)) {
         # choose comparison group based on availability per dataset
-        public_metadata <- get_comparison_group_per_dataset(
+        public_metadata <- set_comparison_column(
             PUBLIC_COMP_METADATA, input$comparison_var_picker, 
             dataset_id_col="Study")
     } else {
@@ -116,11 +116,11 @@ output$transmission_comparison_plot_ui <- shiny::renderUI({
     plotlyOutput("transmission_comparison_plot", height=comparison_plot_height())
 })
 
-# Public data sources
+# Public data sources (footnote)
 output$public_data_sources <- shiny::renderUI({
     shiny::req(input$add_public_data_toggle)
     p.sources <-  PUBLIC_COMP_METADATA %>% dplyr::arrange(study_SN) %>% 
-        dplyr::pull(study_publication) %>% unique()
+        dplyr::pull(study_citation) %>% unique()
     public_data_sources <- list()
     for (i in seq(length(p.sources))){
         u <- shiny::helpText(p.sources[i])
