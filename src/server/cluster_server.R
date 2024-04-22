@@ -145,7 +145,7 @@ snp_distribution_plot <- shiny::reactive({
                                 plot_title = NULL, binwidth = input$bin_width,
                                 transform_y = input$transform_y_axis,
                                 transformation = input$transformation)
-    plotly::ggplotly(p, dynamicTicks=TRUE, height=450) %>% plotly::rangeslider()
+    plotly::ggplotly(p, dynamicTicks=TRUE, height=450) # %>% plotly::rangeslider()
 })
 output$snp_distribution_plot <- plotly::renderPlotly(snp_distribution_plot())
 
@@ -157,7 +157,7 @@ temporal_distribution_plot <- shiny::reactive({
                                 plot_title = NULL, binwidth = input$td_bin_width,
                                 transform_y = input$td_transform_y_axis,
                                 transformation = input$td_transformation)
-    plotly::ggplotly(p, dynamicTicks=TRUE, height=450) %>% plotly::rangeslider()
+    plotly::ggplotly(p, dynamicTicks=TRUE, height=450) # %>% plotly::rangeslider()
 })
 output$temporal_distribution_plot <- plotly::renderPlotly(temporal_distribution_plot())
 
