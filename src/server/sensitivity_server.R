@@ -52,30 +52,30 @@ observeEvent(req(input$date_threshold), {
     updateNumericInput(session, "date_threshold", value = val)
 })
 observeEvent(input$date_threshold_range, {
-    min_value = input$date_threshold_range[1]
-    max_value = input$date_threshold_range[2]
+    min_dtr = input$date_threshold_range[1]
+    max_dtr = input$date_threshold_range[2]
     if (input$date_threshold_range[1] >= input$date_threshold){
         showNotification("Selected value outside allowed range", type='warning', duration=2)
-        min_value = input$date_threshold - 1
+        min_dtr = input$date_threshold - 1
     } 
     if (input$date_threshold_range[2] <= input$date_threshold){
         showNotification("Selected value outside allowed range", type='warning', duration=2)
-        max_value = input$date_threshold + 1
+        max_dtr = input$date_threshold + 1
     }
-    updateSliderInput(session, "date_threshold_range", value = c(min_value, max_value))
+    updateSliderInput(session, "date_threshold_range", value = c(min_dtr, max_dtr))
 })
 observeEvent(input$ext_date_threshold_range, {
-    min_value = input$ext_date_threshold_range[1]
-    max_value = input$ext_date_threshold_range[2]
+    min_edtr = input$ext_date_threshold_range[1]
+    max_edtr = input$ext_date_threshold_range[2]
     if (input$ext_date_threshold_range[1] >= input$date_threshold_range[1]){
         showNotification("Selected value outside allowed range", type='warning', duration=2)
-        min_value = input$date_threshold_range[1] - 1
+        min_edtr = input$date_threshold_range[1] - 1
     } 
     if (input$ext_date_threshold_range[2] <= input$date_threshold_range[2]){
         showNotification("Selected value outside allowed range", type='warning', duration=2)
-        max_value = input$date_threshold_range[2] + 1
+        max_edtr = input$date_threshold_range[2] + 1
     }
-    updateSliderInput(session, "ext_date_threshold_range", value = c(min_value, max_value))
+    updateSliderInput(session, "ext_date_threshold_range", value = c(min_edtr, max_edtr))
 })
 
 # temp dist values for plot (n=5)
