@@ -51,9 +51,10 @@ cluster_ui <- shiny::tabPanel(
                 hr(),
                 h4(class="text-muted", "Download clusters data"),
                 shiny::fluidRow(
-                    style='margin: 6px 6px; align: center;',
+                    style='margin: 6px 6px;',
                     div(style='display: inline-block',uiOutput("download_clusters_info_button")),
-                    div(style='display: inline-block',uiOutput("download_clusters_data_button"))
+                    div(style='display: inline-block',uiOutput("download_clusters_data_button")),
+                    div(style='margin-top: 4px', uiOutput("download_clusters_graph_button"))
                 ),
             )
         ),

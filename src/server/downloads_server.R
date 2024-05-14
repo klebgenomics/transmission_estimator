@@ -38,8 +38,20 @@ output$download_clusters_data_button <- shiny::renderUI({
 output$download_clusters_data <- shiny::downloadHandler(
     filename = "clusters_data.csv",
     content = function(file) {
-        d <- epi_snp_clusters()
+        d <- epi_snp_clusters() %>% filter(! is.na(Cluster))
         write.table(d, file, row.names = FALSE, na = "", sep = ",")
+    }
+)
+# Download clusters graph
+output$download_clusters_graph_button <- shiny::renderUI({
+    shiny::req(epi_snp_clusters())
+    shiny::downloadButton("download_clusters_graph", "Network",
+                          icon = shiny::icon("circle-nodes"))
+})
+output$download_clusters_graph <- shiny::downloadHandler(
+    filename = "clusters_graph.gv",
+    content = function(file) {
+        igraph::write.graph(epi_snp_graph(), file, format="dot")
     }
 )
 
