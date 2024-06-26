@@ -67,12 +67,12 @@ cluster_ui <- shiny::tabPanel(
                 shiny::column(
                     width = 6,
                     # options
-                    fluidRow(class = 'centered-items-row', style='height: 40px;',
-                        p(style='margin: 0px 6px;', 'Bin width'),
-                        div(style='margin: 16px 20px 0px 0px;',
+                    fluidRow(
+                        p(style='margin: 0px 6px; display: inline-block;', 'Bin width'),
+                        div(style='margin: 4px 10px 0px 0px; display: inline-block;',
                             shiny::numericInput("bin_width", label = NULL, value = 10, min = 1,
                                                 max = 99, width = '50px')),
-                        div(style='padding: 16px 20px 0px 0px;',
+                        div(style='padding: 4px 10px 0px 0px; display: inline-block;',
                             shinyWidgets::prettySwitch("transform_y_axis", label = 'Transform Y', 
                                                        status = 'primary', width = '90px')),
                     ),
@@ -86,18 +86,18 @@ cluster_ui <- shiny::tabPanel(
                         ),
                     ),
                     # plot
-                    plotly::plotlyOutput("snp_distribution_plot", height="450px") %>% 
+                    plotly::plotlyOutput("snp_distribution_plot", height="400px") %>% 
                         shinycssloaders::withSpinner()
                 ),
                 shiny::column(
                     width = 6,
                     # options
-                    fluidRow(class = 'centered-items-row', style='height: 40px;',
-                        p(style='margin: 0px 6px;', 'Bin width'),
-                        div(style='margin: 16px 20px 0px 0px;',
+                    fluidRow(
+                        p(style='margin: 0px 6px; display: inline-block;', 'Bin width'),
+                        div(style='margin: 4px 10px 0px 0px; display: inline-block;',
                             shiny::numericInput("td_bin_width", label = NULL, value = 1, min = 1,
                                                 max = 99, width = '50px')),
-                        div(style='padding: 16px 20px 0px 0px;',
+                        div(style='padding: 4px 10px 0px 0px; display: inline-block;',
                             shinyWidgets::prettySwitch("td_transform_y_axis", label = 'Transform Y', 
                                                        status = 'primary', width = '90px')),
                     ),
@@ -111,7 +111,7 @@ cluster_ui <- shiny::tabPanel(
                         ),
                     ),
                     # plot
-                    plotly::plotlyOutput("temporal_distribution_plot", height="450px") %>% 
+                    plotly::plotlyOutput("temporal_distribution_plot", height="400px") %>% 
                         shinycssloaders::withSpinner()
                 ),
             ),
@@ -133,7 +133,6 @@ cluster_ui <- shiny::tabPanel(
             ),
         ),
         shiny::fluidRow( # options
-            class = 'centered-items-row',
             align = 'center',
             shiny::column(
                 width=4,
@@ -168,7 +167,7 @@ cluster_ui <- shiny::tabPanel(
             ),
         ),
         shiny::fluidRow( # options
-            align = 'center', class = 'centered-items-row',
+            align = 'center',
             shiny::column(
                 width=3,
                 shiny::uiOutput("cluster_stats_grouping_var")
