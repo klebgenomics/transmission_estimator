@@ -122,7 +122,7 @@ colnames = FALSE, align = 'l')
 # Proportion of cases part of a cluster
 cluster_proportion <- shiny::reactive({
     shiny::req(epi_snp_clusters())
-    calculate_cluster_proportion(epi_snp_clusters())
+    get_cluster_estimates(epi_snp_clusters())$cluster_prop
 })
 output$cluster_proportion <- shiny::renderText({
     glue::glue("Proportion of cases part of a transmission cluster = {cluster_proportion()}")
@@ -131,7 +131,7 @@ output$cluster_proportion <- shiny::renderText({
 # Proportion of cases due to transmission
 transmission_proportion <- shiny::reactive({
     shiny::req(epi_snp_clusters())
-    calc_prop_samples_due_to_transmission(epi_snp_clusters())
+    get_cluster_estimates(epi_snp_clusters())$transmission_prop
 })
 output$transmission_proportion <- shiny::renderText({
     glue::glue("Proportion of cases due to transmission = {transmission_proportion()}")

@@ -52,22 +52,14 @@ get_cluster_membership_from_graph <- function(cluster_graph) {
         dplyr::select(!value)
 }
 
-calculate_cluster_proportion <- function(clusters_data){
+get_cluster_estimates <- function(clusters_data){
     clusters_data %>% 
-        dplyr::summarise(
-            cluster_proportion = round(sum(!is.na(Cluster)) / n(), 2)
-        ) %>% dplyr::pull(cluster_proportion) %>% round(digits = 2)
-}
-
-calc_prop_samples_due_to_transmission <- function(clusters_data){
-    clusters_data %>% dplyr::select(id, Cluster) %>% 
-        dplyr::filter(!is.na(Cluster)) %>% 
-        # count isolates per cluster; remove 1 (index case)
-        dplyr::group_by(Cluster) %>% 
-        dplyr::summarise(nc = sum(!is.na(Cluster)) - 1) %>% 
-        dplyr::ungroup() %>% 
-        dplyr::summarise(prop = round(sum(nc) / nrow(clusters_data), digits = 2)) %>% 
-        dplyr::pull(prop) %>% round(digits = 2)
+        dplyr::summarise(n_cluster_isolates = sum(!is.na(Cluster)), 
+                         n_clusters=n_distinct(Cluster, na.rm=T), 
+                         total = n()) %>% 
+        dplyr::summarise(cluster_prop = round(n_cluster_isolates / total, digits=2),
+                         # remove 1 hypothetical index case per cluster
+                         transmission_prop = round((n_cluster_isolates - n_clusters) / total, digits=2))
 }
 
 summarise_cluster <- function(clusters_data) {
@@ -76,9 +68,8 @@ summarise_cluster <- function(clusters_data) {
         'Total isolates', n_distinct(clusters_data$id),
         'Clusters', n_distinct(clusters_data$Cluster, na.rm = T),
         'N isolates in clusters', clusters_data %>% filter(!is.na(Cluster)) %>% nrow(),
-        'Median cluster size', clusters_data %>% filter(!is.na(Cluster)) %>% 
-            dplyr::add_count(Cluster, name = "cluster_size") %>% 
-            dplyr::pull(cluster_size) %>% median() %>% round(digits = 0),
+        'Median cluster size', clusters_data %>% get_cluster_info() %>% 
+            dplyr::pull(`N isolates`) %>% median() %>% round(digits = 0),
         'Cluster STs', clusters_data %>% dplyr::filter(!is.na(Cluster)) %>% 
             pull(ST) %>% n_distinct(na.rm = T)
     )
@@ -88,8 +79,8 @@ summarise_cluster <- function(clusters_data) {
 summarise_cluster2 <- function(clusters_data, snp_distance_threshold, temporal_distance_threshold) {
     summary <- tibble::tribble(
         ~name, ~value,
-        "Prop in clusters", calculate_cluster_proportion(clusters_data),
-        "Prop due to transmission", calc_prop_samples_due_to_transmission(clusters_data),
+        "Prop in clusters", get_cluster_estimates(clusters_data)$cluster_prop,
+        "Prop due to transmission", get_cluster_estimates(clusters_data)$transmission_prop,
         'Distance threshold used',  snp_distance_threshold,
         'Temporal distance threshold used (weeks)', temporal_distance_threshold,
     )
@@ -121,13 +112,13 @@ get_cluster_info <- function(clusters_data){
 }
 
 cluster_stats_by_variable <- function(clusters_data, grouping_var = "Country", group_label = grouping_var){
-    clust_prop <- calculate_cluster_proportion(clusters_data)
-    transmission_prop <- calc_prop_samples_due_to_transmission(clusters_data)
+    clust_prop <- get_cluster_estimates(clusters_data)$cluster_prop
+    transmission_prop <- get_cluster_estimates(clusters_data)$transmission_prop
     stats <- clusters_data %>% 
         dplyr::rename("Group" = all_of(grouping_var)) %>% 
         dplyr::group_by(Group) %>% 
-        dplyr::reframe(`Cluster proportion` = calculate_cluster_proportion(dplyr::pick(tidyselect::everything())),
-                       `Transmission proportion` = calc_prop_samples_due_to_transmission(dplyr::pick(tidyselect::everything())),
+        dplyr::reframe(`Cluster proportion` = get_cluster_estimates(dplyr::pick(tidyselect::everything()))$cluster_prop,
+                       `Transmission proportion` = get_cluster_estimates(dplyr::pick(tidyselect::everything()))$transmission_prop,
                        n_isolates = n()) %>% 
         dplyr::arrange(`Cluster proportion`)
     cols <- c("Transmission proportion" = "#2bbed8", "Cluster proportion" = "#0770b5")

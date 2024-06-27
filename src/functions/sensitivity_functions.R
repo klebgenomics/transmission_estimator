@@ -15,14 +15,12 @@ get_cluster_and_transmission_fraction <- function(snp_and_epi_data, metadata,
                                                           temporal_distance_threshold))
     epi_snp_clusters <- get_cluster_membership_from_graph(epi_snp_graph) %>% 
         dplyr::right_join(metadata, by = 'id') # contains rows for ALL samples
-    cluster_proportion <- calculate_cluster_proportion(epi_snp_clusters)
-    transmission_proportion <- calc_prop_samples_due_to_transmission(epi_snp_clusters)
     
     return(list(
         "distance_threshold" = snp_distance_threshold,
         "temporal_threshold" = temporal_distance_threshold,
-        "cluster_prop" = cluster_proportion,
-        "transmission_prop" = transmission_proportion
+        "cluster_prop" = get_cluster_estimates(epi_snp_clusters)$cluster_prop,
+        "transmission_prop" = get_cluster_estimates(epi_snp_clusters)$transmission_prop
     ))
 }
 
