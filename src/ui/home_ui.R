@@ -6,7 +6,6 @@ home_ui <- shiny::tabPanel(
     title = "Home",
     h2("Transmission Estimator", align = "center", style = "margin-top: 60px"),
     shiny::fluidRow(
-        # style = "margin-top: 40px;",
         shiny::column(
             width = 12,
             div(
@@ -57,16 +56,15 @@ home_ui <- shiny::tabPanel(
           ),
       )  
     ),
-    br(), br(),
-    # fluidRow(
-    #     align = "center",
-    #     column(width = 12, 
-    #            HTML("Estimates of cases attributable to transmission are reported using interactive plots."),
-    #            br(),
-    #            HTML("An exploratory sensitivity analysis feature ('Sensitivity' tab) is also included to assist users"),
-    #            br(),
-    #            HTML("in determining appropriate temporal and genetic distance thresholds"),
-    #            br(),
-    #     )
-    # )
+    br(), br(), br(), br(), br(),
+    fluidRow(
+        align="center",
+        column(width=12,
+            HTML("This tool is still under development. For more information, comments and suggestions, 
+                 visit the <a href='https://github.com/klebgenomics/transmission_estimator/' alt='GitHub repo'>GitHub repo</a>."),
+            br(),
+            HTML("If you use this tool, please cite using this DOI: <a href='https://doi.org/10.5281/zenodo.12582875'>
+            <img src='https://zenodo.org/badge/DOI/10.5281/zenodo.12582875.svg' alt='DOI'></a>"),
+        )
+    ),
 )
