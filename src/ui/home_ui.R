@@ -16,7 +16,7 @@ home_ui <- shiny::tabPanel(
                 br(),
                 HTML("and epidemiological (spatiotemporal) data."),
                 br(), br(), br(), br(),
-                HTML("A demo dataset from the <a href='https://pubmed.ncbi.nlm.nih.gov/33782558/'>
+                HTML("A demo dataset from the <a href='https://pubmed.ncbi.nlm.nih.gov/33782558/' target='_blank'>
                  BARNARDS study</a> is preloaded for exploration"), 
                 br(),
                 HTML("of the app's features. Users can also upload their dataset by clicking on"),
@@ -37,7 +37,7 @@ home_ui <- shiny::tabPanel(
               box(width = 4, class = 'shadow-border-box',
                   h4("Distance data"),
                   HTML("SNP distance matrix file. This can be generated using 
-                       <a href='https://pathogen.watch/'>Pathogenwatch</a>"),
+                       <a href='https://pathogen.watch/' target='_blank'>Pathogenwatch</a>"),
                   div(style='margin-top: 6px;',
                       HTML("<b>Required format:</b>"),
                       br(),
@@ -61,9 +61,9 @@ home_ui <- shiny::tabPanel(
         align="center",
         column(width=12,
             HTML("This tool is still under development. For more information, comments and suggestions, 
-                 visit the <a href='https://github.com/klebgenomics/transmission_estimator/' alt='GitHub repo'>GitHub repo</a>."),
+                 visit the <a href='https://github.com/klebgenomics/transmission_estimator/' target='_blank' alt='GitHub repo'>GitHub repo</a>."),
             br(),
-            HTML("If you use this tool, please cite using this DOI: <a href='https://doi.org/10.5281/zenodo.12582875'>
+            HTML("If you use this tool, please cite using this DOI: <a href='https://doi.org/10.5281/zenodo.12582875' target='_blank'>
             <img src='https://zenodo.org/badge/DOI/10.5281/zenodo.12582875.svg' alt='DOI'></a>"),
         )
     ),
