@@ -202,7 +202,7 @@ plot_clusters2 <- function(clusters_data, min_cluster_size = 2, color_column = '
         dplyr::select(-any_of("Date")) %>% # remove Date column if exists
         dplyr::rename("Date" = "formatted_date") %>% 
         dplyr::mutate(Cluster = fct_reorder(Cluster, desc(ST))) %>% 
-        dplyr::mutate(text = glue::glue("Cluster: {Cluster}\nCluster size: {cluster_size}\nDate: {Date}\nCases: {Cases}\nST: {ST}"))
+        dplyr::mutate(text = glue::glue("Cluster {Cluster}\nCluster size: {cluster_size}\nDate: {Date}\nCases: {Cases}\nST: {ST}"))
     # colors
     my_colours <- get_colours(clusters_data[[color_column]], c("#0571B0", "#CA0020", "#FFBF00"))
     # plot

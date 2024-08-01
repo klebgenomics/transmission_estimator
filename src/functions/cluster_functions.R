@@ -85,10 +85,7 @@ summarise_cluster2 <- function(clusters_data, snp_distance_threshold, temporal_d
         'Temporal distance threshold used (weeks)', temporal_distance_threshold,
     )
     return(
-        dplyr::bind_rows(
-            summarise_cluster(clusters_data),
-            summary
-        )
+        dplyr::bind_rows(summarise_cluster(clusters_data), summary)
     )
 }
 
@@ -102,13 +99,16 @@ get_cluster_info <- function(clusters_data){
                        "Date first isolate" = min(formatted_date, na.rm = T),
                        "Date last isolate" = max(formatted_date, na.rm = T)
         ) %>% 
-        dplyr::mutate(`Duration (weeks)` = abs(floor(as.numeric(
-            difftime(`Date first isolate`, `Date last isolate`, units = "weeks")
-        )))) %>% 
-        dplyr::arrange(desc(`N isolates`), desc(`Duration (weeks)`)) %>% 
+        dplyr::mutate(`Duration (weeks)` = round(abs(as.numeric(
+            difftime(`Date first isolate`, `Date last isolate` + 1, units = "weeks")
+        )), digits=1)) %>% 
         dplyr::mutate(`Duration (weeks)` = if_else(
-            `Duration (weeks)` %in% c(0,1), "<=1", as.character(`Duration (weeks)`)
-        ))
+            `Duration (weeks)` <= 1 , "<=1", as.character(`Duration (weeks)`)
+        )) %>% 
+        dplyr::mutate(`Duration (days)` = abs(as.numeric(
+            difftime(`Date first isolate`, `Date last isolate` + 1, units = "days")
+        ))) %>% 
+        dplyr::arrange(desc(`N isolates`), desc(`Duration (days)`))
 }
 
 cluster_stats_by_variable <- function(clusters_data, grouping_var = "Country", group_label = grouping_var){

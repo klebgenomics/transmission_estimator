@@ -170,10 +170,8 @@ get_snp_and_temporal_data <- function(snp_data, sample_dates){
     snp_and_temporal_data <- snp_data %>% 
         dplyr::left_join(sample_dates, by = c('iso1' = 'id')) %>% rename('iso1_date' = 'formatted_date') %>% 
         dplyr::left_join(sample_dates, by = c('iso2' = 'id')) %>% rename('iso2_date' = 'formatted_date') %>% 
-        dplyr::mutate(weeks = abs(floor(as.numeric(
-                    difftime(iso1_date, iso2_date, units = "weeks")
-                )))
-            ) %>% 
+        dplyr::mutate(weeks = abs(as.numeric(
+            difftime(iso1_date, iso2_date, units = "weeks")))) %>% 
         dplyr::select(iso1, iso2, dist, weeks)
     return(snp_and_temporal_data)
 }
@@ -200,9 +198,9 @@ get_snp_and_epi_data <- function(snp_data, sample_dates, metadata,
         dplyr::rename('iso1_date' = 'formatted_date') %>% 
         dplyr::left_join(sample_dates, by = c('iso2' = 'id')) %>% 
         dplyr::rename('iso2_date' = 'formatted_date') %>% 
-        dplyr::mutate(weeks = abs(floor(as.numeric(
+        dplyr::mutate(weeks = abs(as.numeric(
             difftime(iso1_date, iso2_date, units = "weeks")
-        )))) %>% 
+        ))) %>% 
         dplyr::select(-c(iso1_date, iso2_date)) %>% 
         # check isolates with same or different location
         dplyr::left_join(geo_data, by = c('iso1' = 'id')) %>% 
