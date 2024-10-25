@@ -123,7 +123,8 @@ plot_transmission_network <- function(snp_graph, metadata, var1) {
         ggplot2::guides(col="none", fill="none")
 }
 
-plot_clusters2 <- function(clusters_data, min_cluster_size = 2, color_column = 'ST') {
+plot_clusters2 <- function(clusters_data, min_cluster_size=2, color_column='ST',
+                           dodge_height=0.5) {
     # filter
     clusters_data %<>% 
         dplyr::filter(!is.na(Cluster)) %>% 
@@ -145,11 +146,12 @@ plot_clusters2 <- function(clusters_data, min_cluster_size = 2, color_column = '
     plot <- clusters_data %>% 
         ggplot(aes(x = Date, y = ST, group = Cluster, text = text)) +
         ggplot2::geom_line(aes(group = Cluster, alpha = 0.25), color = "grey50", linewidth = 0.8, 
-                           position=ggstance::position_dodgev(height = 1)) +
+                           position=ggstance::position_dodgev(height = dodge_height)) +
         ggplot2::geom_point(aes(size = Cases, color = !!sym(color_column)),
-                            position=ggstance::position_dodgev(height = 1)) +
+                            position=ggstance::position_dodgev(height = dodge_height)) +
         ggplot2::scale_size_continuous(
-            name = "Cases", breaks=function(x) unique(floor(pretty(seq(min(x), (max(x) + 1) * 1.1))))
+            name="Cases", range=c(2,6),
+            breaks=function(x) unique(floor(pretty(seq(min(x), (max(x) + 1) * 1.1))))
         ) +
         scale_color_manual(values = my_colours) +
         ggplot2::theme_bw() +
