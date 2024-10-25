@@ -4,6 +4,7 @@
 .Renviron
 .DS_Store
 .Rproj.user
+README.html
 
 # deploy
 .rscignore

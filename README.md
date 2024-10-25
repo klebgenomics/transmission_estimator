@@ -8,6 +8,8 @@ This shiny app is designed to identify transmission clusters among neonatal seps
 
 ## Usage instructions  
 
+Transmission Estimator is available as a web app at [klebsiella.shinyapps.io/transmission_estimator](https://klebsiella.shinyapps.io/transmission_estimator)
+
 ### Input data  
 Two input files in TSV or CSV format are required.  
 
