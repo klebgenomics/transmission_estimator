@@ -109,33 +109,6 @@ plot_dist_distribution <- function(distance_data, dist_column, x_label = "Pairwi
 }
 
 
-plot_snp_vs_temporal_dist <- function(distance_data, snp_column = 'dist', temporal_dist_column = 'weeks',
-                                      max_snp_dist = 40, max_temporal_dist = 52,
-                                      y_label = "Pairwise genetic distances", 
-                                      x_label = "Pairwise temporal distances (weeks)",
-                                      plot_title = "Distribution of pairwise distances"){
-    if(! all(c(snp_column, temporal_dist_column) %in% colnames(distance_data)) ) {
-        stop(glue::glue("{snp_column} and/or 'temporal_dist_column' columns not present in distance data"))
-    }
-    # filter
-    distance_data %<>% dplyr::filter(!!rlang::sym(snp_column) <= max_snp_dist)
-    distance_data %<>% dplyr::filter(!!rlang::sym(temporal_dist_column) <= max_temporal_dist)
-    # plot
-    p <- ggplot2::ggplot(distance_data, aes(y = !!rlang::sym(snp_column), 
-                                            x = !!rlang::sym(temporal_dist_column))) +
-        ggplot2::geom_point(color="#808080") +
-        ggplot2::theme(legend.position="none") +
-        ggplot2::labs(x = x_label, y = y_label, title = plot_title) +
-        ggplot2::theme_minimal() +
-        custom_plots_theme +
-        ggplot2::theme(plot.title = element_text(face = "bold", hjust = 0.5))
-    # corr
-    p <- p + ggplot2::geom_smooth(method = "lm", formula = y ~ x, color = "#2a77be")
-    # add marginal plots; does not work with plotly
-    # p <- ggExtra::ggMarginal(p, type = "density", fill = "#2a77be")
-    return(p)
-}
-
 #### Clusters -------------
 
 plot_transmission_network <- function(snp_graph, metadata, var1) {
@@ -148,43 +121,6 @@ plot_transmission_network <- function(snp_graph, metadata, var1) {
         ggnetwork::geom_nodes(aes(col=.data[[var1]]), size=3.5, shape=16, alpha=.5) +
         ggnetwork::theme_blank() +
         ggplot2::guides(col="none", fill="none")
-}
-
-
-plot_clusters <- function(clusters_data, min_cluster_size = 3) {
-    # filter
-    clusters_data %<>% 
-        dplyr::filter(!is.na(Cluster)) %>% 
-        dplyr::add_count(Cluster, name = "cluster_size") %>% 
-        dplyr::filter(cluster_size >= min_cluster_size)
-    # Calculate point sizes based on the number of isolates on each date per cluster
-    size_scale_factor <- clusters_data %>%
-        dplyr::group_by(Cluster, formatted_date) %>%
-        dplyr::reframe(Cases = n())
-    # merge and order
-    clusters_data %<>% dplyr::left_join(size_scale_factor, by = c("Cluster", "formatted_date")) %>% 
-        dplyr::rename("Date" = "formatted_date") %>% 
-        dplyr::mutate(Cluster = fct_reorder(Cluster, desc(ST)))
-
-    # plot
-    plot <- clusters_data %>% ggplot(aes(x = Date, y = Cluster,
-                                         size = Cases, fill = factor(ST), color = factor(ST))) +
-        ggplot2::geom_point() +
-        ggplot2::scale_size_continuous(name = "Cases") +
-        ggplot2::geom_line(linewidth = 0.8) +
-        viridis::scale_fill_viridis(discrete = TRUE) +
-        viridis::scale_color_viridis(discrete = TRUE) +
-        ggplot2::theme_bw() +
-        ggplot2::labs(x = "Isolation date", y = "Cluster", color = "Sequence type") +
-        ggplot2::scale_x_date(labels = scales::date_format("%Y-%m"), 
-                              breaks = scales::breaks_pretty(n = 6)) +
-        custom_plots_theme +
-        ggplot2::theme(
-            axis.text.y = element_blank(),
-            axis.text.x = element_text(angle = 45, hjust = 1)) +
-        ggplot2::guides(fill = "none", colour = "none")
-    
-    return(plot)
 }
 
 plot_clusters2 <- function(clusters_data, min_cluster_size = 2, color_column = 'ST') {
@@ -229,38 +165,6 @@ plot_clusters2 <- function(clusters_data, min_cluster_size = 2, color_column = '
 
 ### Sensitivity -------------
 
-plot_sensitivity_linegraph <- function(cluster_and_transmission_sensitivity_df,
-                                       y_var="cluster_prop", x_var = "distance_threshold",
-                                       color_var="temporal_threshold", color_title = "TempDist (weeks)",
-                                       x_title="Genetic distance threshold", y_title="Cluster proportion",
-                                       plot_title="Cluster proportion at different temporal dist thresholds"){
-    cluster_and_transmission_sensitivity_df %>% 
-        ggplot2::ggplot(aes(x=!!sym(x_var), y=!!sym(y_var),
-                            colour=as.factor(!!sym(color_var)))) + 
-        ggplot2::geom_line() +
-        viridis::scale_color_viridis(discrete = T) +
-        ggplot2::theme_minimal() +
-        ggplot2::labs(colour = color_title, x = x_title, y = y_title) +
-        custom_plots_theme
-}
-
-plot_sensitivity_heatmap <- function(cluster_and_transmission_sensitivity_df, 
-                                     prop_var = 'transmission_prop',
-                                     plot_title = 'Transmission proportion at different thresholds'){
-    mid_range <- mean(c(max(cluster_and_transmission_sensitivity_df[[prop_var]]), 
-                        min(cluster_and_transmission_sensitivity_df[[prop_var]])) )
-    cluster_and_transmission_sensitivity_df %>% 
-        ggplot2::ggplot(aes(x = temporal_threshold, y = distance_threshold,
-                            fill = !!rlang::sym(prop_var))) +
-        ggplot2::geom_tile() +
-        ggplot2::scale_fill_gradient2(low = "#0571B0", mid = "#F7F7F7", high = "#CA0020", 
-                                      midpoint = mid_range, space = "Lab") +
-        ggplot2::labs(x = "Max temporal distance threshold (weeks)", y = "Max genetic distance threshold",
-                      fill = "Proportion", title = plot_title) +
-        ggplot2::theme_minimal() +
-        custom_plots_theme
-}
-
 plot_sensitivity_SNP_vs_temp_range <- function(
         cluster_and_transmission_sensitivity_df,
         temp_dist_vals = c(1, 2, 4, 8, 12),
@@ -285,34 +189,6 @@ plot_sensitivity_SNP_vs_temp_range <- function(
         ggplot2::theme_minimal() + ggplot2::ylim(0, 1) + 
         ggplot2::labs(x = "Genetic distance threshold", y = y_title, title = plot_title) +
         custom_plots_theme 
-}
-
-plot_sensitivity_temp_dist_vs_snp_range <- function(
-        cluster_and_transmission_sensitivity_df,
-        snp_range_vals = c(2, 5, 10, 20, 25),
-        prop_var = 'cluster_prop', y_title = "Proportion in clusters",
-        plot_title = NULL){
-    # Use intuitive var names for interactive plot
-    y_vars <- paste0(prop_var, " at ", snp_range_vals, " genetic distance threshold")
-    
-    # wrangle and plot
-    cluster_and_transmission_sensitivity_df %>% 
-        dplyr::filter(distance_threshold %in% snp_range_vals) %>% 
-        unique() %>% 
-        dplyr::select(distance_threshold, temporal_threshold, !!sym(prop_var)) %>% 
-        tidyr::pivot_wider(id_cols = temporal_threshold, 
-                           names_from = distance_threshold, values_from = !!sym(prop_var)) %>% 
-        dplyr::rename_at(vars(as.character(snp_range_vals)), list(~y_vars)) %>% 
-        ggplot2::ggplot(aes(x = temporal_threshold)) +
-        ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[1]]], ymax = .data[[y_vars[5]]]), 
-                             fill = "#ffc1c1") +
-        ggplot2::geom_ribbon(aes(ymin = .data[[y_vars[2]]], ymax = .data[[y_vars[4]]], 
-                                 x = temporal_threshold), fill = "#8b0000") +
-        ggplot2::geom_line(aes(y = .data[[y_vars[3]]]), colour = "white") +
-        ggplot2::theme_minimal() + ggplot2::ylim(0, 1) +
-        ggplot2::labs(x = "Temporal distance threshold (weeks)", y = y_title,
-                      title = plot_title) +
-        custom_plots_theme
 }
 
 #### Comparisons -------------
