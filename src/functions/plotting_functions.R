@@ -123,8 +123,8 @@ plot_transmission_network <- function(snp_graph, metadata, var1) {
         ggplot2::guides(col="none", fill="none")
 }
 
-plot_clusters2 <- function(clusters_data, min_cluster_size=2, color_column='ST',
-                           dodge_height=0.5) {
+plot_clusters2 <- function(clusters_data, min_cluster_size=2, y_column='ST', color_column='ST', 
+                           y_lab='Sequence type', x_lab='Isolation date', dodge_height=0.5) {
     # filter
     clusters_data %<>% 
         dplyr::filter(!is.na(Cluster)) %>% 
@@ -132,19 +132,20 @@ plot_clusters2 <- function(clusters_data, min_cluster_size=2, color_column='ST',
         dplyr::filter(cluster_size >= min_cluster_size)
     # Calculate point sizes based on the number of isolates on each date per cluster
     size_scale_factor <- clusters_data %>%
-        dplyr::group_by(Cluster, formatted_date) %>%
+        dplyr::group_by(Cluster, !!sym(y_column), formatted_date) %>%
         dplyr::reframe(Cases = n())
     # merge and order
-    clusters_data %<>% dplyr::left_join(size_scale_factor, by = c("Cluster", "formatted_date")) %>% 
+    clusters_data %<>% 
+        dplyr::left_join(size_scale_factor, by = c("Cluster", y_column, "formatted_date")) %>% 
         dplyr::select(-any_of("Date")) %>% # remove Date column if exists
         dplyr::rename("Date" = "formatted_date") %>% 
-        dplyr::mutate(Cluster = fct_reorder(Cluster, desc(ST))) %>% 
-        dplyr::mutate(text = glue::glue("Cluster {Cluster}\nCluster size: {cluster_size}\nDate: {Date}\nCases: {Cases}\nST: {ST}"))
+        dplyr::mutate(Cluster = fct_reorder(Cluster, desc(!!sym(y_column)))) %>% 
+        dplyr::mutate(text = glue::glue("Cluster {Cluster}\nCluster size: {cluster_size}\nDate: {Date}\nCases: {Cases}\n{y_column}: {.data[[y_column]]}"))
     # colors
     my_colours <- get_colours(clusters_data[[color_column]], c("#0571B0", "#CA0020", "#FFBF00"))
     # plot
     plot <- clusters_data %>% 
-        ggplot(aes(x = Date, y = ST, group = Cluster, text = text)) +
+        ggplot(aes(x = Date, y = .data[[y_column]], group = Cluster, text = text)) +
         ggplot2::geom_line(aes(group = Cluster, alpha = 0.25), color = "grey50", linewidth = 0.8, 
                            position=ggstance::position_dodgev(height = dodge_height)) +
         ggplot2::geom_point(aes(size = Cases, color = !!sym(color_column)),
@@ -155,7 +156,7 @@ plot_clusters2 <- function(clusters_data, min_cluster_size=2, color_column='ST',
         ) +
         scale_color_manual(values = my_colours) +
         ggplot2::theme_bw() +
-        ggplot2::labs(x = "Isolation date", y = "Sequence type") +
+        ggplot2::labs(x = x_lab, y = y_lab) +
         ggplot2::scale_x_date(labels = scales::date_format("%Y-%m"), 
                               breaks = scales::breaks_pretty(n = 6)) +
         custom_plots_theme +
