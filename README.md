@@ -11,26 +11,26 @@ This shiny app is designed to identify transmission clusters among neonatal seps
 ### Running locally
 Follow these steps to clone the repository, set up the required environment, and run the Shiny app.
 
-##### 1. Clone the Repository
+#### 1. Clone the Repository
 
 - Install and open [RStudio](https://posit.co/download/rstudio-desktop/) on your machine
 - Go to File > New Project > Version Control > Git
 - Paste the repository URL (https://github.com/klebgenomics/transmission_estimator.git)
 - Choose a location to save the project, and click Create Project  
 
-##### 2. Install Required Packages Using `renv`
+#### 2. Install Required Packages Using `renv`
 This project uses the [renv](https://rstudio.github.io/renv/) package to manage package dependenciesand ensure that correct versions of packages are installed.  
 
 To install `renv` if it's not already installed, run:
 ```
 install.packages("renv")
 ```
-Then, use `renv` to install the packages specified in the renv.lock file:
+Then, use `renv` to install the packages specified in the `renv.lock` file:
 ```
 renv::restore()
 ```  
   
-##### 3. Run the Shiny App
+#### 3. Run the Shiny App
 Once the dependencies are installed, you can run the app using the following command in the RStudio console:
 ```
 shiny::runApp()
@@ -38,7 +38,9 @@ shiny::runApp()
   
 Alternatively, you can open the `app.R` file in the root of the repository, and simply click **Run App** at the top right of the script window.  
 
-> Note: Adjust the view to fit your screen by pressing `Cmd` + `-/+` on Mac or `Ctrl` + `-/+` on Windows.
+> Note: Adjust the view to fit your screen by pressing `Cmd` + `-/+` on Mac or `Ctrl` + `-/+` on Windows.  
+
+  
   
 ### Web app
 Transmission Estimator is also available as a web app at [klebsiella.shinyapps.io/transmission_estimator](https://klebsiella.shinyapps.io/transmission_estimator)  
