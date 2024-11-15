@@ -44,8 +44,10 @@ cluster_ui <- shiny::tabPanel(
             ),
             br(), br(),
             shiny::tableOutput("clusters_summary"), # %>% withSpinner(),
-            h5(shiny::textOutput("cluster_proportion")), 
-            h5(shiny::textOutput("transmission_proportion")),
+            tags$div(title=CLUST_PROP_DEFINITION, 
+                     h5(shiny::textOutput("cluster_proportion"))), 
+            tags$div(title=gsub("\n", "", TRANSMI_PROP_DEFINITION), 
+                     h5(shiny::textOutput("transmission_proportion"))),
             shiny::conditionalPanel( # Download clusters data (if clusters exist)
                 condition = "output.clusters_exist == true",
                 hr(),
@@ -146,7 +148,8 @@ cluster_ui <- shiny::tabPanel(
             shiny::column(
                 width = 12,
                 plotly::plotlyOutput("clusters_plot", height = "600px") %>% 
-                    shinycssloaders::withSpinner()
+                    shinycssloaders::withSpinner(),
+                p(class="text-muted", CLUSTER_PLOT_CAPTION)
             ),
         ), 
         hr(),
