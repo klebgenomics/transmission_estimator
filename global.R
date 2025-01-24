@@ -26,6 +26,8 @@ suppressPackageStartupMessages({
     library(kableExtra)
     library(plotly)
     library(viridis)
+    library(grid)  
+    library(gtable)
     # multithreading
     library(future)
     library(furrr)

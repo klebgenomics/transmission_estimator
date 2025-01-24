@@ -122,10 +122,14 @@ output$download_sensitivity_plots <- shiny::downloadHandler(
         # save each plot to temp dir
         temp_directory <- file.path(tempdir(), as.integer(Sys.time()))
         dir.create(temp_directory)
-        download_plot(cluster_sensitivity_plot(), 
+        cs_plot <- ggpubr::ggarrange(cluster_sensitivity_plot(), sensitivity_legend(),
+                                     widths = c(8,1))
+        ts_plot <- ggpubr::ggarrange(transmission_sensitivity_plot(), sensitivity_legend(),
+                                     widths = c(8,1))
+        download_plot(cs_plot, 
                       s.filename = file.path(temp_directory, "cluster_sensitivity_plot.png"),
                       width = input$plot_dl_width, height = input$plot_dl_height)
-        download_plot(transmission_sensitivity_plot(), 
+        download_plot(ts_plot, 
                       s.filename = file.path(temp_directory, "transmission_sensitivity_plot.png"),
                       width = input$plot_dl_width, height = input$plot_dl_height)
         # zip plots in temp dir for download

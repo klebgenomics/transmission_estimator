@@ -132,5 +132,11 @@ output$transmission_sensitivity_plot <- plotly::renderPlotly({
     plotly::ggplotly(transmission_sensitivity_plot(), height = 400)
 })
 
-
+# Sens legend
+sensitivity_legend <- shiny::reactive({
+    shiny::req(sensitivity_df())
+    manual_sensitivity_legend(mid_temp_val=sensitivity_temp_dist_vals()[3],
+                              temp_range_1 = sensitivity_temp_dist_vals()[c(2,4)],
+                              temp_range_2 = sensitivity_temp_dist_vals()[c(1,5)])
+})
 

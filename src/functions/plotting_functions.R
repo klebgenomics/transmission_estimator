@@ -194,6 +194,40 @@ plot_sensitivity_SNP_vs_temp_range <- function(
         custom_plots_theme 
 }
 
+manual_sensitivity_legend <- function(mid_temp_val=4, temp_range_1=c(2,8),
+                                      temp_range_2=c(1,52), temp_unit="wks",
+                                      legend_title="Estimates at:", l1_type=c("line", "box"),
+                                      range_cols=c("#ffffff", "#8b0000", "#ffc1c1")) {
+    l1_type = match.arg(l1_type)
+    # Grobs
+    if (l1_type == "line"){
+        # L1=linesGrob(x=unit(c(.25,.75),"npc"), y=unit(c(.5,.5),"npc"), gp=gpar(col=range_cols[1],lwd=2))
+        L1=rectGrob(height=.08, width=.5, gp=gpar(fill=range_cols[1], col=range_cols[2], lwd=0.5))
+    } else if (l1_type == "box") {
+        L1=rectGrob(height=.5, width=.5, gp=gpar(fill=range_cols[1], col=range_cols[2]))
+    }
+    L2=rectGrob(height=.5, width=.5, gp=gpar(fill=range_cols[2], col=NA))
+    L3=rectGrob(height=.5, width=.5, gp=gpar(fill=range_cols[3], col=NA))
+    T1=textGrob(paste(mid_temp_val, temp_unit),
+                x=.2, just="left", gp=gpar(fontsize=12, lineheight=0.9))
+    T2=textGrob(paste(paste0(temp_range_1, collapse=" - "), temp_unit),
+                x=.2, just="left", gp=gpar(fontsize=12, lineheight=0.9))
+    T3=textGrob(paste(paste0(temp_range_2, collapse=" - "), temp_unit),
+                x=.2, just="left", gp=gpar(fontsize=12, lineheight=0.9))
+    # Construct gtable - 2 columns X 4 rows
+    leg=gtable(width=unit(c(1,3), "cm"), height=unit(c(1.2,1.2,1.2,1.2), "cm"))
+    leg=gtable_add_grob(leg, rectGrob(gp=gpar(fill="white", col=NA)), t=2,l=1,b=4,r=2)
+    # Place the six grobs into the table
+    leg=gtable_add_grob(leg, list(L1,L2,L3,T1,T2,T3),
+                        t=c(2,3,4,2,3,4), l=c(1,1,1,2,2,2))
+    # Title
+    if (!is.null(legend_title)) {
+        leg=gtable_add_grob(leg, textGrob(legend_title, gp=gpar(fontsize=14)),
+                            t=1, l=1, r=2)
+    }
+    return(leg)
+}
+
 #### Comparisons -------------
 
 plot_comparisons <- function(
@@ -226,9 +260,15 @@ plot_comparisons <- function(
     d_pub <- d_plot %>% filter(data_source == "Preloaded public data")
     if (nrow(d_pub) > 0) {
         p <- p + 
-            geom_linerange(data=d_pub, aes(ymin=.data[[y_vars[1]]], ymax=.data[[y_vars[5]]]), col="lightblue", lwd=4) +
-            geom_linerange(data=d_pub, aes(ymin=.data[[y_vars[2]]], ymax=.data[[y_vars[4]]]), col="navyblue", lwd=2.5) +
-            geom_point(data=d_pub, aes(y=.data[[y_vars[3]]]), shape=22, color="navyblue", fill="white", size=2)
+            geom_linerange(data=d_pub, 
+                           aes(ymin=.data[[y_vars[1]]], ymax=.data[[y_vars[5]]]), 
+                           col="lightblue", lwd=4) +
+            geom_linerange(data=d_pub, 
+                           aes(ymin=.data[[y_vars[2]]], ymax=.data[[y_vars[4]]]), 
+                           col="navyblue", lwd=2.5) +
+            geom_point(data=d_pub, 
+                       aes(y=.data[[y_vars[3]]]), shape=22, color="navyblue", 
+                       fill="white", size=2)
     }
     # Finish plot
     p <- p + ggplot2::theme_minimal() + ggplot2::ylim(0, 1) + 
