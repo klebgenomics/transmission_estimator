@@ -158,7 +158,7 @@ plot_clusters2 <- function(clusters_data, min_cluster_size=2, y_column='ST', col
         ggplot2::theme_bw() +
         ggplot2::labs(x = x_lab, y = y_lab) +
         ggplot2::scale_x_date(labels = scales::date_format("%Y-%m"), 
-                              breaks = scales::breaks_pretty(n = 6)) +
+                              breaks = scales::breaks_pretty(n = 10)) +
         custom_plots_theme +
         ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
         ggplot2::guides(fill = "none", alpha = "none")
