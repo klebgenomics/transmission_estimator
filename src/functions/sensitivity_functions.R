@@ -15,26 +15,28 @@ get_cluster_and_transmission_fraction <- function(snp_and_epi_data, metadata,
                                                           temporal_distance_threshold))
     epi_snp_clusters <- get_cluster_membership_from_graph(epi_snp_graph) %>% 
         dplyr::right_join(metadata, by = 'id') # contains rows for ALL samples
+    estimates <- get_cluster_estimates(epi_snp_clusters)
     
     return(list(
         "distance_threshold" = snp_distance_threshold,
         "temporal_threshold" = temporal_distance_threshold,
-        "cluster_prop" = get_cluster_estimates(epi_snp_clusters)$cluster_prop,
-        "transmission_prop" = get_cluster_estimates(epi_snp_clusters)$transmission_prop
+        "cluster_prop" = estimates$cluster_prop,
+        "transmission_prop" = estimates$transmission_prop
     ))
 }
 
 
 get_cluster_sensitivity <- function(snp_and_epi_data, metadata, 
-                                     snp_range=c(1:25),
-                                     date_range=c(1:52)) {
-    sensitivity <- tidyr::expand_grid(snp_range, date_range) |> 
-        (\(z) dplyr::bind_rows(
-            furrr::future_map2(
-                z[[1]], z[[2]],
-                ~get_cluster_and_transmission_fraction(snp_and_epi_data, metadata, .x, .y)
-            )
-        ))()
+                                    snp_range = 1:25, 
+                                    date_range = 1:52) {
+    grid <- tidyr::expand_grid(snp_range, date_range)
+    sensitivity <- dplyr::bind_rows(
+        mapply(get_cluster_and_transmission_fraction, 
+               MoreArgs = list(snp_and_epi_data=snp_and_epi_data, metadata=metadata), 
+               snp_distance_threshold=grid[[1]], 
+               temporal_distance_threshold=grid[[2]], 
+               SIMPLIFY = FALSE)
+    )
     return(sensitivity)
 }
 

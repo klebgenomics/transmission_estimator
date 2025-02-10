@@ -92,10 +92,8 @@ sensitivity_temp_dist_vals <- shiny::reactive({
 
 sensitivity_df <- shiny::reactive({
     shiny::req(metadata(), snp_and_epi_data(), snp_range, date_range)
-    future::plan(multisession, workers = 4)
     sensitivity_df <- get_cluster_sensitivity(snp_and_epi_data(), metadata(), 
                                               snp_range, date_range)
-    future::plan("default")
     return(sensitivity_df)
 }) %>% shiny::bindCache(metadata(), snp_and_epi_data(), snp_range, date_range)
 

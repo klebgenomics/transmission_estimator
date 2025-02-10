@@ -768,9 +768,9 @@
     },
     "future": {
       "Package": "future",
-      "Version": "1.33.0",
+      "Version": "1.34.0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Requirements": [
         "digest",
         "globals",
@@ -779,7 +779,7 @@
         "parallelly",
         "utils"
       ],
-      "Hash": "8e92c7bc53e91b9bb1faf9a6ef0e8514"
+      "Hash": "475771e3edb711591476be387c9a8c2e"
     },
     "gargle": {
       "Package": "gargle",
@@ -1569,15 +1569,15 @@
     },
     "parallelly": {
       "Package": "parallelly",
-      "Version": "1.36.0",
+      "Version": "1.41.0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Requirements": [
         "parallel",
         "tools",
         "utils"
       ],
-      "Hash": "bca377e1c87ec89ebed77bba00635b2e"
+      "Hash": "f5ae11e8e15ee84950752e7b01c55295"
     },
     "pbkrtest": {
       "Package": "pbkrtest",
