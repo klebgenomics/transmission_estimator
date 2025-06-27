@@ -46,6 +46,14 @@ read_file <- function(fp, input_name) {
     return(d)
 }
 
+invalid_date_rows <- function(d, y_col="Year", m_col = "Month", d_col = "Day") {
+    if (!all(c(y_col, m_col, d_col) %in% names(d))) {
+        stop("One or more specified columns not in df")
+    }
+    # as.Date(ISOdate()) returns NA for invalid dates
+    invalid <- sum(is.na(as.Date(ISOdate(d[[y_col]], d[[m_col]], d[[d_col]]))))
+    return(invalid) # Num invalid date rows
+}
 
 # validate kleborate data
 kleborate_validate <- function(d, required_kleborate_cols) {
@@ -150,19 +158,15 @@ read_metadata_csv <- function(metadata_path, required_cols = c('id')){
     return(d)
 }
 
-# format sample dates; filter out NA rows
+# format sample dates
 format_sample_dates <- function(metadata){
     if(! all(c('id', 'Year', 'Month', 'Day') %in% names(metadata)) ) {
         stop(paste0("'id', 'Year', 'Month', and 'Day' columns are required."))
     }
-    sample_dates <- metadata %>% dplyr::select(id, Year, Month, Day) %>% 
-        dplyr::filter(!(is.na(Year) | is.na(Month) | is.na(Day))) %>% 
-        dplyr::rowwise() %>%  
-        dplyr::mutate(formatted_date = paste0(Year, "-", Month, "-", Day)) %>% 
-        dplyr::mutate(formatted_date = lubridate::as_date(formatted_date)) %>% 
-        # dplyr::mutate(decimal_date = lubridate::decimal_date(formatted_date)) %>% 
-        dplyr::select(id, formatted_date) %>% 
-        dplyr::ungroup()
+    sample_dates <- metadata %>% 
+        dplyr::select(id, Year, Month, Day) %>% 
+        mutate(formatted_date = lubridate::as_date(ISOdate(Year, Month, Day))) %>% 
+        dplyr::select(id, formatted_date)
     return(sample_dates)
 }
 

@@ -48,6 +48,24 @@ observeEvent(
         }
         shiny::showNotification('Successfully uploaded metadata file', 
                                 type = 'message', duration = 2)
+        # check rows with invalid dates 
+        n_invalid_date <- invalid_date_rows(d)
+        if (n_invalid_date > 0){
+            shiny::showNotification(
+                paste0(n_invalid_date, " rows with missing or invalid date columns 
+                       ('Year', 'Month', and 'Day') detected in metadata file. 
+                       Please check as this may affect clustering results"),
+                type = 'warning', duration = 10)
+        }
+        # remove duplicate rows
+        meta_dups <- sum(duplicated(d$id))
+        if (meta_dups > 0){
+            shiny::showNotification(
+                paste0("Found and removed ", meta_dups, " metadata rows with duplicate ID"),
+                type = 'warning', duration = 10)
+            d %<>% dplyr::distinct(id, .keep_all = TRUE)
+        }
+        # set metadata
         dataset$metadata <- d 
     }
 )
