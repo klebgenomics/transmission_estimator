@@ -92,10 +92,8 @@ sensitivity_temp_dist_vals <- shiny::reactive({
 
 sensitivity_df <- shiny::reactive({
     shiny::req(metadata(), snp_and_epi_data(), snp_range, date_range)
-    future::plan(multisession, workers = 4)
     sensitivity_df <- get_cluster_sensitivity(snp_and_epi_data(), metadata(), 
                                               snp_range, date_range)
-    future::plan("default")
     return(sensitivity_df)
 }) %>% shiny::bindCache(metadata(), snp_and_epi_data(), snp_range, date_range)
 
@@ -132,5 +130,11 @@ output$transmission_sensitivity_plot <- plotly::renderPlotly({
     plotly::ggplotly(transmission_sensitivity_plot(), height = 400)
 })
 
-
+# Sens legend
+sensitivity_legend <- shiny::reactive({
+    shiny::req(sensitivity_df())
+    manual_sensitivity_legend(mid_temp_val=sensitivity_temp_dist_vals()[3],
+                              temp_range_1 = sensitivity_temp_dist_vals()[c(2,4)],
+                              temp_range_2 = sensitivity_temp_dist_vals()[c(1,5)])
+})
 

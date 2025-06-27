@@ -35,11 +35,13 @@ home_ui <- shiny::tabPanel(
           div(class = 'centered-items-row',
               align = "center",
               box(width = 4, class = 'shadow-border-box',
-                  h4("Distance data"),
+                  h4("Genetic distance data"),
                   HTML("SNP distance matrix file. This can be generated using 
                        <a href='https://pathogen.watch/' target='_blank'>Pathogenwatch</a>"),
                   div(style='margin-top: 6px;',
-                      HTML("<b>Required format:</b>"),
+                      br(),
+                      HTML("<a href='https://tinyurl.com/TE-demo-data' style='text-decorations:none; color:inherit;'>
+                           <b>Required format <i class='fa fa-external-link'></i></b></a>"),
                       br(),
                       HTML("Square matrix format with the first column labelled 'Name'."),
                   ),
@@ -48,7 +50,9 @@ home_ui <- shiny::tabPanel(
                   h4("Metadata"),
                   HTML("Metadata file containing epidemiological and other information on the isolates."),
                   div(style='margin-top: 6px;',
-                      HTML("<b>Required columns:</b>"), 
+                      br(),
+                      HTML("<a href='https://tinyurl.com/TE-demo-data' style='text-decorations:none; color:inherit;'>
+                           <b>Required columns <i class='fa fa-external-link'></i></b></a>"),
                       br(),
                       HTML(paste(REQUIRED_METADATA_COLS, collapse = ", "))
                   ),

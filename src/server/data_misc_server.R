@@ -101,10 +101,10 @@ metadata <- shiny::reactive({
     if (length(matching_ids()) >= 1) {
         shiny::showNotification(glue::glue('Using {length(matching_ids())} samples 
                                            with matching rows in metadata and distance data'), 
-                                type = 'message', duration = 3)
+                                type = 'message', duration = 10)
     } else {
         shiny::showNotification('No samples with matching rows in metadata and distance data', 
-                                type = 'error', duration = 5)
+                                type = 'error', duration = 10)
     }
     final_data$metadata %>% dplyr::filter(id %in% matching_ids())
 })

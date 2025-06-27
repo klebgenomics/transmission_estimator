@@ -25,6 +25,9 @@ suppressPackageStartupMessages({
     library(data.table)
     library(kableExtra)
     library(plotly)
+    library(viridis)
+    library(grid)  
+    library(gtable)
     # multithreading
     library(future)
     library(furrr)
@@ -66,4 +69,18 @@ PUBLIC_COMP_METADATA <- fs::dir_ls("data/public_comparison_data/",
                                    recurse = T, glob = "*_metadata.csv") %>% 
     purrr::map_dfr(readr::read_csv, show_col_types = F)
 
+### DEFINITIONS / CAPTIONS ---------------------------------------------------
+CLUST_PROP_DEFINITION <- "Cluster proportion: calculated as the number of cases 
+in clusters divided by the total number of cases"
 
+TRANSMI_PROP_DEFINITION <- "Transmission proportion: a conservative estimate of 
+the proportion of cases attributable to transmission. To calculate this, 
+a hypothetical index case is excluded from each identified cluster and all other 
+cases within clusters are assumed to be due to onward transmission events. 
+The transmission proportion estimate is calculated as: 
+(N cluster cases - N clusters) / total N cases"
+
+CLUSTER_PLOT_CAPTION <- "Each point represents one or more cases isolated on specific dates. 
+Clusters are represented as groups of cases (points) linked by horizontal lines. 
+Clusters belonging to the same sequence type are jittered along the y-axis to 
+allow visibility of overlapping clusters. Hover over points to view cluster/case details."
