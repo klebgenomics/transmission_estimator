@@ -20,7 +20,7 @@ shiny::fluidPage(
     theme = shinythemes::shinytheme("cerulean"),
     shiny::titlePanel(
         shiny::fluidRow(
-            shiny::column(width = 9, p("Transmission Estimator v0.1"))
+            shiny::column(width = 9, p("Transmission Estimator v1"))
         ),
         windowTitle = "Transmission Estimator"
     ),

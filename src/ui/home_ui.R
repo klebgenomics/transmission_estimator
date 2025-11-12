@@ -64,7 +64,7 @@ home_ui <- shiny::tabPanel(
     fluidRow(
         align="center",
         column(width=12,
-            HTML("This tool is still under development. For more information, comments and suggestions, 
+            HTML("For more information, comments and suggestions, 
                  visit the <a href='https://github.com/klebgenomics/transmission_estimator/' target='_blank' alt='GitHub repo'>GitHub repo</a>."),
             br(),
             HTML("If you use this tool, please cite using this DOI: <a href='https://doi.org/10.5281/zenodo.12582875' target='_blank'>

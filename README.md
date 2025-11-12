@@ -81,4 +81,4 @@ Use the `Sensitivity` tab to explore the sensitivity of the transmission estimat
 
 
 ## Citation  
-This tool is still under development. If you use this tool, please cite this repository using this DOI: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12582875.svg)](https://doi.org/10.5281/zenodo.12582875)
+If you use this tool, please cite this repository using this DOI: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12582875.svg)](https://doi.org/10.5281/zenodo.12582875)
