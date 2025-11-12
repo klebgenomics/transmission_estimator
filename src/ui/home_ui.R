@@ -67,8 +67,8 @@ home_ui <- shiny::tabPanel(
             HTML("For more information, comments and suggestions, 
                  visit the <a href='https://github.com/klebgenomics/transmission_estimator/' target='_blank' alt='GitHub repo'>GitHub repo</a>."),
             br(),
-            HTML("If you use this tool, please cite using this DOI: <a href='https://doi.org/10.5281/zenodo.12582875' target='_blank'>
-            <img src='https://zenodo.org/badge/DOI/10.5281/zenodo.12582875.svg' alt='DOI'></a>"),
+            HTML("If you use this tool, please cite using this DOI: <a href='https://doi.org/10.5281/zenodo.17593948' target='_blank'>
+            <img src='https://zenodo.org/badge/DOI/10.5281/zenodo.17593948.svg' alt='DOI'></a>"),
         )
     ),
 )

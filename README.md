@@ -1,5 +1,5 @@
 # Transmission Estimator  
-[![License GPL v3](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12582875.svg)](https://doi.org/10.5281/zenodo.12582875)
+[![License GPL v3](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17593948.svg)](https://doi.org/10.5281/zenodo.17593948)
 
 
 This shiny app is designed to identify transmission clusters among neonatal sepsis bacterial isolates using genomic (genetic distance) and epidemiological (spatiotemporal) data.
@@ -81,4 +81,4 @@ Use the `Sensitivity` tab to explore the sensitivity of the transmission estimat
 
 
 ## Citation  
-If you use this tool, please cite this repository using this DOI: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12582875.svg)](https://doi.org/10.5281/zenodo.12582875)
+If you use this tool, please cite this repository using this DOI: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17593948.svg)](https://doi.org/10.5281/zenodo.17593948)
