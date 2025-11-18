@@ -7,9 +7,17 @@ This shiny app is designed to identify transmission clusters among neonatal seps
 <br>   
 
 ## Usage instructions  
+
+  
+### Web app
+Transmission Estimator is available as a web app at [klebsiella.shinyapps.io/transmission_estimator](https://klebsiella.shinyapps.io/transmission_estimator)  
+  
+<br> 
+
+
   
 ### Running locally
-Follow these steps to clone the repository, set up the required environment, and run the Shiny app.
+You may also run this tool locally on your computer. Follow these steps to clone the repository, set up the required environment, and run the Shiny app.
 
 #### 1. Clone the Repository
 
@@ -40,13 +48,9 @@ Alternatively, you can open the `app.R` file in the root of the repository, and 
 
 > Note: Adjust the view to fit your screen by pressing `Cmd` + `-/+` on Mac or `Ctrl` + `-/+` on Windows.  
 
+
 <br>  
-  
-### Web app
-Transmission Estimator is also available as a web app at [klebsiella.shinyapps.io/transmission_estimator](https://klebsiella.shinyapps.io/transmission_estimator)  
-  
-  
-<br>  
+ 
 
 ### Input data  
 Two input files in TSV or CSV format are required.  
@@ -81,4 +85,6 @@ Use the `Sensitivity` tab to explore the sensitivity of the transmission estimat
 
 
 ## Citation  
-If you use this tool, please cite this repository using this DOI: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17593948.svg)](https://doi.org/10.5281/zenodo.17593948)
+If you use this tool, please cite:  
+1. This repository using this DOI: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17593948.svg)](https://doi.org/10.5281/zenodo.17593948)
+2. The preprint: "Contribution of nosocomial transmission to *Klebsiella pneumoniae* neonatal sepsis in Africa and South Asia: a meta-analysis of infection clusters inferred from pathogen genomics and temporal data." Odih et al, 2025, _MedRxiv_. DOI: [10.1101/2025.11.15.25340095v1](https://www.medrxiv.org/content/10.1101/2025.11.15.25340095v1))
